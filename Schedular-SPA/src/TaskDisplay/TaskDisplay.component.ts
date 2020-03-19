@@ -1,28 +1,9 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours
-} from 'date-fns';
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef} from '@angular/core';
+import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView
-} from 'angular-calendar';
-
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView} from 'angular-calendar';
+import { Task } from '../_models/task';
 
 const colors: any = {
   red: {
@@ -46,6 +27,8 @@ const colors: any = {
 })
 
 export class TaskDisplayComponent {
+  tasks: Task[];
+   
 
   // ngOnInit() {}
 
@@ -82,7 +65,8 @@ export class TaskDisplayComponent {
   ];
 
   refresh: Subject<any> = new Subject();
-
+  // this is where the api data needs to be inputed in
+  // there also needs to be a way to input staff name
   events: CalendarEvent[] = [
     {
       start: subDays(startOfDay(new Date()), 1),
@@ -164,7 +148,7 @@ export class TaskDisplayComponent {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
-
+  // if the add button is clicked it triggers this method
   addEvent(): void {
     this.events = [
       ...this.events,

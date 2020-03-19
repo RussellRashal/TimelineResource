@@ -7,7 +7,7 @@ namespace Schedular.API.Data
     {
         public DataContext(DbContextOptions<DataContext> options): base(options){}    
         
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<TaskSchedule> TaskSchedules { get; set; }
         public DbSet<Staff> Staffs { get; set; }
     }
 }

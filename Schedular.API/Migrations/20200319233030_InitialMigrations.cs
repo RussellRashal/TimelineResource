@@ -22,18 +22,18 @@ namespace Schedular.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
+                name: "TaskSchedules",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    MyProperty = table.Column<string>(nullable: true),
-                    StartsAt = table.Column<DateTime>(nullable: false),
-                    EndsAt = table.Column<DateTime>(nullable: false)
+                    Title = table.Column<string>(nullable: true),
+                    Start = table.Column<DateTime>(nullable: false),
+                    End = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.PrimaryKey("PK_TaskSchedules", x => x.Id);
                 });
         }
 
@@ -43,7 +43,7 @@ namespace Schedular.API.Migrations
                 name: "Staffs");
 
             migrationBuilder.DropTable(
-                name: "Tasks");
+                name: "TaskSchedules");
         }
     }
 }

@@ -9,7 +9,7 @@ using Schedular.API.Data;
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200315003454_InitialMigrations")]
+    [Migration("20200319233030_InitialMigrations")]
     partial class InitialMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,24 +35,24 @@ namespace Schedular.API.Migrations
                     b.ToTable("Staffs");
                 });
 
-            modelBuilder.Entity("Schedular.API.Models.Task", b =>
+            modelBuilder.Entity("Schedular.API.Models.TaskSchedule", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("EndsAt")
+                    b.Property<DateTime>("End")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("MyProperty")
+                    b.Property<DateTime>("Start")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("StartsAt")
+                    b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("TaskSchedules");
                 });
 #pragma warning restore 612, 618
         }
