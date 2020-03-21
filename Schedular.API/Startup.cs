@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Schedular.API.Data;
 
+
 namespace Schedular.API
 {
     public class Startup
@@ -29,6 +30,8 @@ namespace Schedular.API
         {            
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

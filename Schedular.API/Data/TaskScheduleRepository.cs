@@ -2,14 +2,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Schedular.API.Models;
+using Schedular.API.Data;
 
 namespace Schedular.API.Data
 {
-    public class TaskRepository 
+    public class TaskScheduleRepository : ITaskScheduleRepository
     {
         //access to the database
         private readonly DataContext _context;
-        public TaskRepository(DataContext context)
+        public TaskScheduleRepository(DataContext context)
         {
             _context = context;
         }
