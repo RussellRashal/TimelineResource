@@ -8,6 +8,9 @@ namespace Schedular.API.Data
     {
       void Add<T>(T entity) where T: class;
       void Delete<T>(T entity) where T: class;
+
+      //"task" returns type task object, executes asyncrhonous on a thread
+      //IEnumerable loops over a collection of classes
       Task<bool> SaveAll();
       // get all tasks        
       Task<IEnumerable<TaskSchedule>> GetTasks();

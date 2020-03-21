@@ -30,7 +30,8 @@ namespace Schedular.API
         {            
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
-            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddCors();
+            services.AddScoped<ITaskScheduleRepository, TaskScheduleRepository>();
 
         }
 
@@ -43,6 +44,8 @@ namespace Schedular.API
             }
 
             //app.UseHttpsRedirection();
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseRouting();
 

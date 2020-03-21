@@ -1,4 +1,5 @@
-export interface Task {
+export interface TaskSchedule {
+    id: number;
     title: string;
     start: Date;
     end: Date;

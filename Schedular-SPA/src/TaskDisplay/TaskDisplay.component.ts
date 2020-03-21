@@ -3,7 +3,7 @@ import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMo
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView} from 'angular-calendar';
-import { Task } from '../_models/task';
+import { TaskSchedule } from '../app/_models/taskSchedule';
 
 const colors: any = {
   red: {
@@ -27,8 +27,7 @@ const colors: any = {
 })
 
 export class TaskDisplayComponent {
-  tasks: Task[];
-   
+  taskSchedule: TaskSchedule[];
 
   // ngOnInit() {}
 

@@ -27,7 +27,7 @@ namespace Schedular.API.Data
            _context.Remove(entity);
         }
 
-        //get the data
+        //get individual the data of taskschedules
         public async Task<TaskSchedule> GetTask(int id)
         {
             //remember to add users with linq include
@@ -36,6 +36,7 @@ namespace Schedular.API.Data
             return taskSchedule;
         }
 
+        //get all data of taskschedules
         public async Task<IEnumerable<TaskSchedule>> GetTasks()
         {
             var taskSchedule = await _context.TaskSchedules.ToListAsync();
