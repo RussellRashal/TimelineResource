@@ -16,19 +16,21 @@ export class CalendarViewComponent implements OnInit {
 
   options: any;
 
+  header: any;
+
   constructor(private eventService: EventService) {}
 
   ngOnInit() {
     this.eventService.getEvents().then(events => {this.events = events; });
-
+    // allows the calander to be displayed in either month, week or day
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       defaultDate: '2020-03-01',
       header: {
-          left: 'prev,next',
-          center: 'title',
-          right: 'month,agendaWeek,agendaDay'
-      },
+        left: 'prev,next',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
       editable: true
     };
   }
