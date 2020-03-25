@@ -19,18 +19,18 @@ export class CalendarViewComponent implements OnInit {
   constructor(private eventService: EventService) {}
 
   ngOnInit() {
-     this.eventService.getEvents().then(events => {this.events = events; });
+    this.eventService.getEvents().then(events => {this.events = events; });
 
-     this.options = {
+    this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-      defaultDate: '2017-02-01',
+      defaultDate: '2020-03-01',
       header: {
           left: 'prev,next',
           center: 'title',
           right: 'month,agendaWeek,agendaDay'
       },
       editable: true
-  };
+    };
   }
 }
 
