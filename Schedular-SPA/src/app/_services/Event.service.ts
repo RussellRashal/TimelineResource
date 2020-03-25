@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { TaskSchedule } from '../_models/taskSchedule';
+import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EventService {
   baseUrl = environment.apiUrl + 'TaskSchedule';
 
@@ -12,8 +16,7 @@ export class EventService {
   getEvents() {
     return this.http.get(this.baseUrl)
                 .toPromise()
-                .then(res => res.json().data as any[])
+                .then(res => res as any[])
                 .then(data => data);
   }
-
 }

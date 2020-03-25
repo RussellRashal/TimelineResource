@@ -7,14 +7,22 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { appRoutes } from './routes';
 import { HttpClientModule } from '@angular/common/http';
-import { TaskDisplayComponent } from './TaskDisplay/TaskDisplay.component';
 import { CalendarViewComponent } from './CalendarView/CalendarView.component';
+
+
+// for the ngCalendar
+import {FullCalendarModule} from 'primeng/fullcalendar';
+import {DialogModule} from 'primeng/dialog';
+import {InputTextModule} from 'primeng/inputtext';
+import {CalendarModule} from 'primeng/calendar';
+import {CheckboxModule} from 'primeng/checkbox';
+import {ButtonModule} from 'primeng/button';
+import {TabViewModule} from 'primeng/tabview';
+import {CodeHighlighterModule} from 'primeng/codehighlighter';
 
 export function tokengetter() {
    // get token from browser to input into the jwtModule tokenGetter, see below
@@ -24,16 +32,25 @@ export function tokengetter() {
 @NgModule({
    declarations: [
       AppComponent,
-      TaskDisplayComponent,
       TestTaskComponent,
-      TaskDisplayComponent,
       CalendarViewComponent
    ],
    imports: [
       CommonModule,
+      FormsModule,
+      FullCalendarModule,
+      DialogModule,
+      InputTextModule,
+      CalendarModule,
+      CheckboxModule,
+      ButtonModule,
+      TabViewModule,
+      CodeHighlighterModule,
+      CommonModule,
       BrowserModule,
       BrowserAnimationsModule,
       FormsModule,
+      CalendarModule,
       HttpClientModule,
       NgbModule,
       RouterModule.forRoot(appRoutes),
@@ -44,14 +61,9 @@ export function tokengetter() {
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       }),
-      CalendarModule.forRoot({
-         provide: DateAdapter,
-         useFactory: adapterFactory
-      })
    ],
-   exports: [TaskDisplayComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-export class MyModule { }
+// export class MyModule { }
