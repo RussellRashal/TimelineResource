@@ -1,9 +1,11 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef} from '@angular/core';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef} from '@angular/core';
+import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView} from 'angular-calendar';
-import { TaskSchedule } from '../app/_models/taskSchedule';
+import { TaskScheduleService } from '../_services/taskSchedule.service';
+import { TaskSchedule } from '../_models/taskSchedule';
+import { parseISO } from 'date-fns/fp';
 
 const colors: any = {
   red: {
@@ -20,19 +22,17 @@ const colors: any = {
   }
 };
 
+
 @Component({
-  selector: 'app-taskdisplay',
+  selector: 'app-task-display',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './TaskDisplay.component.html',
   styleUrls: ['./TaskDisplay.component.css']
 })
-
-export class TaskDisplayComponent {
+export class TaskDisplayComponent implements OnInit {
   taskSchedule: TaskSchedule[];
 
-  // ngOnInit() {}
-
-  @ViewChild('modalContent', { static: true }) modalContent:
-  TemplateRef<any>;
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
 
@@ -64,8 +64,7 @@ export class TaskDisplayComponent {
   ];
 
   refresh: Subject<any> = new Subject();
-  // this is where the api data needs to be inputed in
-  // there also needs to be a way to input staff name
+
   events: CalendarEvent[] = [
     {
       start: subDays(startOfDay(new Date()), 1),
@@ -107,9 +106,55 @@ export class TaskDisplayComponent {
     }
   ];
 
-  activeDayIsOpen = true;
+  activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) {}
+  constructor(
+    private modal: NgbModal,
+    private taskScheduleService: TaskScheduleService) {}
+
+  ngOnInit() {
+    this.loadTaskSchedule();
+  }
+
+  loadTaskSchedule() {
+    this.taskScheduleService.getTaskSchedule().subscribe((taskScheduled: TaskSchedule[]) => {
+      this.taskSchedule = taskScheduled;
+      // console.log(this.taskSchedule);
+      // to get part of the array
+      // const taskScheduledTitle = taskScheduled.map(a => a.title);
+      // const taskScheduledStart = taskScheduled.map(a => a.start);
+      // const taskScheduledEnd = taskScheduled.map(a => a.end);
+
+
+      // trying to import data into the calandar.
+      // .toLocalString() converts the api date into a string
+      // this.events = [{
+      //   title: taskScheduledTitle[1].toLocaleString(),
+      //   start: startOfDay(parseISO(taskScheduledStart[1].toLocaleString())),
+      //   end: endOfDay(parseISO(taskScheduledEnd[1].toLocaleString()))
+      // }];
+      // counter: number = 0;
+
+      for (const value of taskScheduled) {
+        console.log(value);
+
+        const taskScheduledTitle = taskScheduled.map(a => a.title);
+        const taskScheduledStart = taskScheduled.map(a => a.start);
+        const taskScheduledEnd = taskScheduled.map(a => a.end);
+
+        this.events = [{
+          title: taskScheduledTitle.toLocaleString(),
+          start: startOfDay(parseISO(taskScheduledStart.toLocaleString())),
+          end: endOfDay(parseISO(taskScheduledEnd.toLocaleString()))
+        }];
+      }
+      // console.log(taskScheduledTitle[0] + ' title');
+      // console.log(taskScheduledStart[0] + ' start time');
+      // console.log(taskScheduledEnd[0] + ' end time');
+    }, error => {
+      console.log(error);
+    });
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -147,7 +192,7 @@ export class TaskDisplayComponent {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
-  // if the add button is clicked it triggers this method
+
   addEvent(): void {
     this.events = [
       ...this.events,

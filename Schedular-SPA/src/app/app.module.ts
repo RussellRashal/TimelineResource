@@ -9,11 +9,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { TaskDisplayComponent } from '../TaskDisplay/TaskDisplay.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { appRoutes } from './routes';
 import { HttpClientModule } from '@angular/common/http';
+import { TaskDisplayComponent } from './TaskDisplay/TaskDisplay.component';
+import { CalendarViewComponent } from './CalendarView/CalendarView.component';
 
 export function tokengetter() {
    // get token from browser to input into the jwtModule tokenGetter, see below
@@ -24,15 +25,17 @@ export function tokengetter() {
    declarations: [
       AppComponent,
       TaskDisplayComponent,
-      TestTaskComponent
+      TestTaskComponent,
+      TaskDisplayComponent,
+      CalendarViewComponent
    ],
    imports: [
       CommonModule,
       BrowserModule,
       BrowserAnimationsModule,
-      NgbModule,
       FormsModule,
       HttpClientModule,
+      NgbModule,
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({
          config: {
