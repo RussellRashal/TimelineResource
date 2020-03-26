@@ -41,7 +41,7 @@ namespace Schedular.API.Data
         {
             var taskSchedule = await _context.TaskSchedules.ToListAsync();
 
-            return taskSchedule;
+            return taskSchedule;            
         }
 
         //lets us know if changes have been saved on the database

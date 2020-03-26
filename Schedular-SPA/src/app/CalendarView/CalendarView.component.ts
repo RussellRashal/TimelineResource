@@ -15,7 +15,7 @@ export class CalendarViewComponent implements OnInit {
   events: any[];
 
   options: any;
-
+  // allows for month, week, day options to be added.
   header: any;
 
   constructor(private eventService: EventService) {}
@@ -30,10 +30,12 @@ export class CalendarViewComponent implements OnInit {
         left: 'prev,next',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    },
-      editable: true
+      },
+      editable: true,
+      // empty date has been clicked on
+      dateClick: (e) =>  {
+        console.log('date has been clicked');
+      }
     };
   }
 }
-
-
