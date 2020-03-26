@@ -2,22 +2,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Schedular.API.Models;
-using Schedular.API.Data;
-using System.Linq;
-
 
 namespace Schedular.API.Data
 {
-    public class TaskScheduleRepository : ITaskScheduleRepository
-    {
+    public class StaffRepository : IStaffRepository
+    { 
         //access to the database
         private readonly DataContext _context;
-        public TaskScheduleRepository(DataContext context)
+        public StaffRepository(DataContext context)
         {
             _context = context;
-        }
-        
-        //add new data to the database
+        } 
+
+        //add new data to the database      
         public void Add<T>(T entity) where T : class
         {
             _context.Add(entity);
@@ -28,26 +25,20 @@ namespace Schedular.API.Data
         {
            _context.Remove(entity);
         }
-
-        //get individual taskschedules data
-        public async Task<TaskSchedule> GetTask(int id)
+        //get individual staff data
+        public async Task<Staff> GetStaff(int id)
         {
-            //remember to add users with linq include
-            var taskSchedule = await _context.TaskSchedules
-                .Include(s => s.staffs)
-                .FirstOrDefaultAsync(u => u.Id == id);
+            var staff = await _context.Staffs.FirstOrDefaultAsync(u => u.Id == id);
 
-            return taskSchedule;
+            return staff;
         }
 
-        //get all data of taskschedules
-        public async Task<IEnumerable<TaskSchedule>> GetTasks()
+        //get all staff from the database
+        public async Task<IEnumerable<Staff>> GetStaffs()
         {
-            var taskSchedule = await _context.TaskSchedules
-                .Include(s => s.staffs)
-                .ToListAsync();
-
-            return taskSchedule;            
+            var staffs = await _context.Staffs.ToListAsync();
+            
+            return staffs;
         }
 
         //lets us know if changes have been saved on the database

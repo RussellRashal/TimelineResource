@@ -32,7 +32,7 @@ namespace Schedular.API
             services.AddControllers();
             services.AddCors();
             services.AddScoped<ITaskScheduleRepository, TaskScheduleRepository>();
-
+            services.AddScoped<IStaffRepository, StaffRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

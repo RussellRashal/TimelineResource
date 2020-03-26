@@ -1,8 +1,9 @@
+// my created components
 import { TestTaskComponent } from './TestTask/TestTask.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { JwtModule } from '@auth0/angular-jwt';
+import { NavigationBarComponent } from './navigationBar/navigationBar.component';
+import { CalendarViewComponent } from './CalendarView/CalendarView.component';
 
+// other angular components 
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,8 +12,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { appRoutes } from './routes';
 import { HttpClientModule } from '@angular/common/http';
-import { CalendarViewComponent } from './CalendarView/CalendarView.component';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { JwtModule } from '@auth0/angular-jwt';
 
 // for the ngCalendar
 import {FullCalendarModule} from 'primeng/fullcalendar';
@@ -23,6 +25,8 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {ButtonModule} from 'primeng/button';
 import {TabViewModule} from 'primeng/tabview';
 import {CodeHighlighterModule} from 'primeng/codehighlighter';
+import { AddTaskComponent } from './addTask/addTask.component';
+import { UpdateTaskComponent } from './updateTask/updateTask.component';
 
 export function tokengetter() {
    // get token from browser to input into the jwtModule tokenGetter, see below
@@ -33,7 +37,10 @@ export function tokengetter() {
    declarations: [
       AppComponent,
       TestTaskComponent,
-      CalendarViewComponent
+      CalendarViewComponent,
+      NavigationBarComponent,
+      AddTaskComponent,
+      UpdateTaskComponent
    ],
    imports: [
       CommonModule,
@@ -62,8 +69,21 @@ export function tokengetter() {
          }
       }),
    ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-// export class MyModule { }
+   providers: [],
+   bootstrap: [AppComponent]
+   })
+   export class AppModule { }
+
+
+// JwtModule.forRoot({
+//    config: {
+//       tokenGetter: tokengetter,
+//       whitelistedDomains: ['localhost:5000'],
+//       blacklistedRoutes: ['localhost:5000/api/auth']
+//    }
+// }),
+// ],
+// providers: [],
+// bootstrap: [AppComponent]
+// })
+// export class AppModule { }
