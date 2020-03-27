@@ -31,7 +31,6 @@ export class CalendarViewComponent implements OnInit {
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      editable: true,
       // empty date has been clicked on
       dateClick: (e) =>  {
         console.log('date has been clicked');

@@ -18,13 +18,25 @@ export class TestTaskComponent implements OnInit {
     private staffService: StaffService) { }
 
   ngOnInit() {
-    this.loadTaskSchedule();
+    this.loadUserTaskSchedule(2);
   }
 
-  loadTaskSchedule() {
+    // this will load the staff members
+  loadStaffSchedule() {
     this.staffService.getStaff().subscribe((staff: Staff[]) => {
       this.staff = staff;
       console.log(staff);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+
+  // this will load the tasks associated with the staff members id
+  loadUserTaskSchedule(id) {
+    this.taskScheduleService.getTaskSchedulesByStaffId(id).subscribe((taskSchedule: TaskSchedule[]) => {
+      this.taskSchedule = taskSchedule;
+      console.log(taskSchedule);
     }, error => {
       console.log(error);
     });
