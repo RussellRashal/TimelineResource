@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Schedular.API.Data;
 using Schedular.API.Models;
+
 
 namespace Schedular.API.Controllers
 {
@@ -29,6 +31,17 @@ namespace Schedular.API.Controllers
 
             return Ok(taskschedule);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserTaskSchedule(int id)
+        {
+            var taskUserSchedule = await _repo.GetTaskSchedulesByStaffId(id);
+            //does this user have any schedules assigned to them
+            if (taskUserSchedule.Count != 0)
+                return Ok(taskUserSchedule);
+            return BadRequest("There are no tasks for this user");
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostSchedule(TaskSchedule taskSchedule)
         {

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Schedular.API.Models;
+using System.Linq;
 
 namespace Schedular.API.Data
 {
@@ -15,6 +16,8 @@ namespace Schedular.API.Data
       // get all tasks        
       Task<IEnumerable<TaskSchedule>> GetTasks();
       //get an individual task 
-      Task<TaskSchedule> GetTask(int id);      
+      Task<TaskSchedule> GetTask(int id);    
+      //get users task
+      Task<IList<TaskSchedule>> GetTaskSchedulesByStaffId(int id);      
     }
 }

@@ -49,6 +49,17 @@ namespace Schedular.API.Data
 
             return taskSchedule;            
         }
+        
+    
+        //get users tasks
+        public async Task<IList<TaskSchedule>> GetTaskSchedulesByStaffId(int id)
+        {
+            var userTaskSchedule = await _context.TaskSchedules
+            .Where(s => s.staffId == id)
+            .ToListAsync();                                    
+
+            return userTaskSchedule;            
+        }
 
         //lets us know if changes have been saved on the database
         //if true is returned then changes have been made
