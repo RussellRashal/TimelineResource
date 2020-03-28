@@ -8,6 +8,9 @@ export const appRoutes: Routes = [
     { path: 'cal', component: CalendarViewComponent},
     { path: 'TestTask', component: TestTaskComponent},
     { path: 'addTask', component: AddTaskComponent},
-    { path: 'updateTask', component: UpdateTaskComponent}
-    // { path: '**', redirectTo: 'TaskDisplay', pathMatch: 'full'}
+    { path: 'updateTask', component: UpdateTaskComponent},
+    { path: '', redirectTo: '', pathMatch: 'full'}
 ];
+
+
+

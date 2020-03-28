@@ -1,8 +1,8 @@
-import { Staff } from './../_models/staff';
+import { StaffMemberModel } from '../_models/StaffMemberModel';
 import { TaskSchedule } from './../_models/taskSchedule';
 import { Component, OnInit } from '@angular/core';
 import { TaskScheduleService } from '../../app/_services/taskSchedule.service';
-import { StaffService } from '../../app/_services/Staff.service';
+import { StaffMemberService } from '../_services/staffMember.service';
 
 @Component({
   selector: 'app-testtask',
@@ -11,21 +11,21 @@ import { StaffService } from '../../app/_services/Staff.service';
 })
 export class TestTaskComponent implements OnInit {
   taskSchedule: TaskSchedule[];
-  staff: Staff[];
+  staffMemberModel: StaffMemberModel[];
 
   constructor(
     private taskScheduleService: TaskScheduleService,
-    private staffService: StaffService) { }
+    private staffMemberService: StaffMemberService) { }
 
   ngOnInit() {
-    this.loadUserTaskSchedule(2);
+    this.loadUserTaskSchedule(1);
   }
 
     // this will load the staff members
   loadStaffSchedule() {
-    this.staffService.getStaff().subscribe((staff: Staff[]) => {
-      this.staff = staff;
-      console.log(staff);
+    this.staffMemberService.getStaffs().subscribe((staffMemberModel: StaffMemberModel[]) => {
+      this.staffMemberModel = staffMemberModel;
+      console.log(staffMemberModel);
     }, error => {
       console.log(error);
     });

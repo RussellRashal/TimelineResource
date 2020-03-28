@@ -27,6 +27,8 @@ import {TabViewModule} from 'primeng/tabview';
 import {CodeHighlighterModule} from 'primeng/codehighlighter';
 import { AddTaskComponent } from './addTask/addTask.component';
 import { UpdateTaskComponent } from './updateTask/updateTask.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
 
 export function tokengetter() {
    // get token from browser to input into the jwtModule tokenGetter, see below
@@ -40,7 +42,8 @@ export function tokengetter() {
       CalendarViewComponent,
       NavigationBarComponent,
       AddTaskComponent,
-      UpdateTaskComponent
+      UpdateTaskComponent,
+      SidebarComponent
    ],
    imports: [
       CommonModule,
@@ -61,18 +64,20 @@ export function tokengetter() {
       HttpClientModule,
       NgbModule,
       RouterModule.forRoot(appRoutes),
-      JwtModule.forRoot({
-         config: {
-            tokenGetter: tokengetter,
-            whitelistedDomains: ['localhost:5000'],
-            blacklistedRoutes: ['localhost:5000/api/auth']
-         }
-      }),
-   ],
-   providers: [],
-   bootstrap: [AppComponent]
-   })
-   export class AppModule { }
+JwtModule.forRoot({
+   config: {
+      tokenGetter: tokengetter,
+      whitelistedDomains: ['localhost:5000'],
+      blacklistedRoutes: ['localhost:5000/api/auth']
+   }
+}),
+],
+providers: [
+   StaffLoaderResolver
+],
+bootstrap: [AppComponent]
+})
+export class AppModule { }
 
 
 // JwtModule.forRoot({
