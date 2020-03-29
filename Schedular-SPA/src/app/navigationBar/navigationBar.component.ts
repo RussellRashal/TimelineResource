@@ -1,4 +1,3 @@
-import { StaffMemberService } from '../_services/staffMember.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationBarComponent implements OnInit {
 
-  constructor(private staffMemberService: StaffMemberService) { }
+  constructor() { }
 
   ngOnInit() {
   }

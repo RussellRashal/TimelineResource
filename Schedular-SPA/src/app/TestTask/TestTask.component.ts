@@ -3,6 +3,7 @@ import { TaskSchedule } from './../_models/taskSchedule';
 import { Component, OnInit } from '@angular/core';
 import { TaskScheduleService } from '../../app/_services/taskSchedule.service';
 import { StaffMemberService } from '../_services/staffMember.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-testtask',
@@ -11,21 +12,27 @@ import { StaffMemberService } from '../_services/staffMember.service';
 })
 export class TestTaskComponent implements OnInit {
   taskSchedule: TaskSchedule[];
-  staffMemberModel: StaffMemberModel[];
+  staffMemberModels: StaffMemberModel[];
 
   constructor(
     private taskScheduleService: TaskScheduleService,
-    private staffMemberService: StaffMemberService) { }
+    private staffMemberService: StaffMemberService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.loadUserTaskSchedule(1);
+    // this.loadUserTaskSchedule(1);
+    this.route.data.subscribe(data => {
+      this.staffMemberModels = data['StaffMemberModels'];
+    });
+    console.log(this.staffMemberModels);
   }
+
 
     // this will load the staff members
   loadStaffSchedule() {
     this.staffMemberService.getStaffs().subscribe((staffMemberModel: StaffMemberModel[]) => {
-      this.staffMemberModel = staffMemberModel;
-      console.log(staffMemberModel);
+      this.staffMemberModels = staffMemberModel;
+      // console.log(staffMemberModel);
     }, error => {
       console.log(error);
     });
@@ -36,10 +43,11 @@ export class TestTaskComponent implements OnInit {
   loadUserTaskSchedule(id) {
     this.taskScheduleService.getTaskSchedulesByStaffId(id).subscribe((taskSchedule: TaskSchedule[]) => {
       this.taskSchedule = taskSchedule;
-      console.log(taskSchedule);
+      // console.log(taskSchedule);
     }, error => {
       console.log(error);
     });
   }
 
 }
+

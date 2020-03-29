@@ -29,6 +29,7 @@ import { AddTaskComponent } from './addTask/addTask.component';
 import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 export function tokengetter() {
    // get token from browser to input into the jwtModule tokenGetter, see below
@@ -63,6 +64,7 @@ export function tokengetter() {
       CalendarModule,
       HttpClientModule,
       NgbModule,
+      MatSidenavModule,
       RouterModule.forRoot(appRoutes),
 JwtModule.forRoot({
    config: {

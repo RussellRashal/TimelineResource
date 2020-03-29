@@ -10,11 +10,10 @@ import { Observable } from 'rxjs';
 export class EventService {
   baseUrl = environment.apiUrl + 'TaskSchedule';
 
-
   constructor(private http: HttpClient) { }
 
-  getEvents() {
-    return this.http.get(this.baseUrl + '/' + '2')
+  getEvents(idOfStaff) {
+    return this.http.get(this.baseUrl + '/' + idOfStaff)
                 .toPromise()
                 .then(res => res as any[])
                 .then(data => data);
