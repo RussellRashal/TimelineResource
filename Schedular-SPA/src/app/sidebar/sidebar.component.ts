@@ -1,6 +1,7 @@
 import { StaffMemberModel } from './../_models/StaffMemberModel';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { StateStorageService } from '../_services/stateStorage.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,12 +14,15 @@ export class SidebarComponent implements OnInit {
   // <app-sidebar (StaffButtonClick)="runCalendarData($event)">
   @Output() StaffButtonClick = new EventEmitter<number>();
   constructor(
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private stateStorageService: StateStorageService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.staffMemberModelsResolve = data['StaffMemberModels'];
     });
+    // to allow for use in the update component
+    this.stateStorageService.setStaffMemberStorage(this.staffMemberModelsResolve);
     // console.log(this.staffMemberModelsResolve);
   }
 

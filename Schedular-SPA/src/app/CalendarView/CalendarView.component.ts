@@ -23,7 +23,8 @@ export class CalendarViewComponent implements OnInit {
   header: any;
   // idOfStaffForeignKeyToTask is needed to allow the 'eventClick()' to have the staff Id
   // There is no staffId with the event object
-  idOfStaffForeignKeyToTask;
+  StaffMemberDetailsFromSideBar: StaffMemberModel[];
+
 
   constructor(
     private eventService: EventService,
@@ -31,12 +32,12 @@ export class CalendarViewComponent implements OnInit {
     private stateStorageService: StateStorageService) {}
 
   ngOnInit() {
-    this.runCalendarData(1);
+    this.InitialCalendarData(1);
   }
 
-  runCalendarData(idOfStaff) {
-    this.idOfStaffForeignKeyToTask = idOfStaff;
-    this.eventService.getEvents(idOfStaff).then(events => {this.events = events; });
+  runCalendarData(StaffObject) {
+    this.StaffMemberDetailsFromSideBar = StaffObject;
+    this.eventService.getEvents(StaffObject.id).then(events => {this.events = events; });
 
 
     // allows the calander to be displayed in either month, week or day
@@ -62,22 +63,35 @@ export class CalendarViewComponent implements OnInit {
       },
 
       eventClick: (idOfClickedTask) => {
-        // console.log(idOfClickedTask.event.id);
-        // console.log(idOfClickedTask.event.title);
-        // console.log(idOfClickedTask.event.start);
-        // console.log(idOfClickedTask.event.end);
-        // console.log(this.idOfStaffForeignKeyToTask);
         const arrayOfClickedTask = [
           idOfClickedTask.event.id,
           idOfClickedTask.event.title,
           idOfClickedTask.event.start,
-          idOfClickedTask.event.end,
-          this.idOfStaffForeignKeyToTask];
+          idOfClickedTask.event.end];
 
-        // console.log(arrayOfClickedTask);
-        this.stateStorageService.setStateStorage(arrayOfClickedTask);
+        this.stateStorageService.setStateStorage(arrayOfClickedTask, this.StaffMemberDetailsFromSideBar);
         this.router.navigate(['/updateTask']);
       }
+    };
+  }
+
+
+
+
+
+
+  // allow the calendar to load
+  InitialCalendarData(InitialValue) {
+    this.eventService.getEvents(InitialValue).then(events => {this.events = events; });
+    // allows the calander to be displayed in either month, week or day
+    this.options = {
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      defaultDate: '2020-03-01',
+      header: {
+        left: 'prev,next',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
     };
   }
 }
