@@ -21,11 +21,14 @@ export class TestTaskComponent implements OnInit {
 
   ngOnInit() {
     // this.loadUserTaskSchedule(1);
-    this.route.data.subscribe(data => {
-      this.staffMemberModels = data['StaffMemberModels'];
-    });
-    console.log(this.staffMemberModels);
+    // this.route.data.subscribe(data => {
+    //   this.staffMemberModels = data['StaffMemberModels'];
+    // });
+
+
   }
+
+
 
 
     // this will load the staff members

@@ -9,12 +9,17 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
 import { appRoutes } from './routes';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
+import {MatTableModule} from '@angular/material/table';
+import {FormsModule} from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 // for the ngCalendar
 import {FullCalendarModule} from 'primeng/fullcalendar';
@@ -65,6 +70,10 @@ export function tokengetter() {
       HttpClientModule,
       NgbModule,
       MatSidenavModule,
+      MatNativeDateModule,
+      MatDatepickerModule,
+      MatTableModule,
+      MatInputModule,
       RouterModule.forRoot(appRoutes),
 JwtModule.forRoot({
    config: {
@@ -75,11 +84,14 @@ JwtModule.forRoot({
 }),
 ],
 providers: [
-   StaffLoaderResolver
+   StaffLoaderResolver,
+   DatePipe
 ],
 bootstrap: [AppComponent]
 })
 export class AppModule { }
+export class MaterialModule {}
+
 
 
 // JwtModule.forRoot({
@@ -94,3 +106,4 @@ export class AppModule { }
 // bootstrap: [AppComponent]
 // })
 // export class AppModule { }
+// export class MaterialModule {}

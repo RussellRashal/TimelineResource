@@ -1,3 +1,4 @@
+import { TaskSchedule } from './../_models/taskSchedule';
 import { EventService } from './../_services/Event.service';
 import { Component, OnInit, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
@@ -63,13 +64,14 @@ export class CalendarViewComponent implements OnInit {
       },
 
       eventClick: (idOfClickedTask) => {
-        const arrayOfClickedTask = [
+        const arrayOfClickedTask: TaskSchedule[] = [
           idOfClickedTask.event.id,
           idOfClickedTask.event.title,
           idOfClickedTask.event.start,
           idOfClickedTask.event.end];
+        console.log(arrayOfClickedTask);
 
-        this.stateStorageService.setStateStorage(arrayOfClickedTask, this.StaffMemberDetailsFromSideBar);
+        this.stateStorageService.setStateStorage(idOfClickedTask, this.StaffMemberDetailsFromSideBar);
         this.router.navigate(['/updateTask']);
       }
     };

@@ -1,35 +1,28 @@
 <form>
   <div>
-    <label>Staff Name</label>  
-
+    <label>Staff Name</label>      
     <select class ="ml-4" id="staff">
+      <option>Current = {{currentUserData.firstName}} {{currentUserData.lastName}}</option>
       <option *ngFor="let StaffMemberModel of StaffMemberModels">
-        {{StaffMemberModel.firstName}}
+        {{StaffMemberModel.firstName}} {{StaffMemberModel.lastName}}
       </option>      
-    </select>   
-
-
-
-
-
+    </select>
   </div>
   <div>
     <label>Task</label>
-    <input>
+    <div>
+      <textarea value={{taskScheduleData.event.title}}></textarea>
+    </div>
   </div>
   <div>
-    <label>Start Time</label>
-    <input>
-  </div>
+    <label>Start Date</label>
+    <input type="date" value={{startDateConvert}}>
+  </div>  
   <div>
-    <label>End Time</label>
-    <input>
-  </div>
+    <label>End Date</label>
+    <input type="date" value={{endDateConvert}}>
+  </div> 
 
-  
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Update</button>
+  <button class="btn btn-primary">Delete</button>
 </form>
