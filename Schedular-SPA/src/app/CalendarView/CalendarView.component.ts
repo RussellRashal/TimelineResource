@@ -64,13 +64,11 @@ export class CalendarViewComponent implements OnInit {
       },
 
       eventClick: (idOfClickedTask) => {
-        const arrayOfClickedTask: TaskSchedule[] = [
-          idOfClickedTask.event.id,
-          idOfClickedTask.event.title,
-          idOfClickedTask.event.start,
-          idOfClickedTask.event.end];
-        console.log(arrayOfClickedTask);
-
+          // idOfClickedTask contained the below data
+          // idOfClickedTask.event.id,
+          // idOfClickedTask.event.title
+          // idOfClickedTask.event.start
+          // idOfClickedTask.event.end
         this.stateStorageService.setStateStorage(idOfClickedTask, this.StaffMemberDetailsFromSideBar);
         this.router.navigate(['/updateTask']);
       }

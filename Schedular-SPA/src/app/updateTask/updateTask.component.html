@@ -17,12 +17,39 @@
   <div>
     <label>Start Date</label>
     <input type="date" value={{startDateConvert}}>
+    <label>Start Time</label>
+    <select>
+      <option>{{hourStartTimeConvert}}</option>
+      <option *ngFor="let hourSelector of hourSelectors">{{hourSelector}}</option>
+    </select>
+    <label> : </label>
+    <select>
+      <option>{{minuteStartTimeConvert}}</option>
+      <option *ngFor="let minuteSelector of minuteSelectors">{{minuteSelector}}</option>
+    </select>
   </div>  
   <div>
     <label>End Date</label>
     <input type="date" value={{endDateConvert}}>
-  </div> 
-
+    <label>End Time</label>
+    <select>
+      <option>{{hourEndTimeConvert}}</option>
+      <option *ngFor="let hourSelector of hourSelectors">{{hourSelector}}</option>
+    </select>
+    <label> : </label>
+    <select>
+      <option>{{minuteEndTimeConvert}}</option>
+      <option *ngFor="let minuteSelector of minuteSelectors">{{minuteSelector}}</option>
+    </select>
+  </div>   
   <button type="submit" class="btn btn-primary">Update</button>
   <button class="btn btn-primary">Delete</button>
+  <button (click)="print()">Click me</button>
+
 </form>
+
+
+
+
+
+
