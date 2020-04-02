@@ -35,10 +35,11 @@ import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { EditTaskComponent } from './editTask/editTask.component';
 
 export function tokengetter() {
    // get token from browser to input into the jwtModule tokenGetter, see below
-   return localStorage.getItem('token');
+return localStorage.getItem('token');
 }
 
 @NgModule({
@@ -49,7 +50,8 @@ export function tokengetter() {
       NavigationBarComponent,
       AddTaskComponent,
       UpdateTaskComponent,
-      SidebarComponent
+      SidebarComponent,
+      EditTaskComponent
    ],
    imports: [
       CommonModule,
@@ -75,25 +77,26 @@ export function tokengetter() {
       MatTableModule,
       MatInputModule,
       RouterModule.forRoot(appRoutes),
-JwtModule.forRoot({
-   config: {
-      tokenGetter: tokengetter,
-      whitelistedDomains: ['localhost:5000'],
-      blacklistedRoutes: ['localhost:5000/api/auth']
-   }
-}),
-],
-providers: [
+      JwtModule.forRoot({
+         config: {
+            tokenGetter: tokengetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: ['localhost:5000/api/auth']
+         }
+      }),
+   ],
+   providers: [
    StaffLoaderResolver,
    DatePipe
-],
-bootstrap: [AppComponent]
+   ],
+   bootstrap: [AppComponent]
 })
 export class AppModule { }
 export class MaterialModule {}
 
 
 
+// RouterModule.forRoot(appRoutes),
 // JwtModule.forRoot({
 //    config: {
 //       tokenGetter: tokengetter,
@@ -102,7 +105,10 @@ export class MaterialModule {}
 //    }
 // }),
 // ],
-// providers: [],
+// providers: [
+// StaffLoaderResolver,
+// DatePipe
+// ],
 // bootstrap: [AppComponent]
 // })
 // export class AppModule { }
