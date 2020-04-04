@@ -29,6 +29,8 @@ export class UpdateTaskComponent implements OnInit {
   minuteEndTimeConvert;
   currentFullName: string;
   stringStaffMemberModel: any[];
+  returnedStartDateAndTime: string;
+  returnedEndDateAndTime: string;
 
 
 
@@ -57,7 +59,7 @@ export class UpdateTaskComponent implements OnInit {
     // console.log(this.endDateConvert);
 
     // minute creation
-    for (let i = 1; i < 60; i++) {
+    for (let i = 0; i < 60; i++) {
       if (i < 10) {
         this.minuteSelectors[i] = '0' + i.toString();
       } else {
@@ -65,13 +67,13 @@ export class UpdateTaskComponent implements OnInit {
       }
     }
     // hour creation
-    for (let i = 1; i < 23; i++) {
+    for (let i = 1; i < 24; i++) {
       this.hourSelectors[i] = i.toString();
     }
 
     this.initForm();
 
-    // console.log(this.currentUserData.id);
+    // console.log(this.taskScheduleData.event.id);
   }
 
   initForm() {
@@ -113,7 +115,23 @@ export class UpdateTaskComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('success');
+    // the date and time need to be rejoined to be sent to the database
+    this.returnedStartDateAndTime =
+      this.profileForm.value.startDate.toString() + ' ' +
+      this.profileForm.value.startHourTime.toString() + ':' +
+      this.profileForm.value.startMinuteTime.toString();
+
+    this.returnedEndDateAndTime =
+      this.profileForm.value.endDate.toString() + ' ' +
+      this.profileForm.value.endHourTime.toString() + ':' +
+      this.profileForm.value.endMinuteTime.toString();
+
+    // data to send to the back-end taskSchedule table
+    console.log(this.taskScheduleData.event.id);
+    console.log(this.profileForm.value.taskTextArea);
+    console.log(this.returnedStartDateAndTime);
+    console.log(this.returnedEndDateAndTime);
+    console.log(this.profileForm.value.staffName);
   }
 
 }
