@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { TaskSchedule } from '../_models/taskSchedule';
 import { DatePipe } from '@angular/common';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-update-task',
@@ -11,6 +12,9 @@ import { DatePipe } from '@angular/common';
 })
 
 export class UpdateTaskComponent implements OnInit {
+
+  profileForm: FormGroup;
+
   time = {hour: 13, minute: 30};
   taskScheduleData;
   currentUserData;
@@ -23,11 +27,16 @@ export class UpdateTaskComponent implements OnInit {
   minuteStartTimeConvert;
   hourEndTimeConvert;
   minuteEndTimeConvert;
-  selectedOption: string;
+  currentFullName: string;
+  stringStaffMemberModel: any[];
+
+
+
 
 
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
+
 
 
   constructor(
@@ -56,13 +65,41 @@ export class UpdateTaskComponent implements OnInit {
       }
     }
     // hour creation
-    for (let i = 1; i < 13; i++) {
+    for (let i = 1; i < 23; i++) {
       this.hourSelectors[i] = i.toString();
     }
-   // console.log(this.minuteStartTimeConvert);
+
+    this.initForm();
+
+    // console.log(this.currentUserData.id);
   }
 
+  initForm() {
+    this.profileForm = new FormGroup({
+      staffName: new FormControl(''),
+      taskTextArea: new FormControl(''),
+      startDate: new FormControl(''),
+      startHourTime: new FormControl(''),
+      startMinuteTime: new FormControl(''),
+      endDate: new FormControl(''),
+      endHourTime: new FormControl(''),
+      endMinuteTime: new FormControl('')
+    });
+    this.profileForm.patchValue({
+      staffName: this.currentUserData.id,
+      taskTextArea: this.taskScheduleData.event.title,
+      startDate: this.startDateConvert,
+      startHourTime: this.hourStartTimeConvert,
+      startMinuteTime: this.minuteStartTimeConvert,
+      endDate: this.endDateConvert,
+      endHourTime: this.hourEndTimeConvert,
+      endMinuteTime: this.minuteEndTimeConvert
+    });
+  }
+
+
   // convert date into a usable format for the datepicker in the template
+
   transformDate() {
     // convert the date
     this.startDateConvert = this.datePipe.transform(this.currentStartTimeDate, 'yyyy-MM-dd');
@@ -75,11 +112,11 @@ export class UpdateTaskComponent implements OnInit {
     this.minuteEndTimeConvert = this.datePipe.transform(this.currentEndTimeDate, 'mm');
   }
 
-  print() {
-    console.log('My input: ', this.selectedOption);
+  onSubmit() {
+    console.log('success');
   }
 
-
 }
+
 
 

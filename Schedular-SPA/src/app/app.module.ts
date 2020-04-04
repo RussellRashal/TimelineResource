@@ -14,11 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatTableModule} from '@angular/material/table';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
 // for the ngCalendar
@@ -34,8 +30,17 @@ import { AddTaskComponent } from './addTask/addTask.component';
 import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
-import {MatSidenavModule} from '@angular/material/sidenav';
 import { EditTaskComponent } from './editTask/editTask.component';
+
+// angular material
+import {MatSelectModule} from '@angular/material/select';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
+import {MatTableModule} from '@angular/material/table';
+
+
 
 export function tokengetter() {
    // get token from browser to input into the jwtModule tokenGetter, see below
@@ -67,7 +72,6 @@ return localStorage.getItem('token');
       CommonModule,
       BrowserModule,
       BrowserAnimationsModule,
-      FormsModule,
       CalendarModule,
       HttpClientModule,
       NgbModule,
@@ -76,6 +80,8 @@ return localStorage.getItem('token');
       MatDatepickerModule,
       MatTableModule,
       MatInputModule,
+      MatSelectModule,
+      ReactiveFormsModule,
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({
          config: {

@@ -1,51 +1,65 @@
-<form>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
   <div>
     <label>Staff Name</label>      
-    <select class ="ml-4" id="staff">
-      <option>Current = {{currentUserData.firstName}} {{currentUserData.lastName}}</option>
-      <option *ngFor="let StaffMemberModel of StaffMemberModels">
-        {{StaffMemberModel.firstName}} {{StaffMemberModel.lastName}}
+    <select formControlName="staffName">
+      <option *ngFor="let StaffMemberModel of StaffMemberModels"
+        [value]="StaffMemberModel.id"> 
+          {{StaffMemberModel.firstName}} {{StaffMemberModel.lastName}}
       </option>      
-    </select>
+   </select>
   </div>
   <div>
     <label>Task</label>
     <div>
-      <textarea value={{taskScheduleData.event.title}}></textarea>
+      <textarea formControlName="taskTextArea"></textarea>
     </div>
   </div>
   <div>
+
     <label>Start Date</label>
-    <input type="date" value={{startDateConvert}}>
+    <input type="date" formControlName="startDate">
+
     <label>Start Time</label>
-    <select>
-      <option>{{hourStartTimeConvert}}</option>
-      <option *ngFor="let hourSelector of hourSelectors">{{hourSelector}}</option>
+    <select formControlName="startHourTime">
+      <option *ngFor="let hourSelector of hourSelectors"
+        [value]="hourSelector">
+        {{hourSelector}}
+      </option>
     </select>
+
     <label> : </label>
-    <select>
-      <option>{{minuteStartTimeConvert}}</option>
-      <option *ngFor="let minuteSelector of minuteSelectors">{{minuteSelector}}</option>
+
+    <select formControlName="startMinuteTime">
+      <option *ngFor="let minuteSelector of minuteSelectors"
+        [value]="minuteSelector">
+        {{minuteSelector}}
+      </option>
     </select>
+
   </div>  
   <div>
     <label>End Date</label>
-    <input type="date" value={{endDateConvert}}>
+    <input type="date" formControlName="endDate">
+
     <label>End Time</label>
-    <select>
-      <option>{{hourEndTimeConvert}}</option>
-      <option *ngFor="let hourSelector of hourSelectors">{{hourSelector}}</option>
+    <select formControlName="endHourTime">
+      <option *ngFor="let hourSelector of hourSelectors"
+        [value]="hourSelector">
+        {{hourSelector}}
+      </option>
     </select>
+
     <label> : </label>
-    <select>
-      <option>{{minuteEndTimeConvert}}</option>
-      <option *ngFor="let minuteSelector of minuteSelectors">{{minuteSelector}}</option>
+
+    <select formControlName="endMinuteTime">
+      <option *ngFor="let minuteSelector of minuteSelectors"
+        [value]="minuteSelector">
+        {{minuteSelector}}
+      </option>
     </select>
+
   </div>   
   <button type="submit" class="btn btn-primary">Update</button>
-  <button class="btn btn-primary">Delete</button>
-  <button (click)="print()">Click me</button>
-
 </form>
 
 

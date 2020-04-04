@@ -27,6 +27,7 @@ setStateStorage(CalendartaskSchedule, currentStaff) {
 }
 
 // storage of staff member to use in updateTask component
+// the data is coming from sidebar.component and it sends all staff names and data
 setStaffMemberStorage(sidebarstaffMember) {
   this.staffMember = sidebarstaffMember;
 }
