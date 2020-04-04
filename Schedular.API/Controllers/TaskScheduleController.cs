@@ -45,11 +45,19 @@ namespace Schedular.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PostSchedule(TaskSchedule taskSchedule)
         {
-             _repo.Add(taskSchedule);     
-             //save the database
+             _repo.Add(taskSchedule);  
+
+            //save to the database
             if(await _repo.SaveAll())
                 return Ok();   
-            return BadRequest("Failed to like user");   
+            return BadRequest("Failed to save Schedule");   
+        }
+        [HttpPut("{id}")]
+        public TaskSchedule PutSchedule(int id, [FromBody] TaskSchedule taskSchedule)
+        {
+            TaskSchedule taskSchedulePut = _repo.Update(id, taskSchedule);    
+
+            return taskSchedulePut;      
         }
     }    
 }

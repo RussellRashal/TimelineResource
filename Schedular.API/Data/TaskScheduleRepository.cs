@@ -22,6 +22,22 @@ namespace Schedular.API.Data
         {
             _context.Add(entity);
         }
+        
+        // update database
+        public TaskSchedule Update(int Id, TaskSchedule taskSchedule) 
+        {
+            var TaskScheduleDb =  _context.TaskSchedules.SingleOrDefault(s => s.Id == Id);
+
+            TaskScheduleDb.Title = taskSchedule.Title;
+            TaskScheduleDb.Start = taskSchedule.Start;
+            TaskScheduleDb.End = taskSchedule.End;
+            TaskScheduleDb.staffId = taskSchedule.staffId;
+
+            _context.SaveChanges();
+
+            return TaskScheduleDb;
+
+        }
 
         //delete data from the database
         public void Delete<T>(T entity) where T : class
@@ -68,5 +84,7 @@ namespace Schedular.API.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
+
     }
 }

@@ -8,6 +8,7 @@ namespace Schedular.API.Data
     public interface ITaskScheduleRepository
     {
       void Add<T>(T entity) where T: class;
+      TaskSchedule Update(int id, TaskSchedule taskSchedule);
       void Delete<T>(T entity) where T: class;
 
       //"task" returns type task object, executes asyncrhonous on a thread
