@@ -1,9 +1,10 @@
+import { TaskSchedule } from './../_models/taskSchedule';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StateStorageService } from '../_services/stateStorage.service';
-import { TaskSchedule } from '../_models/taskSchedule';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl } from '@angular/forms';
+import { TaskScheduleService } from '../_services/taskSchedule.service';
 
 @Component({
   selector: 'app-update-task',
@@ -31,6 +32,7 @@ export class UpdateTaskComponent implements OnInit {
   stringStaffMemberModel: any[];
   returnedStartDateAndTime: string;
   returnedEndDateAndTime: string;
+  putServiceTaskSchedule: TaskSchedule;
 
 
 
@@ -44,7 +46,8 @@ export class UpdateTaskComponent implements OnInit {
   constructor(
     private router: Router,
     private stateStorageService: StateStorageService,
-    private datePipe: DatePipe) {}
+    private datePipe: DatePipe,
+    private taskScheduleService: TaskScheduleService) {}
 
 
   ngOnInit() {
@@ -127,11 +130,29 @@ export class UpdateTaskComponent implements OnInit {
       this.profileForm.value.endMinuteTime.toString();
 
     // data to send to the back-end taskSchedule table
-    console.log(this.taskScheduleData.event.id);
-    console.log(this.profileForm.value.taskTextArea);
-    console.log(this.returnedStartDateAndTime);
-    console.log(this.returnedEndDateAndTime);
-    console.log(this.profileForm.value.staffName);
+    // console.log(this.taskScheduleData.event.id);
+    // console.log(this.profileForm.value.taskTextArea);
+    // console.log(this.returnedStartDateAndTime);
+    // console.log(this.returnedEndDateAndTime);
+    // console.log(this.profileForm.value.staffName);
+
+    this.putServiceTaskSchedule = {
+      title: this.profileForm.value.taskTextArea,
+      start: new Date(this.returnedStartDateAndTime),
+      end: new Date(this.returnedEndDateAndTime),
+      staffId: Number(this.profileForm.value.staffName)
+    };
+
+    console.log(this.putServiceTaskSchedule);
+
+
+    this.taskScheduleService.putTaskSchedule(
+      this.taskScheduleData.event.id,
+      this.putServiceTaskSchedule).subscribe(next => {
+        console.log('success');
+      }, error => {
+        console.log('error POST did not go through: ' + error);
+      });
   }
 
 }
