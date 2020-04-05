@@ -33,18 +33,17 @@ export class CalendarViewComponent implements OnInit {
     private stateStorageService: StateStorageService) {}
 
   ngOnInit() {
-    this.InitialCalendarData(1);
+    this.InitialCalendarData(111);
   }
 
   runCalendarData(StaffObject) {
     this.StaffMemberDetailsFromSideBar = StaffObject;
     this.eventService.getEvents(StaffObject.id).then(events => {this.events = events; });
 
-
     // allows the calander to be displayed in either month, week or day
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-      defaultDate: '2020-03-01',
+      defaultDate: '2020-04-01',
       header: {
         left: 'prev,next',
         center: 'title',
@@ -62,7 +61,6 @@ export class CalendarViewComponent implements OnInit {
         // info.dayEl.style.backgroundColor = 'red';
         // console.log(info.dateStr);
       },
-
       eventClick: (idOfClickedTask) => {
           // idOfClickedTask contained the below data
           // idOfClickedTask.event.id,
@@ -76,22 +74,27 @@ export class CalendarViewComponent implements OnInit {
   }
 
 
-
-
-
-
   // allow the calendar to load
   InitialCalendarData(InitialValue) {
     this.eventService.getEvents(InitialValue).then(events => {this.events = events; });
     // allows the calander to be displayed in either month, week or day
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-      defaultDate: '2020-03-01',
+      defaultDate: '2020-04-01',
       header: {
         left: 'prev,next',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
+    //   eventClick: (idOfClickedTask) => {
+    //     // idOfClickedTask contained the below data
+    //     // idOfClickedTask.event.id,
+    //     // idOfClickedTask.event.title
+    //     // idOfClickedTask.event.start
+    //     // idOfClickedTask.event.end
+    //   this.stateStorageService.setStateStorage(idOfClickedTask, this.StaffMemberDetailsFromSideBar);
+    //   this.router.navigate(['/updateTask']);
+    // }
     };
   }
 }
