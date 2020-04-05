@@ -152,6 +152,11 @@ export class UpdateTaskComponent implements OnInit {
 
   deleteTask() {
     console.log(this.taskScheduleData.event.id);
+    this.taskScheduleService.deleteTaskSchedule(this.taskScheduleData.event.id).subscribe(next => {
+      console.log('Deleted');
+    }, error => {
+      console.log('unable to delete');
+    });
   }
 
 }

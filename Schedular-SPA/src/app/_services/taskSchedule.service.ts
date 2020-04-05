@@ -29,5 +29,8 @@ export class TaskScheduleService {
     return this.http.get<TaskSchedule[]>(this.baseUrl + '/' + id);
   }
 
+  deleteTaskSchedule(id): Observable<TaskSchedule[]> {
+    return this.http.delete<TaskSchedule[]>(this.baseUrl + '/' + id);
+  }
 
 }
