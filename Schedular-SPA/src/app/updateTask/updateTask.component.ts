@@ -35,13 +35,8 @@ export class UpdateTaskComponent implements OnInit {
   putServiceTaskSchedule: TaskSchedule;
 
 
-
-
-
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
-
-
 
   constructor(
     private router: Router,
@@ -58,25 +53,10 @@ export class UpdateTaskComponent implements OnInit {
     this.currentStartTimeDate = this.taskScheduleData.event.start;
     this.currentEndTimeDate = this.taskScheduleData.event.end;
     this.transformDate();
-    // console.log(this.startDateConvert);
-    // console.log(this.endDateConvert);
 
-    // minute creation
-    for (let i = 0; i < 60; i++) {
-      if (i < 10) {
-        this.minuteSelectors[i] = '0' + i.toString();
-      } else {
-        this.minuteSelectors[i] = i.toString();
-      }
-    }
-    // hour creation
-    for (let i = 1; i < 24; i++) {
-      this.hourSelectors[i] = i.toString();
-    }
-
+    this.dropDownTimeList();
     this.initForm();
 
-    // console.log(this.taskScheduleData.event.id);
   }
 
   initForm() {
@@ -115,6 +95,21 @@ export class UpdateTaskComponent implements OnInit {
     // convert the end time
     this.hourEndTimeConvert = this.datePipe.transform(this.currentEndTimeDate, 'h');
     this.minuteEndTimeConvert = this.datePipe.transform(this.currentEndTimeDate, 'mm');
+  }
+
+  dropDownTimeList() {
+    // minute creation
+    for (let i = 0; i < 60; i++) {
+      if (i < 10) {
+        this.minuteSelectors[i] = '0' + i.toString();
+      } else {
+        this.minuteSelectors[i] = i.toString();
+      }
+    }
+    // hour creation
+    for (let i = 0; i < 24; i++) {
+      this.hourSelectors[i] = i.toString();
+    }
   }
 
   onSubmit() {

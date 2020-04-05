@@ -39,6 +39,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
+import { TimePickerComponent } from './timePicker/timePicker.component';
 
 
 
@@ -56,7 +57,8 @@ return localStorage.getItem('token');
       AddTaskComponent,
       UpdateTaskComponent,
       SidebarComponent,
-      EditTaskComponent
+      EditTaskComponent,
+      TimePickerComponent
    ],
    imports: [
       CommonModule,
@@ -92,8 +94,8 @@ return localStorage.getItem('token');
       }),
    ],
    providers: [
-   StaffLoaderResolver,
-   DatePipe
+      StaffLoaderResolver,
+      DatePipe
    ],
    bootstrap: [AppComponent]
 })

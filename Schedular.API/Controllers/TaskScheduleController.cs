@@ -36,10 +36,9 @@ namespace Schedular.API.Controllers
         public async Task<IActionResult> GetUserTaskSchedule(int id)
         {
             var taskUserSchedule = await _repo.GetTaskSchedulesByStaffId(id);
-            //does this user have any schedules assigned to them
-            if (taskUserSchedule.Count != 0)
-                return Ok(taskUserSchedule);
-            return BadRequest("There are no tasks for this user");
+            
+            return Ok(taskUserSchedule);
+            
         }
 
         [HttpPost]

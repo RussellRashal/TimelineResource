@@ -3,5 +3,5 @@ export interface TaskSchedule {
     title: string;
     start: Date;
     end: Date;
-    staffId: number;
+    staffId?: number;
 }

@@ -1,0 +1,16 @@
+<label>Start Time</label>
+<select formControlName="startHourTime">
+  <option *ngFor="let hourSelector of hourSelectors"
+    [value]="hourSelector">
+    {{hourSelector}}
+  </option>
+</select>
+
+<label> : </label>
+
+<select formControlName="startMinuteTime">
+  <option *ngFor="let minuteSelector of minuteSelectors"
+    [value]="minuteSelector">
+    {{minuteSelector}}
+  </option>
+</select>

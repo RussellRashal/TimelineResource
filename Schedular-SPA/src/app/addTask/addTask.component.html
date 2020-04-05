@@ -1,12 +1,69 @@
-<div class="mx-auto" style="width: 300px">
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Staff Name</label>      
+    <select formControlName="staffName">
+      <option *ngFor="let StaffMemberModel of StaffMemberModels"
+        [value]="StaffMemberModel.id"> 
+          {{StaffMemberModel.firstName}} {{StaffMemberModel.lastName}}
+      </option>      
+   </select>
+  </div>
+  <div>
+    <label>Task</label>
+    <div>
+      <textarea formControlName="taskTextArea"></textarea>
+    </div>
+  </div>
+  <div>
 
-  <form >
-      <label class="ml-20">Task assigned to</label>
-      <select class ="ml-4" id="staff">
-        <option value="bob">bob</option>
-        <option value="jim">jim</option>
-        <option value="Richard">Richard</option>
-        <option value="George">George</option>
-      </select>   
-  </form>
-</div>
+    <label>Start Date</label>
+    <input type="date" formControlName="startDate">
+
+    <label>Start Time</label>
+    <select formControlName="startHourTime">
+      <option *ngFor="let hourSelector of hourSelectors"
+        [value]="hourSelector">
+        {{hourSelector}}
+      </option>
+    </select>
+
+    <label> : </label>
+
+    <select formControlName="startMinuteTime">
+      <option *ngFor="let minuteSelector of minuteSelectors"
+        [value]="minuteSelector">
+        {{minuteSelector}}
+      </option>
+    </select>
+
+  </div>  
+  <div>
+    <label>End Date</label>
+    <input type="date" formControlName="endDate">
+
+    <label>End Time</label>
+    <select formControlName="endHourTime">
+      <option *ngFor="let hourSelector of hourSelectors"
+        [value]="hourSelector">
+        {{hourSelector}}
+      </option>
+    </select>
+
+    <label> : </label>
+
+    <select formControlName="endMinuteTime">
+      <option *ngFor="let minuteSelector of minuteSelectors"
+        [value]="minuteSelector">
+        {{minuteSelector}}
+      </option>
+    </select>
+
+  </div>   
+  <button type="submit" class="btn btn-primary">Add Task</button>
+</form>
+
+
+
+
+
+
