@@ -58,5 +58,10 @@ namespace Schedular.API.Controllers
 
             return taskSchedulePut;      
         }
+        [HttpDelete("{id}")]
+        public void DeleteTaskSchedule(int id)
+        {
+            _repo.Delete(id);
+        }
     }    
 }

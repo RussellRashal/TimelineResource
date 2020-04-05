@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Schedular.API.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Schedular.API.Data
 {
@@ -9,7 +10,8 @@ namespace Schedular.API.Data
     {
       void Add<T>(T entity) where T: class;
       TaskSchedule Update(int id, TaskSchedule taskSchedule);
-      void Delete<T>(T entity) where T: class;
+      void Delete(int id);
+  
 
       //"task" returns type task object, executes asyncrhonous on a thread
       //IEnumerable loops over a collection of classes

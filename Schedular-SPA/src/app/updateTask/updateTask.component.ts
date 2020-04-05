@@ -150,6 +150,10 @@ export class UpdateTaskComponent implements OnInit {
       });
   }
 
+  deleteTask() {
+    console.log(this.taskScheduleData.event.id);
+  }
+
 }
 
 

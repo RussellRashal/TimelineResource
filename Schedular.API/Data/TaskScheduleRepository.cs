@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Schedular.API.Models;
 using Schedular.API.Data;
 using System.Linq;
-
+using Microsoft.AspNetCore.Mvc;
 
 namespace Schedular.API.Data
 {
@@ -37,12 +37,14 @@ namespace Schedular.API.Data
 
             return TaskScheduleDb;
 
-        }
+        }    
 
-        //delete data from the database
-        public void Delete<T>(T entity) where T : class
+        // Delete data
+
+        public void Delete(int id)
         {
-           _context.Remove(entity);
+            _context.TaskSchedules.Remove(_context.TaskSchedules.FirstOrDefault(t => t.Id == id));
+            _context.SaveChanges();        
         }
 
         //get individual taskschedules data
@@ -85,6 +87,6 @@ namespace Schedular.API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-
+ 
     }
 }
