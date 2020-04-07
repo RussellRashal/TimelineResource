@@ -43,7 +43,8 @@ namespace Schedular.API.Data
 
         public void Delete(int id)
         {
-            _context.TaskSchedules.Remove(_context.TaskSchedules.FirstOrDefault(t => t.Id == id));
+            _context.TaskSchedules.Remove(_context.TaskSchedules
+                .FirstOrDefault(t => t.Id == id));
             _context.SaveChanges();        
         }
 
@@ -58,7 +59,7 @@ namespace Schedular.API.Data
             return taskSchedule;
         }
 
-        //get all data of taskschedules
+        //get all data of taskSchedules
         public async Task<IEnumerable<TaskSchedule>> GetTasks()
         {
             var taskSchedule = await _context.TaskSchedules

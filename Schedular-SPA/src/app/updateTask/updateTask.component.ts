@@ -145,6 +145,7 @@ export class UpdateTaskComponent implements OnInit {
       this.taskScheduleData.event.id,
       this.putServiceTaskSchedule).subscribe(next => {
         console.log('success');
+        this.router.navigate(['/cal']);
       }, error => {
         console.log('error POST did not go through: ' + error);
       });
@@ -154,6 +155,7 @@ export class UpdateTaskComponent implements OnInit {
     console.log(this.taskScheduleData.event.id);
     this.taskScheduleService.deleteTaskSchedule(this.taskScheduleData.event.id).subscribe(next => {
       console.log('Deleted');
+      this.router.navigate(['/cal']);
     }, error => {
       console.log('unable to delete');
     });

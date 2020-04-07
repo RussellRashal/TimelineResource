@@ -3,6 +3,7 @@ import { StateStorageService } from '../_services/stateStorage.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TaskSchedule } from '../_models/taskSchedule';
 import { TaskScheduleService } from '../_services/taskSchedule.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-task',
@@ -24,7 +25,8 @@ export class AddTaskComponent implements OnInit {
 
   constructor(
     private stateStorageService: StateStorageService,
-    private taskScheduleService: TaskScheduleService) { }
+    private taskScheduleService: TaskScheduleService,
+    private router: Router) { }
 
   ngOnInit() {
     // get staff from storageService
@@ -86,6 +88,7 @@ export class AddTaskComponent implements OnInit {
 
     this.taskScheduleService.postTaskSchedule(this.postServiceTaskSchedule).subscribe(next => {
         console.log('success');
+        this.router.navigate(['/cal']);
       }, error => {
         console.log('error POST did not go through: ' + error);
       });

@@ -9,6 +9,7 @@ namespace Schedular.API.Data
         
         public DbSet<TaskSchedule> TaskSchedules { get; set; }
         public DbSet<Staff> Staffs { get; set; }
+        public DbSet<UserAccount> UserAccounts { get; set; }
     }
 }
 

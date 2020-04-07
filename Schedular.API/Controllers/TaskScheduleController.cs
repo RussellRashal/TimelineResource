@@ -41,7 +41,7 @@ namespace Schedular.API.Controllers
             
         }
 
-        [HttpPost]
+        [HttpPost]        
         public async Task<IActionResult> PostSchedule(TaskSchedule taskSchedule)
         {
              _repo.Add(taskSchedule);  
