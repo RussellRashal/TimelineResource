@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Schedular.API.Data;
 using Schedular.API.Models;
@@ -7,6 +8,7 @@ using Schedular.API.Models;
 
 namespace Schedular.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController] 
     public class TaskScheduleController : ControllerBase

@@ -11,7 +11,6 @@ namespace Schedular.API.Helpers
         {
             CreateMap<UserAccountRegisterDto, UserAccount>();
             CreateMap<UserAccount, UserAccountReturnDto>();
-
         }
     }
 }

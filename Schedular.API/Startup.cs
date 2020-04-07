@@ -35,6 +35,7 @@ namespace Schedular.API
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddCors();
+            //allows use of tokens
             services.AddControllers().AddNewtonsoftJson(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling =
@@ -49,9 +50,8 @@ namespace Schedular.API
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddScoped<ITaskScheduleRepository, TaskScheduleRepository>();
-            services.AddScoped<IStaffRepository, StaffRepository>();
-            services.AddScoped<IUserAccountRepository, UserAccountRepository>();
+
+            // allows api to use authentication 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -63,6 +63,11 @@ namespace Schedular.API
                         ValidateAudience = false
                     };
                 });   
+
+            
+            services.AddScoped<ITaskScheduleRepository, TaskScheduleRepository>();
+            services.AddScoped<IStaffRepository, StaffRepository>();
+            services.AddScoped<IUserAccountRepository, UserAccountRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,15 +80,12 @@ namespace Schedular.API
 
             //app.UseHttpsRedirection();
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
             app.UseRouting();
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

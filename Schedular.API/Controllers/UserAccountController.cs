@@ -22,7 +22,7 @@ namespace Schedular.API.Controllers
         private readonly IMapper _mapper;
         public UserAccountController(IUserAccountRepository repo, IConfiguration config, IMapper mapper)
         {
-            _mapper = mapper; // for main photo on nav bar 
+            _mapper = mapper;
             _config = config;
             _repo = repo;
         }
@@ -106,9 +106,7 @@ namespace Schedular.API.Controllers
             return Ok(new
             {
                 token = tokenHandler.WriteToken(token),
-                //to allow main photo to be updated on nav bar without needing multiple API requests
-                //this will pass down the user information alongside the token, so not inside the token. 
-                
+                //this will pass down the user information alongside the token, so not inside the token.                
                 user.Id
             });
         }
