@@ -13,9 +13,12 @@
       </li>
 
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="username">
-      <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="password">
+    <form class="form-inline my-2 my-lg-0" [formGroup]="loginReactiveForm" 
+      (ngSubmit)="login()">
+      <input formControlName="username" class="form-control mr-sm-2" 
+        type="text" placeholder="Username" aria-label="username">
+      <input formControlName="password" class="form-control mr-sm-2" 
+        type="password" placeholder="Password" aria-label="password">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
     </form>
 </nav>

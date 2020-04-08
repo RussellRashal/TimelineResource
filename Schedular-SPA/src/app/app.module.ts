@@ -1,9 +1,14 @@
+import { AuthService } from './_services/auth.service';
+import { TaskScheduleService } from './_services/taskSchedule.service';
+import { StateStorageService } from './_services/stateStorage.service';
+import { EventService } from './_services/Event.service';
+import { StaffMemberService } from './_services/staffMember.service';
 // my created components
 import { TestTaskComponent } from './TestTask/TestTask.component';
 import { NavigationBarComponent } from './navigationBar/navigationBar.component';
 import { CalendarViewComponent } from './CalendarView/CalendarView.component';
 
-// other angular components 
+// other angular components
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -94,7 +99,12 @@ return localStorage.getItem('token');
       }),
    ],
    providers: [
+      AuthService,
       StaffLoaderResolver,
+      EventService,
+      StaffMemberService,
+      StateStorageService,
+      TaskScheduleService,
       DatePipe
    ],
    bootstrap: [AppComponent]
