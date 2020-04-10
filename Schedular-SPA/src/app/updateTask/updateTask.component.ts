@@ -57,6 +57,9 @@ export class UpdateTaskComponent implements OnInit {
     this.dropDownTimeList();
     this.initForm();
 
+    console.log('end time converted ' + this.hourEndTimeConvert);
+    console.log('true end time ' + this.taskScheduleData.event.end);
+
   }
 
   initForm() {
@@ -90,10 +93,10 @@ export class UpdateTaskComponent implements OnInit {
     this.startDateConvert = this.datePipe.transform(this.currentStartTimeDate, 'yyyy-MM-dd');
     this.endDateConvert = this.datePipe.transform(this.currentEndTimeDate, 'yyyy-MM-dd');
     // convert the start time
-    this.hourStartTimeConvert = this.datePipe.transform(this.currentStartTimeDate, 'h');
+    this.hourStartTimeConvert = this.datePipe.transform(this.currentStartTimeDate, 'H');
     this.minuteStartTimeConvert = this.datePipe.transform(this.currentStartTimeDate, 'mm');
     // convert the end time
-    this.hourEndTimeConvert = this.datePipe.transform(this.currentEndTimeDate, 'h');
+    this.hourEndTimeConvert = this.datePipe.transform(this.currentEndTimeDate, 'H');
     this.minuteEndTimeConvert = this.datePipe.transform(this.currentEndTimeDate, 'mm');
   }
 
@@ -133,8 +136,8 @@ export class UpdateTaskComponent implements OnInit {
 
     this.putServiceTaskSchedule = {
       title: this.profileForm.value.taskTextArea,
-      start: new Date(this.returnedStartDateAndTime),
-      end: new Date(this.returnedEndDateAndTime),
+      start: this.returnedStartDateAndTime,
+      end: this.returnedEndDateAndTime,
       staffId: Number(this.profileForm.value.staffName)
     };
 
