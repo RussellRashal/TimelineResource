@@ -13,7 +13,7 @@ export class EventService {
   constructor(private http: HttpClient) { }
 
   getEvents(idOfStaff) {
-    return this.http.get(this.baseUrl + '/' + idOfStaff)
+    return this.http.get(this.baseUrl + '/byStaff/' + idOfStaff)
                 .toPromise()
                 .then(res => res as any[])
                 .then(data => data);

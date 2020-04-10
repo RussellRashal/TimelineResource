@@ -1,9 +1,16 @@
-<mat-drawer-container class="example-container">
+<mat-drawer-container *ngIf="loggedIn()" class="example-container">
     <mat-drawer mode="side" opened>
         <app-sidebar (StaffButtonClick)="runCalendarData($event)"></app-sidebar>
     </mat-drawer>
     <mat-drawer-content>
         <p-fullCalendar [events]="events" [options]="options"></p-fullCalendar>
     </mat-drawer-content>
-  </mat-drawer-container>
+</mat-drawer-container>
+
+<div *ngIf="!loggedIn()" class="loggedout">
+    <label>
+        Please login
+    </label>
+</div>
+
 

@@ -10,15 +10,22 @@ import { Observable } from 'rxjs';
 export class TaskScheduleService {
   baseUrl = environment.apiUrl + 'TaskSchedule';
 
+
   constructor(private http: HttpClient) { }
 
   // return an array of taskScehdule
-  getTaskSchedule(): Observable<TaskSchedule[]> {
+  getTaskSchedules(): Observable<TaskSchedule[]> {
     return this.http.get<TaskSchedule[]>(this.baseUrl);
   }
 
-  putTaskSchedule(id: number, taskSchedule: TaskSchedule): Observable<TaskSchedule> {
-    return this.http.put<TaskSchedule>(this.baseUrl + '/' + id, taskSchedule);
+  getTaskSchedule(id): Observable<TaskSchedule[]> {
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/' + id);
+  }
+
+  putTaskSchedule(id, taskSchedule) {
+    return this.http.put(this.baseUrl + '/' + id, taskSchedule);
+    // return taskSchedule;
+
   }
 
   postTaskSchedule(taskSchedule: TaskSchedule): Observable<TaskSchedule> {
@@ -26,11 +33,11 @@ export class TaskScheduleService {
   }
 
   getTaskSchedulesByStaffId(id): Observable<TaskSchedule[]> {
-    return this.http.get<TaskSchedule[]>(this.baseUrl + '/' + id);
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byStaff/' + id);
   }
 
-  deleteTaskSchedule(id): Observable<TaskSchedule[]> {
-    return this.http.delete<TaskSchedule[]>(this.baseUrl + '/' + id);
+  deleteTaskSchedule(id) {
+    return this.http.delete(this.baseUrl + '/' + id);
   }
 
 }

@@ -35,7 +35,6 @@ import { AddTaskComponent } from './addTask/addTask.component';
 import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
-import { EditTaskComponent } from './editTask/editTask.component';
 
 // angular material
 import {MatSelectModule} from '@angular/material/select';
@@ -45,12 +44,13 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import { TimePickerComponent } from './timePicker/timePicker.component';
+import { FullCalendarComponent } from './FullCalendar/FullCalendar.component';
+import { TaskSchedularLoaderResolver } from './_resolvers/task-schedular-loader.resolver';
 
 
-
+// needed to send the token back to the api server for authentication
 export function tokengetter() {
-   // get token from browser to input into the jwtModule tokenGetter, see below
-return localStorage.getItem('token');
+   return localStorage.getItem('token');
 }
 
 @NgModule({
@@ -62,8 +62,8 @@ return localStorage.getItem('token');
       AddTaskComponent,
       UpdateTaskComponent,
       SidebarComponent,
-      EditTaskComponent,
-      TimePickerComponent
+      TimePickerComponent,
+      FullCalendarComponent
    ],
    imports: [
       CommonModule,
@@ -96,16 +96,12 @@ return localStorage.getItem('token');
             whitelistedDomains: ['localhost:5000'],
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
-      }),
+    }),
    ],
    providers: [
-      AuthService,
-      StaffLoaderResolver,
-      EventService,
-      StaffMemberService,
-      StateStorageService,
-      TaskScheduleService,
-      DatePipe
+    StaffLoaderResolver,
+    TaskSchedularLoaderResolver,
+    DatePipe
    ],
    bootstrap: [AppComponent]
 })

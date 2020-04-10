@@ -1,7 +1,7 @@
 export interface TaskSchedule {
     id?: number;
     title: string;
-    start: Date;
-    end: Date;
+    start: any;
+    end: any;
     staffId?: number;
 }

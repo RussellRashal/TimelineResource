@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Schedular.API.Data;
 using Schedular.API.Models;
-
+using Schedular.API.Dtos;
+using AutoMapper;
 
 namespace Schedular.API.Controllers
 {
@@ -15,26 +16,40 @@ namespace Schedular.API.Controllers
     {   
         //initialise the taskschedule repository    
         private readonly ITaskScheduleRepository _repo;
+         private readonly IMapper _mapper;
+
 
         // add DTO code here 
         //contructor to use private _repo
-        public TaskScheduleController(ITaskScheduleRepository repo)
+        public TaskScheduleController(ITaskScheduleRepository repo, IMapper mapper)
         {
+            _mapper = mapper;
             _repo = repo;
             // add DTO code here 
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTaskSchedule()
+        public async Task<IActionResult> GetTaskSchedules()
         {
-            var taskschedule = await _repo.GetTasks();
+            var taskschedules = await _repo.GetTasks();
 
             // add DTO code here 
 
-            return Ok(taskschedule);
+            return Ok(taskschedules);
         }
 
         [HttpGet("{id}")]
+        public async Task<IActionResult> GetTaskSchedule(int id)
+        {
+            var taskSchedule = await _repo.GetTask(id);
+            // below code fot DTO
+            // var taskSceduleReturn = _mapper.Map<getTaskScheduleDto>(taskSchedule);
+            
+            return Ok(taskSchedule);
+            
+        }
+
+        [HttpGet("byStaff/{id}")]
         public async Task<IActionResult> GetUserTaskSchedule(int id)
         {
             var taskUserSchedule = await _repo.GetTaskSchedulesByStaffId(id);
@@ -48,7 +63,7 @@ namespace Schedular.API.Controllers
         {
              _repo.Add(taskSchedule);  
 
-            //save to the database
+         //save to the database
             if(await _repo.SaveAll())
                 return Ok();   
             return BadRequest("Failed to save Schedule");   

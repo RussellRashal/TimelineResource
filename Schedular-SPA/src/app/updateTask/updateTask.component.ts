@@ -161,7 +161,15 @@ export class UpdateTaskComponent implements OnInit {
     });
   }
 
+   // has the user logged in
+   loggedIn() {
+    const token = localStorage.getItem('token');
+    return !!token;
+  }
+
+  loggedOut() {
+    const token = localStorage.removeItem('token');
+    console.log('logged out');
+  }
+
 }
-
-
-

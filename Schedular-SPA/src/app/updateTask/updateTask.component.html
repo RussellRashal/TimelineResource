@@ -1,4 +1,4 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+<form *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
   <div>
     <label>Staff Name</label>      
     <select formControlName="staffName">
@@ -61,7 +61,7 @@
   </div>   
   <button type="submit" class="btn btn-primary">Update</button>
 </form>
-<button type="button" class="btn btn-primary" (click)="deleteTask()">Delete</button>
+<button *ngIf="loggedIn()" type="button" class="btn btn-primary" (click)="deleteTask()">Delete</button>
 
 
 

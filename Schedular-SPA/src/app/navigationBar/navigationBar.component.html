@@ -1,19 +1,24 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
 
-    <ul class="navbar-nav mr-auto">
+    <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['/cal']">Schedule 
+        <a class="nav-link" [routerLink]="['/cal']">Home 
           <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/addTask']">Add Task</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/updateTask']">Update</a>
-      </li>
-
     </ul>
-    <form class="form-inline my-2 my-lg-0" [formGroup]="loginReactiveForm" 
+
+    <ul *ngIf="!loggedIn()" class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link">
+          <span class="sr-only"></span></a>
+      </li>      
+    </ul>   
+    
+    
+    <form *ngIf="!loggedIn()" class="form-inline my-2 my-lg-0" [formGroup]="loginReactiveForm" 
       (ngSubmit)="login()">
       <input formControlName="username" class="form-control mr-sm-2" 
         type="text" placeholder="Username" aria-label="username">
@@ -21,6 +26,9 @@
         type="password" placeholder="Password" aria-label="password">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
     </form>
+
+    <button *ngIf="loggedIn()" class="btn btn-outline-success my-2 my-sm-0" 
+      type="submit" (click)="loggedOut()">Log Out</button>
 </nav>
 
 

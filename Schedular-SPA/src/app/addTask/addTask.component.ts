@@ -20,9 +20,6 @@ export class AddTaskComponent implements OnInit {
   postServiceTaskSchedule: TaskSchedule;
   currentUserData;
 
-
-
-
   constructor(
     private stateStorageService: StateStorageService,
     private taskScheduleService: TaskScheduleService,
@@ -78,8 +75,8 @@ export class AddTaskComponent implements OnInit {
 
     this.postServiceTaskSchedule = {
       title: this.profileForm.value.taskTextArea,
-      start: new Date(this.returnedStartDateAndTime),
-      end: new Date(this.returnedEndDateAndTime),
+      start: this.returnedStartDateAndTime,
+      end: this.returnedEndDateAndTime,
       staffId: Number(this.profileForm.value.staffName)
     };
 
@@ -91,6 +88,17 @@ export class AddTaskComponent implements OnInit {
         this.router.navigate(['/cal']);
       }, error => {
         console.log('error POST did not go through: ' + error);
-      });
+    });
+  }
+
+  // has the user logged in
+  loggedIn() {
+    const token = localStorage.getItem('token');
+    return !!token;
+  }
+
+  loggedOut() {
+    const token = localStorage.removeItem('token');
+    console.log('logged out');
   }
 }

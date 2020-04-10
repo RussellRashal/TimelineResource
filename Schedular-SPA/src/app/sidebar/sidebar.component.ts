@@ -13,6 +13,7 @@ export class SidebarComponent implements OnInit {
   // goes to the calendar view for sharing data between components
   // <app-sidebar (StaffButtonClick)="runCalendarData($event)">
   @Output() StaffButtonClick = new EventEmitter<number>();
+
   constructor(
     private route: ActivatedRoute,
     private stateStorageService: StateStorageService) { }
