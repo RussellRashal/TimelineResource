@@ -5,6 +5,7 @@ using Schedular.API.Models;
 using Schedular.API.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Schedular.API.Data
 {
@@ -88,6 +89,29 @@ namespace Schedular.API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
- 
+        public async Task<TimeSpan> GetTaskSchedulesOfHoursWorked(int id, DateTime startDate, DateTime endDate)
+        {
+            DateTime endDateAdjust = endDate.AddDays(1);
+            var taskSchedulesWorked = await _context.TaskSchedules
+                .Where(s => s.staffId == id)
+                .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
+                .ToListAsync();
+
+            // get hours worked            
+            TimeSpan HoursInTask;
+            TimeSpan HoursWorked = TimeSpan.Zero;
+            int count = 0;
+
+            foreach(var task in taskSchedulesWorked) 
+            {
+                
+                HoursInTask = taskSchedulesWorked[count].End - taskSchedulesWorked[count].Start;
+        
+                HoursWorked = HoursWorked.Add(HoursInTask);
+                count++;
+            }            
+
+            return HoursWorked;
+        }
     }
 }

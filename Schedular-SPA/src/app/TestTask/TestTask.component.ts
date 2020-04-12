@@ -28,13 +28,5 @@ export class TestTaskComponent implements OnInit {
   ngOnInit() {
 
   }
-
-  // getData() {
-  //   // this.taskId = this.stateStorageService.getCurrentTaskId();
-
-  //   this.taskScheduleService.getTaskSchedule(this.taskId).subscribe(data => {
-  //     this.taskSchedule = data;
-  //     console.log(this.taskSchedule.title);
-  //   });
-  // }
+ 
 }

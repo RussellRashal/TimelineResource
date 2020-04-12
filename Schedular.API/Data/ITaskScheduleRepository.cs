@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Schedular.API.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Schedular.API.Data
 {
@@ -21,6 +22,8 @@ namespace Schedular.API.Data
       //get an individual task 
       Task<TaskSchedule> GetTask(int id);    
       //get users task
-      Task<IList<TaskSchedule>> GetTaskSchedulesByStaffId(int id);      
+      Task<IList<TaskSchedule>> GetTaskSchedulesByStaffId(int id);  
+      Task<TimeSpan> GetTaskSchedulesOfHoursWorked(int id, DateTime startDate, DateTime endDate);      
+    
     }
 }
