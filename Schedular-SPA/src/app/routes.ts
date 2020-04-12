@@ -1,3 +1,4 @@
+import { HoursWorkedComponent } from './HoursWorked/HoursWorked.component';
 import { TaskSchedule } from './_models/taskSchedule';
 import { TestTaskComponent } from './TestTask/TestTask.component';
 import { Routes } from '@angular/router';
@@ -7,17 +8,15 @@ import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
 import { FullCalendarComponent } from './FullCalendar/FullCalendar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { TaskSchedularLoaderResolver } from './_resolvers/task-schedular-loader.resolver';
 
 export const appRoutes: Routes = [
     { path: 'cal', component: CalendarViewComponent,
         resolve: {StaffMemberModels: StaffLoaderResolver}},
-    { path: 'testTask', component: TestTaskComponent,
-        resolve: {TaskSchedule: TaskSchedularLoaderResolver}},
-    { path: 'addTask', component: AddTaskComponent},
-    { path: 'updateTask', component: UpdateTaskComponent,
-        resolve: {TaskSchedule: TaskSchedularLoaderResolver}},
+    { path: 'testtask', component: TestTaskComponent},
+    { path: 'addtask', component: AddTaskComponent},
+    { path: 'updatetask', component: UpdateTaskComponent},
     { path: 'fullcalendar', component: FullCalendarComponent},
+    { path: 'hoursworked', component: HoursWorkedComponent},
     { path: '', redirectTo: 'cal', pathMatch: 'full'}
 ];
 

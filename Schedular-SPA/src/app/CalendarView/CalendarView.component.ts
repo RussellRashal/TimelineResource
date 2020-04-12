@@ -68,7 +68,7 @@ export class CalendarViewComponent implements OnInit {
           // idOfClickedTask.event.start
           // idOfClickedTask.event.end
         this.stateStorageService.setStateStorage(idOfClickedTask, this.StaffMemberDetailsFromSideBar);
-        this.router.navigate(['/updateTask']);
+        this.router.navigate(['/updatetask']);
       }
     };
   }

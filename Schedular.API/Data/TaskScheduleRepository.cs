@@ -6,6 +6,7 @@ using Schedular.API.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Newtonsoft.Json.Linq;
 
 namespace Schedular.API.Data
 {
@@ -109,9 +110,12 @@ namespace Schedular.API.Data
         
                 HoursWorked = HoursWorked.Add(HoursInTask);
                 count++;
-            }            
+            }      
+            //JObject HoursWorkedJson = JObject.Parse(HoursWorked.ToString());
 
-            return HoursWorked;
+            //TimeSpan.ToDate(HoursInTask);
+
+            return HoursWorked;    
         }
     }
 }

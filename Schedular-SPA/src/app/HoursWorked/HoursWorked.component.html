@@ -1,0 +1,27 @@
+<form *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <label>Staff Name</label>      
+  <select formControlName="staffId">
+    <option *ngFor="let StaffMemberModel of StaffMemberModels"
+      [value]="StaffMemberModel.id"> 
+        {{StaffMemberModel.firstName}} {{StaffMemberModel.lastName}}
+    </option>      
+ </select>
+
+ <label>Date from</label>
+ <input type="date" formControlName="startDate">
+
+ <label>Date to</label>
+ <input type="date" formControlName="endDate">
+  
+  <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<label>The staff member above has worked: {{hoursWorked}} hours</label>
+
+
+
+
+
+
+
+

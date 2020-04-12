@@ -45,7 +45,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import { TimePickerComponent } from './timePicker/timePicker.component';
 import { FullCalendarComponent } from './FullCalendar/FullCalendar.component';
-import { TaskSchedularLoaderResolver } from './_resolvers/task-schedular-loader.resolver';
+import { HoursWorkedComponent } from './HoursWorked/HoursWorked.component';
 
 
 // needed to send the token back to the api server for authentication
@@ -63,7 +63,8 @@ export function tokengetter() {
       UpdateTaskComponent,
       SidebarComponent,
       TimePickerComponent,
-      FullCalendarComponent
+      FullCalendarComponent,
+      HoursWorkedComponent
    ],
    imports: [
       CommonModule,
@@ -96,17 +97,17 @@ export function tokengetter() {
             whitelistedDomains: ['localhost:5000'],
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
-    }),
+      }),
    ],
    providers: [
-    StaffLoaderResolver,
-    TaskSchedularLoaderResolver,
-    DatePipe
+      StaffLoaderResolver,
+      DatePipe
    ],
    bootstrap: [AppComponent]
 })
 export class AppModule { }
 export class MaterialModule {}
+
 
 
 
