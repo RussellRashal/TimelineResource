@@ -12,11 +12,12 @@ export class HoursWorkedComponent implements OnInit {
   profileForm: FormGroup;
   StaffMemberModels;
   hoursWorked;
+  HoursWorkedStr;
+  MinuteWorkedStr;
 
   constructor(
     private stateStorageService: StateStorageService,
-    private hoursWorkedService: HoursWorkedService
-  ) { }
+    private hoursWorkedService: HoursWorkedService) { }
 
   ngOnInit() {
     this.StaffMemberModels = this.stateStorageService.getStaffMemberStorage();
@@ -31,7 +32,9 @@ export class HoursWorkedComponent implements OnInit {
       this.profileForm.value.endDate
     ).subscribe((data) => {
       this.hoursWorked = data;
-      console.log(this.hoursWorked);
+      this.HoursWorkedStr = this.hoursWorked.toString().slice(0, 2);
+      this.MinuteWorkedStr = this.hoursWorked.toString().slice(3, 5);
+      console.log('hour ' + this.HoursWorkedStr + ' minute' + this.MinuteWorkedStr);
     });
 
 

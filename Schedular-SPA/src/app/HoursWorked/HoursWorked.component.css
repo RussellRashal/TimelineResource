@@ -1,0 +1,11 @@
+.mainForm {
+    width: 40%;
+    height: 5%;
+    margin: auto;
+    position: center;    
+    }
+
+.timeText {
+    color: black;
+    font-size: x-large;
+}

@@ -54,8 +54,7 @@ namespace Schedular.API.Controllers
         [HttpGet("{id}/{startDate}/{endDate}")]
         public async Task<IActionResult> GetTaskScheduleofHoursWorked(int id, DateTime startDate, DateTime endDate)
         {
-            var HoursWorked = await _repo.GetTaskSchedulesOfHoursWorked(id, startDate, endDate);
-            
+            var HoursWorked = await _repo.GetTaskSchedulesOfHoursWorked(id, startDate, endDate);            
             
             return Ok(HoursWorked);
             
