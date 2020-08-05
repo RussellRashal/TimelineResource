@@ -9,8 +9,8 @@ namespace Schedular.API.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<UserAccountRegisterDto, UserAccount>();
-            CreateMap<UserAccount, UserAccountReturnDto>();
+            CreateMap<UserForRegisterDto, User>();
+            CreateMap<User, UserForReturnDto>();
             CreateMap<TaskSchedule, getTaskScheduleDto>();
         }
     }

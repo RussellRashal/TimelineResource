@@ -110,11 +110,7 @@ namespace Schedular.API.Data
         
                 HoursWorked = HoursWorked.Add(HoursInTask);
                 count++;
-            }      
-            //JObject HoursWorkedJson = JObject.Parse(HoursWorked.ToString());
-
-            //TimeSpan.ToDate(HoursInTask);
-
+            } 
             return HoursWorked;    
         }
     }

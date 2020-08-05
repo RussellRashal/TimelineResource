@@ -10,7 +10,6 @@ using System;
 
 namespace Schedular.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController] 
     public class TaskScheduleController : ControllerBase
@@ -29,6 +28,7 @@ namespace Schedular.API.Controllers
             // add DTO code here 
         }
 
+        [Authorize(Policy ="AdminAccess")]
         [HttpGet]
         public async Task<IActionResult> GetTaskSchedules()
         {
@@ -43,8 +43,6 @@ namespace Schedular.API.Controllers
         public async Task<IActionResult> GetTaskSchedule(int id)
         {
             var taskSchedule = await _repo.GetTask(id);
-            // below code fot DTO
-            // var taskSceduleReturn = _mapper.Map<getTaskScheduleDto>(taskSchedule);
             
             return Ok(taskSchedule);
             

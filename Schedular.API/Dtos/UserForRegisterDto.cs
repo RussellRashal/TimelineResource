@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Schedular.API.Dtos
 {
-    public class UserAccountRegisterDto
+    public class UserForRegisterDto
     {
         // [Required]
         public string Username { get; set; }
