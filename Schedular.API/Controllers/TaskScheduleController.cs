@@ -10,6 +10,7 @@ using System;
 
 namespace Schedular.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController] 
     public class TaskScheduleController : ControllerBase
