@@ -4,7 +4,7 @@ using Schedular.API.Models;
 
 namespace Schedular.API.Models
 {
-    public class AspNetUserStaffLink
+    public class UserStaff
     {
         public User Users { get; set; }
         public int UserId { get; set; }        

@@ -7,6 +7,7 @@ using Schedular.API.Models;
 using Schedular.API.Dtos;
 using AutoMapper;
 using System;
+using System.Security.Claims;
 
 namespace Schedular.API.Controllers
 {
@@ -40,12 +41,20 @@ namespace Schedular.API.Controllers
             return Ok(taskschedules);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetTaskSchedule(int id)
+        [HttpGet("{staffId}")]
+        //public async Task<IActionResult> GetTaskSchedule(int staffId)
+        public async Task<IActionResult> GetTaskSchedule(int staffId)
         {
-            var taskSchedule = await _repo.GetTask(id);
-            
-            return Ok(taskSchedule);
+            //is user allowed to access schedule, get User account ID to see if it matches in the aspnetUserStaff link table
+            var UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            bool isUserAllowedAccessToStaff = _repo.isUserStaffAllowed(staffId, UserId);
+
+            if(isUserAllowedAccessToStaff == true)
+            {
+                var taskSchedule = await _repo.GetTask(staffId);
+                return Ok(taskSchedule);
+            }
+            return Unauthorized();            
             
         }
 

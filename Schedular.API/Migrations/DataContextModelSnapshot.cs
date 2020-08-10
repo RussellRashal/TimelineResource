@@ -100,21 +100,6 @@ namespace Schedular.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Schedular.API.Models.AspNetUserStaffLink", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("StaffId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("UserId", "StaffId");
-
-                    b.HasIndex("StaffId");
-
-                    b.ToTable("AspNetUserStaffLink");
-                });
-
             modelBuilder.Entity("Schedular.API.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -264,6 +249,21 @@ namespace Schedular.API.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("Schedular.API.Models.UserStaff", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId", "StaffId");
+
+                    b.HasIndex("StaffId");
+
+                    b.ToTable("UserStaffs");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Schedular.API.Models.Role", null)
@@ -300,21 +300,6 @@ namespace Schedular.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Schedular.API.Models.AspNetUserStaffLink", b =>
-                {
-                    b.HasOne("Schedular.API.Models.Staff", "Staffs")
-                        .WithMany("AspNetUserStaffLinks")
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Schedular.API.Models.User", "Users")
-                        .WithMany("AspNetUserStaffLinks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Schedular.API.Models.TaskSchedule", b =>
                 {
                     b.HasOne("Schedular.API.Models.Staff", "staffs")
@@ -334,6 +319,21 @@ namespace Schedular.API.Migrations
 
                     b.HasOne("Schedular.API.Models.User", "User")
                         .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Schedular.API.Models.UserStaff", b =>
+                {
+                    b.HasOne("Schedular.API.Models.Staff", "Staffs")
+                        .WithMany("UserStaffs")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Schedular.API.Models.User", "Users")
+                        .WithMany("UserStaffs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

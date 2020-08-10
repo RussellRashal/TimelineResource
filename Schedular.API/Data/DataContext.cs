@@ -13,7 +13,7 @@ namespace Schedular.API.Data
         
         public DbSet<TaskSchedule> TaskSchedules { get; set; }
         public DbSet<Staff> Staffs { get; set; }
-        
+        public DbSet<UserStaff> UserStaffs { get; set; }        
 
          protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,19 +35,19 @@ namespace Schedular.API.Data
             });
 
             // link table primary keys for AspNetUserStaffLinkTbl
-            builder.Entity<AspNetUserStaffLink>(AspNetUserStaffLink => 
+            builder.Entity<UserStaff>(UserStaff => 
             {
-                AspNetUserStaffLink.HasKey(ur => new {ur.UserId, ur.StaffId});
+                UserStaff.HasKey(ur => new {ur.UserId, ur.StaffId});
 
-                AspNetUserStaffLink
+                UserStaff
                     .HasOne(ur => ur.Staffs)
-                    .WithMany(a => a.AspNetUserStaffLinks)
+                    .WithMany(a => a.UserStaffs)
                     .HasForeignKey(asl => asl.StaffId)
                     .IsRequired();
                 
-                 AspNetUserStaffLink
+                 UserStaff
                     .HasOne(ur => ur.Users)
-                    .WithMany(a => a.AspNetUserStaffLinks)
+                    .WithMany(a => a.UserStaffs)
                     .HasForeignKey(asl => asl.UserId)
                     .IsRequired();
             });

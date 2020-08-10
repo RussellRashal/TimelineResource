@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Newtonsoft.Json.Linq;
+using System.Security.Claims;
 
 namespace Schedular.API.Data
 {
@@ -51,15 +52,31 @@ namespace Schedular.API.Data
         }
 
         //get individual taskschedules data
-        public async Task<TaskSchedule> GetTask(int id)
-        {
+        public async Task<TaskSchedule> GetTask(int staffId)
+        {    
             //remember to add users with linq include
             var taskSchedule = await _context.TaskSchedules
-                .Include(s => s.staffs)
-                .FirstOrDefaultAsync(u => u.Id == id);
+            .Include(s => s.staffs)
+            .FirstOrDefaultAsync(u => u.Id == staffId);
 
-            return taskSchedule;
-        }
+            return taskSchedule;  
+        }        
+
+        // is the user allowed to access the staff members table. do a query search on the userStaff link table
+        public bool isUserStaffAllowed(int staffId, int userId)
+        {
+             var UserStaffMatch =  _context.UserStaffs
+                .Where(u => u.UserId == userId)
+                .Where(s => s.StaffId == staffId)
+                .Any(); 
+
+            if(UserStaffMatch)
+            {
+                return true;
+            }
+            return false;
+         }
+
 
         //get all data of taskSchedules
         public async Task<IEnumerable<TaskSchedule>> GetTasks()

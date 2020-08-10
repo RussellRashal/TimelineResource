@@ -8,7 +8,7 @@ namespace Schedular.API.Models
         // connect User table to the userRole join table. the below configure the relationship
         public virtual ICollection<UserRole> UserRoles {get; set;}
         // connect AspNetUserStaffLink table to the aspnetUser table
-        public virtual ICollection<AspNetUserStaffLink> AspNetUserStaffLinks {get; set;}
+        public virtual ICollection<UserStaff> UserStaffs {get; set;}
 
     }
 }

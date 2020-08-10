@@ -9,8 +9,8 @@ using Schedular.API.Data;
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200802174029_IdentityInitial")]
-    partial class IdentityInitial
+    [Migration("20200810212806_Initialmigration")]
+    partial class Initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -251,6 +251,21 @@ namespace Schedular.API.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("Schedular.API.Models.UserStaff", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId", "StaffId");
+
+                    b.HasIndex("StaffId");
+
+                    b.ToTable("UserStaffs");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Schedular.API.Models.Role", null)
@@ -306,6 +321,21 @@ namespace Schedular.API.Migrations
 
                     b.HasOne("Schedular.API.Models.User", "User")
                         .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Schedular.API.Models.UserStaff", b =>
+                {
+                    b.HasOne("Schedular.API.Models.Staff", "Staffs")
+                        .WithMany("UserStaffs")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Schedular.API.Models.User", "Users")
+                        .WithMany("UserStaffs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

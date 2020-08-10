@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Schedular.API.Migrations
 {
-    public partial class IdentityInitial : Migration
+    public partial class Initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,11 +12,7 @@ namespace Schedular.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                     .Annotation("MySql:ValueGenerationStategy", 
-                     MySqlValueGenerationStrategy.IdentityColumn)
-                    .Annotation("sqlServer:ValueGenerationStategy", 
-                     MySqlValueGenerationStrategy.IdentityColumn)
-                    .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -32,10 +27,6 @@ namespace Schedular.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStategy", 
-                        MySqlValueGenerationStrategy.IdentityColumn)
-                        .Annotation("sqlServer:ValueGenerationStategy", 
-                        MySqlValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
@@ -62,11 +53,7 @@ namespace Schedular.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                    .Annotation("MySql:ValueGenerationStategy", 
-                     MySqlValueGenerationStrategy.IdentityColumn)
-                    .Annotation("sqlServer:ValueGenerationStategy", 
-                     MySqlValueGenerationStrategy.IdentityColumn)
-                    .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true)
                 },
@@ -80,10 +67,6 @@ namespace Schedular.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStategy", 
-                        MySqlValueGenerationStrategy.IdentityColumn)
-                        .Annotation("sqlServer:ValueGenerationStategy", 
-                        MySqlValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     RoleId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
@@ -105,10 +88,6 @@ namespace Schedular.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStategy", 
-                        MySqlValueGenerationStrategy.IdentityColumn)
-                        .Annotation("sqlServer:ValueGenerationStategy", 
-                        MySqlValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
@@ -194,10 +173,6 @@ namespace Schedular.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStategy", 
-                        MySqlValueGenerationStrategy.IdentityColumn)
-                        .Annotation("sqlServer:ValueGenerationStategy", 
-                        MySqlValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
                     Start = table.Column<DateTime>(nullable: false),
@@ -211,6 +186,30 @@ namespace Schedular.API.Migrations
                         name: "FK_TaskSchedules_Staffs_staffId",
                         column: x => x.staffId,
                         principalTable: "Staffs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserStaffs",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    StaffId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserStaffs", x => new { x.UserId, x.StaffId });
+                    table.ForeignKey(
+                        name: "FK_UserStaffs_Staffs_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "Staffs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserStaffs_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -256,6 +255,11 @@ namespace Schedular.API.Migrations
                 name: "IX_TaskSchedules_staffId",
                 table: "TaskSchedules",
                 column: "staffId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserStaffs_StaffId",
+                table: "UserStaffs",
+                column: "StaffId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -279,13 +283,16 @@ namespace Schedular.API.Migrations
                 name: "TaskSchedules");
 
             migrationBuilder.DropTable(
+                name: "UserStaffs");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Staffs");
 
             migrationBuilder.DropTable(
-                name: "Staffs");
+                name: "AspNetUsers");
         }
     }
 }

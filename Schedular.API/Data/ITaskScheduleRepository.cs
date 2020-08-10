@@ -20,7 +20,9 @@ namespace Schedular.API.Data
       // get all tasks        
       Task<IEnumerable<TaskSchedule>> GetTasks();
       //get an individual task 
-      Task<TaskSchedule> GetTask(int id);    
+      Task<TaskSchedule> GetTask(int staffId);   
+      bool isUserStaffAllowed(int staffId, int UserId);
+ 
       //get users task
       Task<IList<TaskSchedule>> GetTaskSchedulesByStaffId(int id);  
       Task<TimeSpan> GetTaskSchedulesOfHoursWorked(int id, DateTime startDate, DateTime endDate);      
