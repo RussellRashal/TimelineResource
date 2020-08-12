@@ -59,7 +59,7 @@ namespace Schedular.API.Data
                 .Include(s => s.staffs)
                 .Where(s => s.staffId == staffId)
                 .ToListAsync();
-                
+
             return taskSchedule;  
         }        
 

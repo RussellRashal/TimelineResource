@@ -46,9 +46,17 @@ namespace Schedular.API.Controllers
         public async Task<IActionResult> GetTaskSchedule(int staffId)
         {
             //get userId from the jwt token
-            var UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
+
+
             // is the user allowed access to the staff table
             bool isUserAllowedAccessToStaff = _repo.isUserStaffAllowed(staffId, UserId);
+            // if user is in admin or manager role allow access 
+            if(User.IsInRole("Admin") || User.IsInRole("Manager"))
+            {
+                isUserAllowedAccessToStaff = true;
+            }
+
             // if they are return the tasks for that staff member
             if(isUserAllowedAccessToStaff == true)
             {
