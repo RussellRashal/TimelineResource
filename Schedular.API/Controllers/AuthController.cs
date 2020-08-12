@@ -64,10 +64,13 @@ namespace Schedular.API.Controllers
             var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
             // if username and password match
             if (result.Succeeded)
-            {    
+            {   
+                var userToReturn = _mapper.Map<UserForReturnDto>(user); 
                 return Ok(new
                 {
-                    token = GenerateJwtToken(user)
+                    token = GenerateJwtToken(user).Result,
+                    user = userToReturn
+
                 });
             }
             return Unauthorized(); //if username and password are incorrect return unauthorised

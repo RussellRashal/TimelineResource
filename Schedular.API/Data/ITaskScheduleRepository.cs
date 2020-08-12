@@ -20,7 +20,7 @@ namespace Schedular.API.Data
       // get all tasks        
       Task<IEnumerable<TaskSchedule>> GetTasks();
       //get an individual task 
-      Task<TaskSchedule> GetTask(int staffId);   
+      Task<IEnumerable<TaskSchedule>> GetTask(int staffId);   
       bool isUserStaffAllowed(int staffId, int UserId);
  
       //get users task

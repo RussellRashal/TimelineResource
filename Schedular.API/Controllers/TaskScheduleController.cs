@@ -45,10 +45,11 @@ namespace Schedular.API.Controllers
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
         public async Task<IActionResult> GetTaskSchedule(int staffId)
         {
-            //is user allowed to access schedule, get User account ID to see if it matches in the aspnetUserStaff link table
+            //get userId from the jwt token
             var UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            // is the user allowed access to the staff table
             bool isUserAllowedAccessToStaff = _repo.isUserStaffAllowed(staffId, UserId);
-
+            // if they are return the tasks for that staff member
             if(isUserAllowedAccessToStaff == true)
             {
                 var taskSchedule = await _repo.GetTask(staffId);

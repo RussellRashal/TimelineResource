@@ -18,10 +18,10 @@ namespace Schedular.API.Data
                 new Role{Name = "Staff"},
             };
 
-            foreach (var role in roles)
-            {
-                roleManager.CreateAsync(role).Wait();                    
-            }            
+            // foreach (var role in roles)
+            // {
+            //     roleManager.CreateAsync(role).Wait();                    
+            // }            
         }    
     }
 }

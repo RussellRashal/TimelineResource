@@ -39,6 +39,10 @@ namespace Schedular.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataContext>(x => x.UseMySql(Configuration
+                .GetConnectionString("DefaultConnection")));
+
+                
             // for role and identity authentication
             // initial creation of user in the user table in database 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
@@ -99,7 +103,7 @@ namespace Schedular.API
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddControllers();
         
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
 
             //allows use of tokens
   
