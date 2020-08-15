@@ -28,5 +28,5 @@ export class TestTaskComponent implements OnInit {
   ngOnInit() {
 
   }
- 
+
 }

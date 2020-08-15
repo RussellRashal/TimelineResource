@@ -1,40 +1,18 @@
-import { AuthService } from './_services/auth.service';
-import { TaskScheduleService } from './_services/taskSchedule.service';
-import { StateStorageService } from './_services/stateStorage.service';
-import { EventService } from './_services/Event.service';
-import { StaffMemberService } from './_services/staffMember.service';
-// my created components
+import { JwtModule } from '@auth0/angular-jwt';
+// full calendar.io packages
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+
+// my components
+import { AppRoutingModule } from './app-routing.module';
+import { CalendarViewComponent } from './CalendarView/CalendarView.component';
+import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
 import { TestTaskComponent } from './TestTask/TestTask.component';
 import { NavigationBarComponent } from './navigationBar/navigationBar.component';
-import { CalendarViewComponent } from './CalendarView/CalendarView.component';
-
-// other angular components
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { appRoutes } from './routes';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { JwtModule } from '@auth0/angular-jwt';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { DatePipe } from '@angular/common';
-
-// for the ngCalendar
-import {FullCalendarModule} from 'primeng/fullcalendar';
-import {DialogModule} from 'primeng/dialog';
-import {InputTextModule} from 'primeng/inputtext';
-import {CalendarModule} from 'primeng/calendar';
-import {CheckboxModule} from 'primeng/checkbox';
-import {ButtonModule} from 'primeng/button';
-import {TabViewModule} from 'primeng/tabview';
-import {CodeHighlighterModule} from 'primeng/codehighlighter';
-import { AddTaskComponent } from './addTask/addTask.component';
-import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
+import { AddTaskComponent } from './addTask/addTask.component';
+import { HoursWorkedComponent } from './HoursWorked/HoursWorked.component';
 
 // angular material
 import {MatSelectModule} from '@angular/material/select';
@@ -44,87 +22,76 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import { TimePickerComponent } from './timePicker/timePicker.component';
-import { FullCalendarComponent } from './FullCalendar/FullCalendar.component';
-import { HoursWorkedComponent } from './HoursWorked/HoursWorked.component';
 
+// other angular components
+import { RouterModule } from '@angular/router';
+import { DatePipe, CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { appRoutes } from './routes';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { UpdateTaskComponent } from './updateTask/updateTask.component';
+
+// register FullCalendar plugins
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 // needed to send the token back to the api server for authentication
 export function tokengetter() {
-   return localStorage.getItem('token');
+  return localStorage.getItem('token');
 }
 
 @NgModule({
-   declarations: [
-      AppComponent,
-      TestTaskComponent,
-      CalendarViewComponent,
-      NavigationBarComponent,
-      AddTaskComponent,
-      UpdateTaskComponent,
-      SidebarComponent,
-      TimePickerComponent,
-      FullCalendarComponent,
-      HoursWorkedComponent
+  declarations: [	
+    AppComponent,
+    NavigationBarComponent,
+    CalendarViewComponent,
+    TestTaskComponent,
+    AddTaskComponent,
+    TestTaskComponent,
+    SidebarComponent,
+    TimePickerComponent,
+    HoursWorkedComponent,
+      UpdateTaskComponent
    ],
-   imports: [
-      CommonModule,
-      FormsModule,
-      FullCalendarModule,
-      DialogModule,
-      InputTextModule,
-      CalendarModule,
-      CheckboxModule,
-      ButtonModule,
-      TabViewModule,
-      CodeHighlighterModule,
-      CommonModule,
-      BrowserModule,
-      BrowserAnimationsModule,
-      CalendarModule,
-      HttpClientModule,
-      NgbModule,
-      MatSidenavModule,
-      MatNativeDateModule,
-      MatDatepickerModule,
-      MatTableModule,
-      MatInputModule,
-      MatSelectModule,
-      ReactiveFormsModule,
-      RouterModule.forRoot(appRoutes),
-      JwtModule.forRoot({
-         config: {
-            tokenGetter: tokengetter,
-            whitelistedDomains: ['localhost:5000'],
-            blacklistedRoutes: ['localhost:5000/api/auth']
-         }
-      }),
-   ],
-   providers: [
-      StaffLoaderResolver,
-      DatePipe
-   ],
-   bootstrap: [AppComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    NgbModule,
+    MatSidenavModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatTableModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    BrowserModule,
+    AppRoutingModule,
+    FullCalendarModule, // register FullCalendar with you app
+    ReactiveFormsModule,
+    RouterModule.forRoot(appRoutes),
+    JwtModule.forRoot({
+      config: {
+         tokenGetter: tokengetter,
+         whitelistedDomains: ['localhost:5000'],
+         blacklistedRoutes: ['localhost:5000/api/auth']
+      }
+   }),
+  ],
+  providers: [
+    StaffLoaderResolver,
+    DatePipe
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
-export class MaterialModule {}
-
-
-
-
-// RouterModule.forRoot(appRoutes),
-// JwtModule.forRoot({
-//    config: {
-//       tokenGetter: tokengetter,
-//       whitelistedDomains: ['localhost:5000'],
-//       blacklistedRoutes: ['localhost:5000/api/auth']
-//    }
-// }),
-// ],
-// providers: [
-// StaffLoaderResolver,
-// DatePipe
-// ],
-// bootstrap: [AppComponent]
-// })
-// export class AppModule { }
-// export class MaterialModule {}

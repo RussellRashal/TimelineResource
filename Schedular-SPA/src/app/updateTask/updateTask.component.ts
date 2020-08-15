@@ -1,4 +1,4 @@
-import { TaskSchedule } from './../_models/taskSchedule';
+import { TaskSchedule } from '../_models/taskSchedule';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StateStorageService } from '../_services/stateStorage.service';

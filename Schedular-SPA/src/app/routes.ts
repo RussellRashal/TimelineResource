@@ -6,17 +6,14 @@ import { CalendarViewComponent } from './CalendarView/CalendarView.component';
 import { AddTaskComponent } from './addTask/addTask.component';
 import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
-import { FullCalendarComponent } from './FullCalendar/FullCalendar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 export const appRoutes: Routes = [
-    { path: 'cal', component: CalendarViewComponent,
-        resolve: {StaffMemberModels: StaffLoaderResolver}},
     { path: 'testtask', component: TestTaskComponent},
     { path: 'addtask', component: AddTaskComponent},
     { path: 'updatetask', component: UpdateTaskComponent},
-    { path: 'fullcalendar', component: FullCalendarComponent},
     { path: 'hoursworked', component: HoursWorkedComponent},
+    { path: 'CalendarView', component: CalendarViewComponent},
     { path: '', redirectTo: 'cal', pathMatch: 'full'}
 ];
 
