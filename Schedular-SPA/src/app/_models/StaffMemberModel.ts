@@ -1,5 +1,5 @@
 export interface StaffMemberModel {
-    Id: number;
-    FirstName: string;
-    LastName: string;
+    id: number;
+    firstName: string;
+    lastName: string;
 }

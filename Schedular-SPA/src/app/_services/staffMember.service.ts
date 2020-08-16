@@ -11,7 +11,9 @@ import { Observable } from 'rxjs';
 export class StaffMemberService {
   baseUrl = environment.apiUrl + 'Staff';
 
-constructor(private http: HttpClient) { }
+constructor(
+  private http: HttpClient,
+  ) { }
 
   // return an array of staff
   getStaffs(): Observable<StaffMemberModel[]> {

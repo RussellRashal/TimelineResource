@@ -24,11 +24,12 @@ export class SidebarComponent implements OnInit {
     });
     // to allow for use in the update component
     this.stateStorageService.setStaffMemberStorage(this.staffMemberModelsResolve);
-    // console.log(this.staffMemberModelsResolve);
+    console.log(this.staffMemberModelsResolve);
   }
 
   // to emit into the calendarView component
   sendStaffButtonClick(id) {
     this.StaffButtonClick.emit(id);
   }
+
 }

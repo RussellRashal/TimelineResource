@@ -9,11 +9,12 @@ import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 export const appRoutes: Routes = [
+    { path: 'CalendarView', component: CalendarViewComponent,
+    resolve: {StaffMemberModels: StaffLoaderResolver}},
     { path: 'testtask', component: TestTaskComponent},
     { path: 'addtask', component: AddTaskComponent},
     { path: 'updatetask', component: UpdateTaskComponent},
     { path: 'hoursworked', component: HoursWorkedComponent},
-    { path: 'CalendarView', component: CalendarViewComponent},
     { path: '', redirectTo: 'cal', pathMatch: 'full'}
 ];
 
