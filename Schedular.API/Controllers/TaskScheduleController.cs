@@ -11,7 +11,8 @@ using System.Security.Claims;
 
 namespace Schedular.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController] 
     public class TaskScheduleController : ControllerBase
@@ -41,29 +42,36 @@ namespace Schedular.API.Controllers
             return Ok(taskschedules);
         }
 
-        [HttpGet("{staffId}")]
+        [HttpGet("byStaff/{staffId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
         public async Task<IActionResult> GetTaskSchedule(int staffId)
         {
-            //get userId from the jwt token
-            var UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
+            // //get userId from the jwt token
+            // var UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
 
 
-            // is the user allowed access to the staff table
-            bool isUserAllowedAccessToStaff = _repo.isUserStaffAllowed(staffId, UserId);
-            // if user is in admin or manager role allow access 
-            if(User.IsInRole("Admin") || User.IsInRole("Manager"))
-            {
-                isUserAllowedAccessToStaff = true;
-            }
+            // // is the user allowed access to the staff table
+            // bool isUserAllowedAccessToStaff = _repo.isUserStaffAllowed(staffId, UserId);
+            // // if user is in admin or manager role allow access 
+            // if(User.IsInRole("Admin") || User.IsInRole("Manager"))
+            // {
+            //     isUserAllowedAccessToStaff = true;
+            // }
 
-            // if they are return the tasks for that staff member
-            if(isUserAllowedAccessToStaff == true)
-            {
-                var taskSchedule = await _repo.GetTask(staffId);
-                return Ok(taskSchedule);
-            }
-            return Unauthorized();            
+            // // if they are return the tasks for that staff member
+            // if(isUserAllowedAccessToStaff == true)
+            // {
+            //     var taskSchedule = await _repo.GetTask(staffId);
+            //     return Ok(taskSchedule);
+            // }
+            // return Unauthorized();
+
+
+
+            var taskSchedule = await _repo.GetTask(staffId);
+            var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+
+            return Ok(taskReturn);
             
         }
 
@@ -77,14 +85,14 @@ namespace Schedular.API.Controllers
             
         }
         
-        [HttpGet("byStaff/{id}")]
-        public async Task<IActionResult> GetUserTaskSchedule(int id)
-        {
-            var taskUserSchedule = await _repo.GetTaskSchedulesByStaffId(id);
+        //[HttpGet("byStaff/{id}")]
+        // public async Task<IActionResult> GetUserTaskSchedule(int id)
+        // {
+        //     var taskUserSchedule = await _repo.GetTaskSchedulesByStaffId(id);
             
-            return Ok(taskUserSchedule);
+        //     return Ok(taskUserSchedule);
             
-        }
+        // }
 
         [HttpPost]        
         public async Task<IActionResult> PostSchedule(TaskSchedule taskSchedule)

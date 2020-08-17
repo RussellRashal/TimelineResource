@@ -39,9 +39,4 @@ export class TestTaskComponent implements OnInit {
 
   }
 
-  testmethod() {
-    this.staffmember = this.staffmemberService.getStaffs();
-    console.log(this.staffmember);
-  }
-
 }

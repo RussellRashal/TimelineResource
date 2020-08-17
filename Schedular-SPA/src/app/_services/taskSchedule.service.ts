@@ -18,23 +18,22 @@ export class TaskScheduleService {
     return this.http.get<TaskSchedule[]>(this.baseUrl);
   }
 
-  getTaskSchedule(id): Observable<TaskSchedule[]> {
-    return this.http.get<TaskSchedule[]>(this.baseUrl + '/' + id);
+  getTaskScheduleByStaffId(id): Observable<TaskSchedule[]> {
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byStaff/' + id);
   }
+
+
 
   putTaskSchedule(id, taskSchedule) {
     return this.http.put(this.baseUrl + '/' + id, taskSchedule);
     // return taskSchedule;
-
   }
 
   postTaskSchedule(taskSchedule: TaskSchedule): Observable<TaskSchedule> {
     return this.http.post<TaskSchedule>(this.baseUrl, taskSchedule);
   }
 
-  getTaskSchedulesByStaffId(id): Observable<TaskSchedule[]> {
-    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byStaff/' + id);
-  }
+
 
   deleteTaskSchedule(id) {
     return this.http.delete(this.baseUrl + '/' + id);
