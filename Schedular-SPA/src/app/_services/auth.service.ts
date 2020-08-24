@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import { DefaultUrlSerializer } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = environment.apiUrl + 'UserAccount/';
+  baseUrl = environment.apiUrl + 'auth/';
 
   constructor(private http: HttpClient) { }
 
@@ -18,10 +19,15 @@ export class AuthService {
           const user = response;
           if (user) {
             localStorage.setItem('token', user.token);
-            localStorage.setItem('id', JSON.stringify(user.id));
+            localStorage.setItem('username', JSON.stringify(user.user.username));
+            localStorage.setItem('id', JSON.stringify(user.user.id));
           }
         })
       );
   }
+
+
+
+
 
 }

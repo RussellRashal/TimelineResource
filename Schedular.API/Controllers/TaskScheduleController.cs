@@ -31,7 +31,7 @@ namespace Schedular.API.Controllers
             // add DTO code here 
         }
 
-        [Authorize(Policy ="AdminAccess")]
+        [Authorize(Policy ="ManagerAccess")]
         [HttpGet]
         public async Task<IActionResult> GetTaskSchedules()
         {
@@ -76,23 +76,25 @@ namespace Schedular.API.Controllers
         }
 
         //hours worked calculation
-        [HttpGet("{id}/{startDate}/{endDate}")]
-        public async Task<IActionResult> GetTaskScheduleofHoursWorked(int id, DateTime startDate, DateTime endDate)
+        //[Authorize(Policy ="ManagerAccess")]
+        [HttpGet("hoursWorked/{id}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetHoursWorked(int id, DateTime startDate, DateTime endDate)
         {
-            var HoursWorked = await _repo.GetTaskSchedulesOfHoursWorked(id, startDate, endDate);            
+            var HoursWorked = await _repo.GetHoursWorkedRepo(id, startDate, endDate); 
             
             return Ok(HoursWorked);
             
         }
+        //get the tasks worked in the hours selected
+        //[Authorize(Policy ="ManagerAccess")]
+        [HttpGet("tasksWithinHours/{id}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetTasksWithinHoursWorked(int id, DateTime startDate, DateTime endDate)
+        {
+            var tasksWorkedWithinHours = await _repo.GetTasksWithinHoursWorkedRepo(id, startDate, endDate);            
+            
+            return Ok(tasksWorkedWithinHours);            
+        }
         
-        //[HttpGet("byStaff/{id}")]
-        // public async Task<IActionResult> GetUserTaskSchedule(int id)
-        // {
-        //     var taskUserSchedule = await _repo.GetTaskSchedulesByStaffId(id);
-            
-        //     return Ok(taskUserSchedule);
-            
-        // }
 
         [HttpPost]        
         public async Task<IActionResult> PostSchedule(TaskSchedule taskSchedule)

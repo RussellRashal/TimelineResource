@@ -6,6 +6,7 @@ import { TaskScheduleService } from '../../app/_services/taskSchedule.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { FormGroup } from '@angular/forms';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-testtask',
@@ -13,30 +14,17 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./TestTask.component.css']
 })
 export class TestTaskComponent implements OnInit {
-  profileForm: FormGroup;
-  taskId;
-  taskSchedule: any[];
-  staffmember: StaffMemberModel[];
 
 
-  constructor(
-    private route: ActivatedRoute,
-    private stateStorageService: StateStorageService,
-    private taskScheduleService: TaskScheduleService,
-    private router: Router,
-    private staffmemberService: StaffMemberService
-    ) { }
+
+  constructor( ) { }
 
   ngOnInit() {
-    this.getStaff();
-  }
+    const currentUserLoggedIn = JSON.parse(localStorage.getItem('username'));
+    const currentUserLoggedInId = JSON.parse(localStorage.getItem('id'));
 
-  getStaff() {
-    this.staffmemberService.getStaffs().subscribe((data) => {
-      this.staffmember = data;
-      // console.log(this.staffmember);
-    });
-
+    console.log('currently logged in as ' + currentUserLoggedIn);
+    console.log('their id is ' + currentUserLoggedInId);
   }
 
 }

@@ -11,8 +11,13 @@ export class HoursWorkedService {
 
   constructor(private http: HttpClient) { }
 
-  getHoursWorked(id, startDate, endDate) {
-    return this.http.get(this.baseUrl + '/'
+  GetHoursWorked(id, startDate, endDate) {
+    return this.http.get(this.baseUrl + '/hoursWorked/'
+      + id + '/' + startDate + '/' + endDate);
+  }
+
+  GetTasksWithinHoursWorked(id, startDate, endDate) {
+    return this.http.get(this.baseUrl + '/tasksWithinHours/'
       + id + '/' + startDate + '/' + endDate);
   }
 

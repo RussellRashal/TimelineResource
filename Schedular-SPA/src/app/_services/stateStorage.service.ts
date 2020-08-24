@@ -7,12 +7,12 @@ import { Injectable } from '@angular/core';
 export class StateStorageService {
   idOfClickedTask: TaskSchedule[];
   currentStaffData: [];
-  staffMember: [];
+  staffMembers: [];
 
 
 constructor() { }
 
-// both the getters are needed to the uploadTask component. 
+// both the getters are needed to the uploadTask component.
 gettaskScheduleDataStorage() {
   return this.idOfClickedTask;
 }
@@ -28,12 +28,12 @@ setStateStorage(idOfClickedTask, currentStaff) {
 
 // storage of staff member to use in updateTask component
 // the data is coming from sidebar.component and it sends all staff names and data
-setStaffMemberStorage(sidebarstaffMember) {
-  this.staffMember = sidebarstaffMember;
+setStaffMemberStorage(sidebarstaffMembers) {
+  this.staffMembers = sidebarstaffMembers;
 }
 
 getStaffMemberStorage() {
-  return this.staffMember;
+  return this.staffMembers;
 }
 
 }

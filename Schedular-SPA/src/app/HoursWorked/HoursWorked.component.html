@@ -16,21 +16,68 @@
    <button type="submit" class="btn btn-primary ml-2">View</button>
 
   </div>
-  <div class="mt-5">
-    <label>The staff member above has worked:
-      <label class="timeText">
-        {{HoursWorkedStr}}
-      </label> 
-       hours and 
-       <label class="timeText">
-        {{MinuteWorkedStr}}
-      </label>
-        Minutes 
-    </label>
-  </div>
 
+
+ 
 
 </form>
+
+
+<div class="mt-5 hourResult">
+  <label>The staff member above has worked:
+    <label class="timeText">
+      {{HoursWorkedStr}}
+    </label> 
+     hours and 
+     <label class="timeText">
+      {{MinuteWorkedStr}}
+    </label>
+      Minutes 
+  </label>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th style=" width: 5%">#</th>
+      <th style=" width: 65%">Task</th>
+      <th style=" width: 15%">Start Date & Time</th>
+      <th style=" width: 15%">End Date & Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let tasksFromHoursWorked of tasksFromHoursWorkeds; index as i">
+      
+        <th>{{i + 1}}</th>
+        <td>
+          {{tasksFromHoursWorked.title}}
+        </td>
+        <td>
+          <p >Start Date = 
+            {{tasksFromHoursWorked.start.slice(8, 10)}} 
+            {{tasksFromHoursWorked.start.slice(5, 7)}} 
+            {{tasksFromHoursWorked.start.slice(0, 4)}}           
+          </p>
+          <p>
+            Start Time =        
+            {{tasksFromHoursWorked.start.slice(11, 16)}}
+          </p>  
+        </td>
+        <td>
+          <p>End Date =
+            {{tasksFromHoursWorked.end.slice(8, 10)}} 
+            {{tasksFromHoursWorked.end.slice(5, 7)}} 
+            {{tasksFromHoursWorked.end.slice(0, 4)}}           
+          </p>
+          <p>
+            End Time =        
+            {{tasksFromHoursWorked.end.slice(11, 16)}}
+        </td>      
+      </tr>
+
+
+  </tbody>
+</table>
 
 
 

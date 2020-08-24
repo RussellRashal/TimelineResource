@@ -49,7 +49,7 @@ export function tokengetter() {
 }
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     NavigationBarComponent,
     CalendarViewComponent,
@@ -59,7 +59,7 @@ export function tokengetter() {
     SidebarComponent,
     TimePickerComponent,
     HoursWorkedComponent,
-      UpdateTaskComponent
+    UpdateTaskComponent
    ],
   imports: [
     CommonModule,

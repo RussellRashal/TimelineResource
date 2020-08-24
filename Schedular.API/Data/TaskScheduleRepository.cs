@@ -108,7 +108,7 @@ namespace Schedular.API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<TimeSpan> GetTaskSchedulesOfHoursWorked(int id, DateTime startDate, DateTime endDate)
+        public async Task<TimeSpan> GetHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)
         {
             DateTime endDateAdjust = endDate.AddDays(1);
             var taskSchedulesWorked = await _context.TaskSchedules
@@ -131,5 +131,16 @@ namespace Schedular.API.Data
             } 
             return HoursWorked;    
         }
+        public async Task<IEnumerable<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)
+        {
+            DateTime endDateAdjust = endDate.AddDays(1);
+            var taskSchedulesWorked = await _context.TaskSchedules
+                .Where(s => s.staffId == id)
+                .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
+                .ToListAsync();
+                
+            return taskSchedulesWorked;
+        }
+        
     }
 }

@@ -10,12 +10,12 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 
 export const appRoutes: Routes = [
     { path: 'CalendarView', component: CalendarViewComponent,
-    resolve: {StaffMemberModels: StaffLoaderResolver}},
+        resolve: {StaffMemberModels: StaffLoaderResolver}},
     { path: 'testtask', component: TestTaskComponent},
     { path: 'addtask', component: AddTaskComponent},
     { path: 'updatetask', component: UpdateTaskComponent},
     { path: 'hoursworked', component: HoursWorkedComponent},
-    { path: '', redirectTo: 'cal', pathMatch: 'full'}
+    { path: '', redirectTo: 'CalendarView', pathMatch: 'full'}
 ];
 
 

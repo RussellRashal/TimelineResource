@@ -25,6 +25,7 @@ export class NavigationBarComponent implements OnInit {
 
     this.authService.login(this.model).subscribe(next => {
       console.log('Logged in successfully');
+      window.location.reload();
     }, error => {
       console.log('failed to login');
     });
@@ -45,6 +46,11 @@ export class NavigationBarComponent implements OnInit {
 
   loggedOut() {
     const token = localStorage.removeItem('token');
+    const username = localStorage.removeItem('username');
+    const userId = localStorage.removeItem('id');
+
     console.log('logged out');
   }
+
+
 }

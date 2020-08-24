@@ -15,6 +15,8 @@ export class HoursWorkedComponent implements OnInit {
   HoursWorkedStr;
   MinuteWorkedStr;
 
+  tasksFromHoursWorkeds;
+
   constructor(
     private stateStorageService: StateStorageService,
     private hoursWorkedService: HoursWorkedService) { }
@@ -26,22 +28,27 @@ export class HoursWorkedComponent implements OnInit {
   }
 
   onSubmit() {
-    this.hoursWorkedService.getHoursWorked(
+    this.hoursWorkedService.GetHoursWorked(
       this.profileForm.value.staffId,
       this.profileForm.value.startDate,
       this.profileForm.value.endDate
     ).subscribe((data) => {
+      // log hours returned from api into reactive forms for the front template
       this.hoursWorked = data;
       this.HoursWorkedStr = this.hoursWorked.toString().slice(0, 2);
       this.MinuteWorkedStr = this.hoursWorked.toString().slice(3, 5);
-      console.log('hour ' + this.HoursWorkedStr + ' minute' + this.MinuteWorkedStr);
+      // console.log('hour ' + this.HoursWorkedStr + ' minute' + this.MinuteWorkedStr);
     });
 
+    this.hoursWorkedService.GetTasksWithinHoursWorked(
+      this.profileForm.value.staffId,
+      this.profileForm.value.startDate,
+      this.profileForm.value.endDate
+    ).subscribe((data) => {
+      this.tasksFromHoursWorkeds = data;
+      // console.log(this.tasksFromHoursWorkeds);
+    });
 
-    // console.log(this.hoursWorked);
-    // console.log(this.profileForm.value.staffId);
-    // console.log(this.profileForm.value.startDate);
-    // console.log(this.profileForm.value.endDate);
   }
 
   initForm() {

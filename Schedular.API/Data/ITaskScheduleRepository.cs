@@ -25,7 +25,8 @@ namespace Schedular.API.Data
  
       //get users task
       Task<IList<TaskSchedule>> GetTaskSchedulesByStaffId(int id);  
-      Task<TimeSpan> GetTaskSchedulesOfHoursWorked(int id, DateTime startDate, DateTime endDate);      
+      Task<TimeSpan> GetHoursWorkedRepo(int id, DateTime startDate, DateTime endDate);  
+      Task<IEnumerable<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, DateTime startDate, DateTime endDate);      
     
     }
 }
