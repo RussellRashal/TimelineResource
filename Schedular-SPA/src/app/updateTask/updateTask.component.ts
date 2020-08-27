@@ -46,8 +46,8 @@ export class UpdateTaskComponent implements OnInit {
 
 
   ngOnInit() {
-    this.taskScheduleData = this.stateStorageService.gettaskScheduleDataStorage();
-    this.currentUserData = this.stateStorageService.getCurrentStaffDataStorage();
+    this.taskScheduleData = this.stateStorageService.gettaskScheduleStorage();
+    this.currentUserData = this.stateStorageService.getClickedOnStaffMember();
     this.StaffMemberModels = this.stateStorageService.getStaffMemberStorage();
 
     this.currentStartTimeDate = this.taskScheduleData.event.start;
@@ -57,8 +57,8 @@ export class UpdateTaskComponent implements OnInit {
     this.dropDownTimeList();
     this.initForm();
 
-    console.log('end time converted ' + this.hourEndTimeConvert);
-    console.log('true end time ' + this.taskScheduleData.event.end);
+    // console.log('end time converted ' + this.hourEndTimeConvert);
+    // console.log('true end time ' + this.taskScheduleData.event.end);
 
   }
 
@@ -128,11 +128,11 @@ export class UpdateTaskComponent implements OnInit {
       this.profileForm.value.endMinuteTime.toString();
 
     // data to send to the back-end taskSchedule table
-    // console.log(this.taskScheduleData.event.id);
-    // console.log(this.profileForm.value.taskTextArea);
-    // console.log(this.returnedStartDateAndTime);
-    // console.log(this.returnedEndDateAndTime);
-    // console.log(this.profileForm.value.staffName);
+    console.log(this.taskScheduleData.event.id);
+    console.log(this.profileForm.value.taskTextArea);
+    console.log(this.returnedStartDateAndTime);
+    console.log(this.returnedEndDateAndTime);
+    console.log(this.profileForm.value.staffName);
 
     this.putServiceTaskSchedule = {
       title: this.profileForm.value.taskTextArea,
@@ -148,7 +148,7 @@ export class UpdateTaskComponent implements OnInit {
       this.taskScheduleData.event.id,
       this.putServiceTaskSchedule).subscribe(next => {
         console.log('success');
-        this.router.navigate(['/cal']);
+        this.router.navigate(['/CalendarView']);
       }, error => {
         console.log('error POST did not go through: ' + error);
       });
@@ -158,7 +158,7 @@ export class UpdateTaskComponent implements OnInit {
     console.log(this.taskScheduleData.event.id);
     this.taskScheduleService.deleteTaskSchedule(this.taskScheduleData.event.id).subscribe(next => {
       console.log('Deleted');
-      this.router.navigate(['/cal']);
+      this.router.navigate(['/CalendarView']);
     }, error => {
       console.log('unable to delete');
     });

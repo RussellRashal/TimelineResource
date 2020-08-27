@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { FormGroup } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
+import { Calendar } from '@fullcalendar/angular';
 
 @Component({
   selector: 'app-testtask',

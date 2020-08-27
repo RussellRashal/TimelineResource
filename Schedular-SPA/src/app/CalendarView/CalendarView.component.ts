@@ -1,11 +1,13 @@
+import { StateStorageService } from './../_services/stateStorage.service';
 import { AuthService } from './../_services/auth.service';
 import { TaskSchedule } from './../_models/taskSchedule';
 import { Component, OnInit } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/angular'; // useful for typechecking
+import { CalendarOptions, Calendar } from '@fullcalendar/angular'; // useful for typechecking
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { TaskScheduleService } from '../_services/taskSchedule.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendarview',
@@ -16,6 +18,7 @@ export class CalendarViewComponent implements OnInit {
   apiEvents: any[];
   currentUserLoggedIn;
   selectedFullNameStaff;
+  testTaskSchedule;
 
   calendarOptions: CalendarOptions = {
     plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -26,25 +29,29 @@ export class CalendarViewComponent implements OnInit {
       right: 'dayGridMonth,timeGridWeek,timeGridDay' // buttons for switching between views
     },
     dateClick: this.handleDateClick.bind(this), // bind is important!
-    events: []
+    events: [],
   };
+
 
   constructor(
     private taskScheduleService: TaskScheduleService,
-    private authService: AuthService
+    private authService: AuthService,
+    private stateStorageService: StateStorageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.currentUserLoggedIn = JSON.parse(localStorage.getItem('username'));
     const currentUserLoggedInId = JSON.parse(localStorage.getItem('id'));
 
-    console.log('currently logged in as ' + this.currentUserLoggedIn);
-    console.log('their id is ' + currentUserLoggedInId);
+    // console.log('currently logged in as ' + this.currentUserLoggedIn);
+    // console.log('their id is ' + currentUserLoggedInId);
     this.selectedFullNameStaff = this.currentUserLoggedIn;
     this.InitialCalendarData(currentUserLoggedInId);
   }
 
   runCalendarData(staff) {
+    this.stateStorageService.setClickedOnStaffMember(staff);
     this.selectedFullNameStaff = staff.firstName + ' ' + staff.lastName;
     this.taskScheduleService.getTaskScheduleByStaffId(staff.id).subscribe((data) => {
       this.apiEvents = data;
@@ -69,10 +76,26 @@ export class CalendarViewComponent implements OnInit {
         center: 'title', // to show what month it's currently on
         right: 'dayGridMonth,timeGridWeek,timeGridDay' // buttons for switching between views
       },
-      dateClick: this.handleDateClick.bind(this), // bind is important!
-      events: this.apiEvents
+      // dateClick: this.handleDateClick.bind(this), // bind is important!
+      events: this.apiEvents,
+      eventClick: (idOfClickedTask) => {
+        // console.log('id = ' + idOfClickedTask.event.id);
+        // console.log('Title = ' + idOfClickedTask.event.title);
+        // console.log('Start time = ' + idOfClickedTask.event.start);
+        // console.log('End time = ' + idOfClickedTask.event.end);
+        // console.log(idOfClickedTask.event);
+        this.stateStorageService.setTaskScheduleStorage(idOfClickedTask);
+        this.router.navigate(['/updatetask']);
+        // change the border color just for fun
+       // info.el.style.borderColor = 'red';
+
+        // this.testTaskSchedule = this.stateStorageService.gettaskScheduleStorage();
+        // console.log('id should show' + this.testTaskSchedule.id);
+      }
+
     };
   }
+
 
   handleDateClick(arg) {
     alert('date click! ' + arg.dateStr);
@@ -91,5 +114,5 @@ export class CalendarViewComponent implements OnInit {
   // loggedOut() {
   //   const token = localStorage.removeItem('token');
   //   console.log('logged out');
-  // }
+  //
 }

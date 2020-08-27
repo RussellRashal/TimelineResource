@@ -31,7 +31,7 @@ namespace Schedular.API.Controllers
             // add DTO code here 
         }
 
-        [Authorize(Policy ="ManagerAccess")]
+        //[Authorize(Policy ="ManagerAccess")]
         [HttpGet]
         public async Task<IActionResult> GetTaskSchedules()
         {
