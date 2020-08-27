@@ -85,7 +85,7 @@ export class AddTaskComponent implements OnInit {
 
     this.taskScheduleService.postTaskSchedule(this.postServiceTaskSchedule).subscribe(next => {
         console.log('success');
-        this.router.navigate(['/cal']);
+        this.router.navigate(['/CalendarView']);
       }, error => {
         console.log('error POST did not go through: ' + error);
     });
