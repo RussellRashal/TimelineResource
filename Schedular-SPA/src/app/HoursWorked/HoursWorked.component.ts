@@ -12,8 +12,7 @@ export class HoursWorkedComponent implements OnInit {
   profileForm: FormGroup;
   StaffMemberModels;
   hoursWorked;
-  HoursWorkedStr;
-  MinuteWorkedStr;
+  minuteWorked;
 
   tasksFromHoursWorkeds;
 
@@ -34,19 +33,18 @@ export class HoursWorkedComponent implements OnInit {
       this.profileForm.value.endDate
     ).subscribe((data) => {
       // log hours returned from api into reactive forms for the front template
-      this.hoursWorked = data;
-      this.HoursWorkedStr = this.hoursWorked.toString().slice(0, 2);
-      this.MinuteWorkedStr = this.hoursWorked.toString().slice(3, 5);
-      // console.log('hour ' + this.HoursWorkedStr + ' minute' + this.MinuteWorkedStr);
+      this.hoursWorked = data[0];
+      this.minuteWorked = data[1];
+      // console.log(this.hoursWorked[0]);
     });
 
+    // tasks to show on the bottom
     this.hoursWorkedService.GetTasksWithinHoursWorked(
       this.profileForm.value.staffId,
       this.profileForm.value.startDate,
       this.profileForm.value.endDate
     ).subscribe((data) => {
       this.tasksFromHoursWorkeds = data;
-      // console.log(this.tasksFromHoursWorkeds);
     });
 
   }

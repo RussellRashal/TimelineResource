@@ -81,8 +81,16 @@ namespace Schedular.API.Controllers
         public async Task<IActionResult> GetHoursWorked(int id, DateTime startDate, DateTime endDate)
         {
             var HoursWorked = await _repo.GetHoursWorkedRepo(id, startDate, endDate); 
-            
-            return Ok(HoursWorked);
+            var minutes = HoursWorked.ToString(@"mm");
+
+            var hour = Int32.Parse(HoursWorked.ToString(@"hh"));
+            var day = Int32.Parse(HoursWorked.ToString(@"dd")) * 24;
+            var fullHours = (hour + day).ToString();           
+
+            string[] fullHoursworked = {fullHours, minutes};
+
+
+            return Ok(fullHoursworked);
             
         }
         //get the tasks worked in the hours selected
