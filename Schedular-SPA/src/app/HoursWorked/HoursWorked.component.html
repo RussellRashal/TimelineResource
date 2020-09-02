@@ -15,12 +15,19 @@
    <input class="ml-2" type="date" formControlName="endDate"> 
    <button type="submit" class="btn btn-primary ml-2">View</button>
 
+
   </div>
+  <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
+  <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
+
+
 
 
  
 
 </form>
+
+
 
 
 <div class="mt-5 hourResult">

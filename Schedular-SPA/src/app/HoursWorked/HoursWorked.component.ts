@@ -13,6 +13,9 @@ export class HoursWorkedComponent implements OnInit {
   StaffMemberModels;
   hoursWorked;
   minuteWorked;
+  nullError;
+
+  dateError: boolean;
 
   tasksFromHoursWorkeds;
 
@@ -27,34 +30,53 @@ export class HoursWorkedComponent implements OnInit {
   }
 
   onSubmit() {
-    this.hoursWorkedService.GetHoursWorked(
-      this.profileForm.value.staffId,
-      this.profileForm.value.startDate,
-      this.profileForm.value.endDate
-    ).subscribe((data) => {
-      // log hours returned from api into reactive forms for the front template
-      this.hoursWorked = data[0];
-      this.minuteWorked = data[1];
-      // console.log(this.hoursWorked[0]);
-    });
+    this.dateError = false;
+    this.nullError = false;
 
-    // tasks to show on the bottom
-    this.hoursWorkedService.GetTasksWithinHoursWorked(
-      this.profileForm.value.staffId,
-      this.profileForm.value.startDate,
-      this.profileForm.value.endDate
-    ).subscribe((data) => {
-      this.tasksFromHoursWorkeds = data;
-    });
+    // validation check
+    if (this.profileForm.value.staffId === '') {
+      this.nullError = true;
+    }
+    else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
+      this.dateError = true;
+    }
+    else {
+      this.hoursWorkedService.GetHoursWorked(
+        this.profileForm.value.staffId,
+        this.profileForm.value.startDate,
+        this.profileForm.value.endDate
+      ).subscribe((data) => {
+        // log hours returned from api into reactive forms for the front template
+        this.hoursWorked = data[0];
+        this.minuteWorked = data[1];
+        // console.log(this.hoursWorked[0]);
+      });
 
+      // tasks to show on the bottom
+      this.hoursWorkedService.GetTasksWithinHoursWorked(
+        this.profileForm.value.staffId,
+        this.profileForm.value.startDate,
+        this.profileForm.value.endDate
+      ).subscribe((data) => {
+        this.tasksFromHoursWorkeds = data;
+      });
+    }
   }
 
   initForm() {
     this.profileForm = new FormGroup({
       staffId: new FormControl(''),
-      startDate: new FormControl(''),
-      endDate: new FormControl('')
+      startDate: new FormControl(new Date().toISOString().slice(0, 10)),
+      endDate: new FormControl(new Date().toISOString().slice(0, 10))
     });
+  }
+
+   // validation checker for template div tags
+  getDateError() {
+    return this.dateError;
+  }
+  getNullError() {
+    return this.nullError;
   }
 
   // has the user logged in
