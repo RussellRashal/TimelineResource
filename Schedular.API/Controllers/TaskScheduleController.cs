@@ -99,19 +99,33 @@ namespace Schedular.API.Controllers
         [HttpPost]        
         public async Task<IActionResult> PostSchedule(TaskSchedule taskSchedule)
         {
-             _repo.Add(taskSchedule);  
+            if(taskSchedule.Start < taskSchedule.End)
+            {
+                _repo.Add(taskSchedule);  
+            }
+            else 
+            {
+                return BadRequest("start time is not less than end time");  
+            }             
 
-         //save to the database
+            //save to the database
             if(await _repo.SaveAll())
                 return Ok();   
             return BadRequest("Failed to save Schedule");   
         }
         [HttpPut("{id}")]
-        public TaskSchedule PutSchedule(int id, [FromBody] TaskSchedule taskSchedule)
+        public ActionResult<TaskSchedule> PutSchedule(int id, [FromBody] TaskSchedule taskSchedule)
         {
-            TaskSchedule taskSchedulePut = _repo.Update(id, taskSchedule);    
+            if(taskSchedule.Start < taskSchedule.End)
+            {
+                TaskSchedule taskSchedulePut = _repo.Update(id, taskSchedule);
+                return taskSchedulePut;    
+            }
+            else 
+            {
+                return BadRequest("start time is not less than end time");  
+            }        
 
-            return taskSchedulePut;      
         }
         [HttpDelete("{id}")]
         public void DeleteTaskSchedule(int id)
