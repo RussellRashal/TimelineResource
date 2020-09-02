@@ -12,8 +12,8 @@ export const appRoutes: Routes = [
     { path: 'CalendarView', component: CalendarViewComponent,
         resolve: {StaffMemberModels: StaffLoaderResolver}},
     { path: 'testtask', component: TestTaskComponent},
-    { path: 'addtask', component: AddTaskComponent},
-    { path: 'updatetask', component: UpdateTaskComponent},
+    // { path: 'addtask', component: AddTaskComponent},
+    // { path: 'updatetask', component: UpdateTaskComponent},
     { path: 'hoursworked', component: HoursWorkedComponent},
     { path: '', redirectTo: 'CalendarView', pathMatch: 'full'}
 ];

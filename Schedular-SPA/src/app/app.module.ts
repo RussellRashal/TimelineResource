@@ -23,6 +23,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import { TimePickerComponent } from './timePicker/timePicker.component';
 
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+
 // other angular components
 import { RouterModule } from '@angular/router';
 import { DatePipe, CommonModule } from '@angular/common';
@@ -34,8 +38,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UpdateTaskComponent } from './updateTask/updateTask.component';
+
 
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
@@ -59,10 +65,13 @@ export function tokengetter() {
     SidebarComponent,
     TimePickerComponent,
     HoursWorkedComponent,
-    UpdateTaskComponent
+    UpdateTaskComponent,
    ],
   imports: [
     CommonModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatButtonModule,
     FormsModule,
     CommonModule,
     BrowserAnimationsModule,

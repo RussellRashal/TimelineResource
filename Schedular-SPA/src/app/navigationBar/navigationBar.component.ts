@@ -1,6 +1,9 @@
+import { AddTaskComponent } from './../addTask/addTask.component';
 import { AuthService } from './../_services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateTaskComponent } from '../updateTask/updateTask.component';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -12,7 +15,9 @@ export class NavigationBarComponent implements OnInit {
   loginReactiveForm: FormGroup;
 
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.initForm();
@@ -52,5 +57,18 @@ export class NavigationBarComponent implements OnInit {
     console.log('logged out');
   }
 
+  openDialogAddTask() {
+    const dialogRef = this.dialog.open(AddTaskComponent, {
+      width: '80%',
+      height: '60%'
+    });
+  }
+
+  openDialogUpdateTask(action) {
+    const dialogRef = this.dialog.open(UpdateTaskComponent, {
+      width: '80%',
+      height: '60%'
+    });
+  }
 
 }

@@ -8,6 +8,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { TaskScheduleService } from '../_services/taskSchedule.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateTaskComponent } from '../updateTask/updateTask.component';
 
 @Component({
   selector: 'app-calendarview',
@@ -37,7 +39,8 @@ export class CalendarViewComponent implements OnInit {
     private taskScheduleService: TaskScheduleService,
     private authService: AuthService,
     private stateStorageService: StateStorageService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -48,6 +51,7 @@ export class CalendarViewComponent implements OnInit {
     // console.log('their id is ' + currentUserLoggedInId);
     this.selectedFullNameStaff = this.currentUserLoggedIn;
     this.InitialCalendarData(currentUserLoggedInId);
+    // this.calendarOptions.scrollToTime( durationInput );
   }
 
   runCalendarData(staff) {
@@ -85,7 +89,13 @@ export class CalendarViewComponent implements OnInit {
         // console.log('End time = ' + idOfClickedTask.event.end);
         // console.log(idOfClickedTask.event);
         this.stateStorageService.setTaskScheduleStorage(idOfClickedTask);
-        this.router.navigate(['/updatetask']);
+        // this.router.navigate(['/updatetask']);
+        const dialogRef = this.dialog.open(UpdateTaskComponent, {
+          width: '80%',
+          height: '60%'
+        });
+        console.log('dialog closed');
+        // this.testSendMethod();
         // change the border color just for fun
        // info.el.style.borderColor = 'red';
 
@@ -96,13 +106,25 @@ export class CalendarViewComponent implements OnInit {
     };
   }
 
+  testSendMethod() {
+    const dialogRef = this.dialog.afterAllClosed;
 
-  handleDateClick(arg) {
+    this.InitialCalendarData(2);
+    console.log('testSendMethod working');
+  }
+
+
+// var doit = function(element, obj) {
+//     element.extended = obj;
+//   };
+
+
+handleDateClick(arg) {
     alert('date click! ' + arg.dateStr);
   }
 
   // has the user logged in
-  loggedIn() {
+loggedIn() {
     const token = localStorage.getItem('token');
     return !!token;
   }

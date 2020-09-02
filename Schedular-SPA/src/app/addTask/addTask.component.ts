@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { StateStorageService } from '../_services/stateStorage.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TaskSchedule } from '../_models/taskSchedule';
 import { TaskScheduleService } from '../_services/taskSchedule.service';
 import { Router } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { isNull } from '@angular/compiler/src/output/output_ast';
+
+
 
 @Component({
   selector: 'app-add-task',
@@ -11,6 +15,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./addTask.component.css']
 })
 export class AddTaskComponent implements OnInit {
+  // validation
+  startHourInt;
+  endHourInt;
+  startMinuteInt;
+  endMinuteInt;
+  timingError: boolean;
+  dateError: boolean;
+  nullError: boolean;
+
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
   StaffMemberModels;
@@ -20,10 +33,14 @@ export class AddTaskComponent implements OnInit {
   postServiceTaskSchedule: TaskSchedule;
   currentUserData;
 
+
   constructor(
     private stateStorageService: StateStorageService,
     private taskScheduleService: TaskScheduleService,
-    private router: Router) { }
+    private router: Router,
+    public dialogRef: MatDialogRef<AddTaskComponent>) { }
+
+
 
   ngOnInit() {
     // get staff from storageService
@@ -37,13 +54,13 @@ export class AddTaskComponent implements OnInit {
     this.profileForm = new FormGroup({
       staffName: new FormControl(''),
       taskTextArea: new FormControl(''),
-      startDate: new FormControl(''),
+      startDate: new FormControl(new Date().toISOString().slice(0, 10)),
       startHourTime: new FormControl(''),
       startMinuteTime: new FormControl(''),
-      endDate: new FormControl(''),
+      endDate: new FormControl(new Date().toISOString().slice(0, 10)),
       endHourTime: new FormControl(''),
       endMinuteTime: new FormControl('')
-    });
+    }, );
   }
 
   dropDownTimeList() {
@@ -61,34 +78,90 @@ export class AddTaskComponent implements OnInit {
     }
   }
 
+
   onSubmit() {
-    // the date and time need to be rejoined to be sent to the database
-    this.returnedStartDateAndTime =
+    // convert data to int to check if start date is greater than end date
+    this.startHourInt = parseInt(this.profileForm.value.startHourTime);
+    this.endHourInt = parseInt(this.profileForm.value.endHourTime);
+    this.startMinuteInt = parseInt(this.profileForm.value.startMinuteTime);
+    this.endMinuteInt = parseInt(this.profileForm.value.endMinuteTime);
+
+    // reset validation values
+    this.timingError = false;
+    this.dateError = false;
+    this.nullError = false;
+
+    // check if values are filled out
+    if (this.profileForm.value.startHourTime === '' ||
+        this.profileForm.value.endHourTime === '' ||
+        this.profileForm.value.startMinuteTime === '' ||
+        this.profileForm.value.endMinuteTime === '' ||
+        this.profileForm.value.taskTextArea === '' ||
+        this.profileForm.value.staffName === '') {
+          this.nullError = true;
+    }
+    else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
+      // console.log('start date cannot be greater than end date');
+      this.dateError = true;
+    }
+    else if (this.startHourInt === this.endHourInt
+      && this.startMinuteInt > this.endMinuteInt) {
+        // console.log('start time cannot be greater than end time');
+        this.timingError = true;
+    }
+    else if (this.startHourInt > this.endHourInt) {
+      // console.log('start time cannot be greater than end time');
+      this.timingError = true;
+    }
+    else {
+      // put date, hour and minute together to send to api
+      this.returnedStartDateAndTime =
       this.profileForm.value.startDate.toString() + ' ' +
       this.profileForm.value.startHourTime.toString() + ':' +
       this.profileForm.value.startMinuteTime.toString();
 
-    this.returnedEndDateAndTime =
-      this.profileForm.value.endDate.toString() + ' ' +
-      this.profileForm.value.endHourTime.toString() + ':' +
-      this.profileForm.value.endMinuteTime.toString();
+      this.returnedEndDateAndTime =
+        this.profileForm.value.endDate.toString() + ' ' +
+        this.profileForm.value.endHourTime.toString() + ':' +
+        this.profileForm.value.endMinuteTime.toString();
 
-    this.postServiceTaskSchedule = {
-      title: this.profileForm.value.taskTextArea,
-      start: this.returnedStartDateAndTime,
-      end: this.returnedEndDateAndTime,
-      staffId: Number(this.profileForm.value.staffName)
-    };
+      // put data into an array for the api
+      this.postServiceTaskSchedule = {
+        title: this.profileForm.value.taskTextArea,
+        start: this.returnedStartDateAndTime,
+        end: this.returnedEndDateAndTime,
+        staffId: Number(this.profileForm.value.staffName)
+      };
 
-    console.log(this.postServiceTaskSchedule);
-
-
-    this.taskScheduleService.postTaskSchedule(this.postServiceTaskSchedule).subscribe(next => {
+      // send data to api
+      this.taskScheduleService.postTaskSchedule(this.postServiceTaskSchedule).subscribe(next => {
         console.log('success');
-        this.router.navigate(['/CalendarView']);
-      }, error => {
-        console.log('error POST did not go through: ' + error);
-    });
+        // this.router.navigate(['/CalendarView']);
+        // alert('Task has been added');
+        this.dialogRef.close({event: 'Cancel'});
+        }, error => {
+          console.log('error, POST did not go through: ' + error);
+      });
+      // this.ngOnInit();
+
+    // close dialog box after add button is clicked
+    }
+    // console.log(this.postServiceTaskSchedule);
+  }
+
+  closeButton() {
+    this.dialogRef.close({event: 'Cancel'});
+  }
+
+  // validation checker for template div tags
+  getDateError() {
+    return this.dateError;
+  }
+  getTimingError() {
+    return this.timingError;
+  }
+  getNullError() {
+    return this.nullError;
   }
 
   // has the user logged in

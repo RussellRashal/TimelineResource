@@ -2,6 +2,9 @@
   "extends": "tslint:recommended",
   "rules": {
     "no-string-literal": false,
+    "only-arrow-functions": false,
+    "no-var-keyword": false,    
+    "radix": false,
     "align": {
       "options": [
         "parameters",
