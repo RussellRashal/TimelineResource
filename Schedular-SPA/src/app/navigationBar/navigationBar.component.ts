@@ -57,12 +57,7 @@ export class NavigationBarComponent implements OnInit {
     console.log('logged out');
   }
 
-  openDialogAddTask() {
-    const dialogRef = this.dialog.open(AddTaskComponent, {
-      width: '80%',
-      height: '60%'
-    });
-  }
+
 
   openDialogUpdateTask(action) {
     const dialogRef = this.dialog.open(UpdateTaskComponent, {

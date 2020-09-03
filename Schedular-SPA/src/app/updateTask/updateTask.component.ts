@@ -140,12 +140,14 @@ export class UpdateTaskComponent implements OnInit {
       // console.log('start date cannot be greater than end date');
       this.dateError = true;
     }
-    else if (this.startHourInt === this.endHourInt
+    else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+      this.startHourInt === this.endHourInt
       && this.startMinuteInt > this.endMinuteInt) {
         // console.log('start time cannot be greater than end time');
         this.timingError = true;
     }
-    else if (this.startHourInt > this.endHourInt) {
+    else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+      this.startHourInt > this.endHourInt) {
       // console.log('start time cannot be greater than end time');
       this.timingError = true;
     }

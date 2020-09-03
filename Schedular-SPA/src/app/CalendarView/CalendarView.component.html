@@ -1,8 +1,10 @@
-<div *ngIf="loggedIn()">
+<div class="mb-2" *ngIf="loggedIn()">
     <label>
         Current Schedule displayed is {{this.selectedFullNameStaff}}
     </label>
+    <button class="float-right btn btn-primary" (click)="openDialogAddTask()">Add Task</button>
 </div>
+
 <mat-drawer-container *ngIf="loggedIn()" class="example-container">
     <mat-drawer mode="side" opened>
         <app-sidebar (StaffButtonClick)="runCalendarData($event)"></app-sidebar>

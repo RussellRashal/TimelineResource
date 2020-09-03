@@ -1,7 +1,7 @@
 import { StateStorageService } from './../_services/stateStorage.service';
 import { AuthService } from './../_services/auth.service';
 import { TaskSchedule } from './../_models/taskSchedule';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CalendarOptions, Calendar } from '@fullcalendar/angular'; // useful for typechecking
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -10,6 +10,9 @@ import { TaskScheduleService } from '../_services/taskSchedule.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateTaskComponent } from '../updateTask/updateTask.component';
+
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { AddTaskComponent } from '../addTask/addTask.component';
 
 @Component({
   selector: 'app-calendarview',
@@ -21,6 +24,7 @@ export class CalendarViewComponent implements OnInit {
   currentUserLoggedIn;
   selectedFullNameStaff;
   testTaskSchedule;
+  currentStaffSelected;
 
   calendarOptions: CalendarOptions = {
     plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -40,8 +44,7 @@ export class CalendarViewComponent implements OnInit {
     private authService: AuthService,
     private stateStorageService: StateStorageService,
     private router: Router,
-    public dialog: MatDialog
-  ) { }
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.currentUserLoggedIn = JSON.parse(localStorage.getItem('username'));
@@ -50,11 +53,12 @@ export class CalendarViewComponent implements OnInit {
     // console.log('currently logged in as ' + this.currentUserLoggedIn);
     // console.log('their id is ' + currentUserLoggedInId);
     this.selectedFullNameStaff = this.currentUserLoggedIn;
-    this.InitialCalendarData(currentUserLoggedInId);
+    this.CalendarData(currentUserLoggedInId);
     // this.calendarOptions.scrollToTime( durationInput );
   }
 
   runCalendarData(staff) {
+    this.currentStaffSelected = staff;
     this.stateStorageService.setClickedOnStaffMember(staff);
     this.selectedFullNameStaff = staff.firstName + ' ' + staff.lastName;
     this.taskScheduleService.getTaskScheduleByStaffId(staff.id).subscribe((data) => {
@@ -64,7 +68,7 @@ export class CalendarViewComponent implements OnInit {
 
   }
 
-  InitialCalendarData(staff) {
+  CalendarData(staff) {
     this.taskScheduleService.getTaskScheduleByStaffId(staff).subscribe((data) => {
       this.apiEvents = data;
       this.calendar(this.apiEvents);
@@ -94,29 +98,27 @@ export class CalendarViewComponent implements OnInit {
           width: '80%',
           height: '60%'
         });
-        console.log('dialog closed');
-        // this.testSendMethod();
-        // change the border color just for fun
-       // info.el.style.borderColor = 'red';
-
-        // this.testTaskSchedule = this.stateStorageService.gettaskScheduleStorage();
-        // console.log('id should show' + this.testTaskSchedule.id);
+        dialogRef.afterClosed().subscribe(result => {
+          this.dataReload();
+        });
       }
-
     };
   }
 
-  testSendMethod() {
-    const dialogRef = this.dialog.afterAllClosed;
-
-    this.InitialCalendarData(2);
-    console.log('testSendMethod working');
+  // reload the data from update component once dialog box has been closed
+  dataReload() {
+    this.CalendarData(this.currentStaffSelected.id);
   }
 
-
-// var doit = function(element, obj) {
-//     element.extended = obj;
-//   };
+  openDialogAddTask() {
+    const dialogRef = this.dialog.open(AddTaskComponent, {
+      width: '80%',
+      height: '60%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.dataReload();
+    });
+  }
 
 
 handleDateClick(arg) {
