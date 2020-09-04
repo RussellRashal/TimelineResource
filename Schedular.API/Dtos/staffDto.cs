@@ -1,5 +1,3 @@
-using System;
-
 namespace Schedular.API.Dtos
 {
     public class staffDto

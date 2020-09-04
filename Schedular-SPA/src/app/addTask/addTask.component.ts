@@ -31,8 +31,9 @@ export class AddTaskComponent implements OnInit {
   returnedStartDateAndTime: string;
   returnedEndDateAndTime: string;
   postServiceTaskSchedule: TaskSchedule;
-  currentUserData;
-
+  currentUser;
+  StaffLinkedToUser;
+  currentUserDataOnService;
 
   constructor(
     private stateStorageService: StateStorageService,
@@ -45,6 +46,9 @@ export class AddTaskComponent implements OnInit {
   ngOnInit() {
     // get staff from storageService
     this.StaffMemberModels = this.stateStorageService.getStaffMemberStorage();
+    this.StaffLinkedToUser = JSON.parse(localStorage.getItem('staff'));
+    // the below will put the name of the person who is logged in or had the button clicked onto the staff name automatically
+    this.currentUserDataOnService = this.stateStorageService.getClickedOnStaffMember();
 
     this.dropDownTimeList();
     this.initForm();
@@ -52,7 +56,7 @@ export class AddTaskComponent implements OnInit {
 
   initForm() {
     this.profileForm = new FormGroup({
-      staffName: new FormControl(''),
+      staffName: new FormControl(this.currentUserDataOnService.id),
       taskTextArea: new FormControl(''),
       startDate: new FormControl(new Date().toISOString().slice(0, 10)),
       startHourTime: new FormControl(''),

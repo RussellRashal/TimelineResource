@@ -41,6 +41,7 @@ import { NgModule } from '@angular/core';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UpdateTaskComponent } from './updateTask/updateTask.component';
+import { LoginPageComponent } from './loginPage/loginPage.component';
 
 
 // register FullCalendar plugins
@@ -66,6 +67,7 @@ export function tokengetter() {
     TimePickerComponent,
     HoursWorkedComponent,
     UpdateTaskComponent,
+    LoginPageComponent
    ],
   imports: [
     CommonModule,

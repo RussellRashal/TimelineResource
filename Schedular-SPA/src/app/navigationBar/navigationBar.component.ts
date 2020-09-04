@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateTaskComponent } from '../updateTask/updateTask.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -17,7 +18,8 @@ export class NavigationBarComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private router: Router) { }
 
   ngOnInit() {
     this.initForm();
@@ -30,7 +32,7 @@ export class NavigationBarComponent implements OnInit {
 
     this.authService.login(this.model).subscribe(next => {
       console.log('Logged in successfully');
-      window.location.reload();
+      this.router.navigateByUrl('/CalendarView');
     }, error => {
       console.log('failed to login');
     });
@@ -53,6 +55,8 @@ export class NavigationBarComponent implements OnInit {
     const token = localStorage.removeItem('token');
     const username = localStorage.removeItem('username');
     const userId = localStorage.removeItem('id');
+    const staff = localStorage.removeItem('staff');
+    // window.location.reload();
 
     console.log('logged out');
   }

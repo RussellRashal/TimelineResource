@@ -7,6 +7,7 @@ import { AddTaskComponent } from './addTask/addTask.component';
 import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { LoginPageComponent } from './loginPage/loginPage.component';
 
 export const appRoutes: Routes = [
     { path: 'CalendarView', component: CalendarViewComponent,
@@ -15,7 +16,8 @@ export const appRoutes: Routes = [
     // { path: 'addtask', component: AddTaskComponent},
     // { path: 'updatetask', component: UpdateTaskComponent},
     { path: 'hoursworked', component: HoursWorkedComponent},
-    { path: '', redirectTo: 'CalendarView', pathMatch: 'full'}
+    { path: 'login', component: LoginPageComponent}
+    // { path: '', redirectTo: 'login', pathMatch: 'full'}
 ];
 
 

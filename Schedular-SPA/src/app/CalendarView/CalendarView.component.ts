@@ -13,6 +13,7 @@ import { UpdateTaskComponent } from '../updateTask/updateTask.component';
 
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { AddTaskComponent } from '../addTask/addTask.component';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-calendarview',
@@ -25,6 +26,7 @@ export class CalendarViewComponent implements OnInit {
   selectedFullNameStaff;
   testTaskSchedule;
   currentStaffSelected;
+
 
   calendarOptions: CalendarOptions = {
     plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -47,14 +49,8 @@ export class CalendarViewComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.currentUserLoggedIn = JSON.parse(localStorage.getItem('username'));
-    const currentUserLoggedInId = JSON.parse(localStorage.getItem('id'));
-
-    // console.log('currently logged in as ' + this.currentUserLoggedIn);
-    // console.log('their id is ' + currentUserLoggedInId);
-    this.selectedFullNameStaff = this.currentUserLoggedIn;
-    this.CalendarData(currentUserLoggedInId);
-    // this.calendarOptions.scrollToTime( durationInput );
+    this.currentStaffSelected = JSON.parse(localStorage.getItem('staff'));
+    this.runCalendarData(this.currentStaffSelected);
   }
 
   runCalendarData(staff) {
@@ -68,8 +64,8 @@ export class CalendarViewComponent implements OnInit {
 
   }
 
-  CalendarData(staff) {
-    this.taskScheduleService.getTaskScheduleByStaffId(staff).subscribe((data) => {
+  CalendarData(staffId) {
+    this.taskScheduleService.getTaskScheduleByStaffId(staffId).subscribe((data) => {
       this.apiEvents = data;
       this.calendar(this.apiEvents);
     });
@@ -129,6 +125,7 @@ handleDateClick(arg) {
 loggedIn() {
     const token = localStorage.getItem('token');
     return !!token;
+
   }
 
 
@@ -138,5 +135,5 @@ loggedIn() {
   // loggedOut() {
   //   const token = localStorage.removeItem('token');
   //   console.log('logged out');
-  //
+  // }
 }

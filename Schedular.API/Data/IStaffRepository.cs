@@ -15,6 +15,7 @@ namespace Schedular.API.Data
       // get all tasks        
       Task<IEnumerable<Staff>> GetStaffs();
       //get an individual task 
-      Task<Staff> GetStaff(int id);      
+      Task<Staff> GetStaff(int id); 
+      Task<UserStaff> GetUserLinkStaff(int id);     
     }
 }

@@ -13,6 +13,7 @@ namespace Schedular.API.Helpers
             CreateMap<User, UserForReturnDto>();
             CreateMap<TaskSchedule, getTaskScheduleDto>();
             CreateMap<Staff, staffDto>();
+            CreateMap<UserStaff, userStaffDto>();
         }
     }
 }

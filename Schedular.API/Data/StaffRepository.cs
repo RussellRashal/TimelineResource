@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Schedular.API.Models;
+using System.Linq;
 
 namespace Schedular.API.Data
 {
@@ -47,6 +48,29 @@ namespace Schedular.API.Data
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        // public async Task<IEnumerable<UserStaff>> GetUserLinkStaff(int id)
+        // {
+        //     var staff = await _context.UserStaffs            
+        //     //.Include(s => s.Staffs)
+        //     .Where(u => u.UserId == id)
+        //     .Include(s => s.Staffs)
+        //     .ToListAsync(); 
+
+        //     return staff;
+        // }
+
+        
+        public async Task<UserStaff> GetUserLinkStaff(int id)
+        {
+            var staff = await _context.UserStaffs
+                .Include(o => o.Staffs)
+                .FirstOrDefaultAsync(u => u.UserId == id);
+            
+
+
+            return staff;
         }
     }
 }

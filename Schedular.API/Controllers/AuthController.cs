@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Schedular.API.Dtos;
+using Schedular.API.Data;
 
 namespace Schedular.API.Controllers
 {
@@ -24,14 +25,18 @@ namespace Schedular.API.Controllers
         private readonly IMapper _mapper;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly IStaffRepository _repo;
+
 
         public AuthController(IConfiguration config, IMapper mapper,
-        UserManager<User> userManager, SignInManager<User> signInManager)
+        UserManager<User> userManager, SignInManager<User> signInManager,
+        IStaffRepository repo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _config = config;
+            _repo = repo;
 
         }
 
@@ -66,10 +71,17 @@ namespace Schedular.API.Controllers
             if (result.Succeeded)
             {   
                 var userToReturn = _mapper.Map<UserForReturnDto>(user); 
+                var userstaff = _repo.GetUserLinkStaff(user.Id);
+                var userStaffToReturn = _mapper.Map<userStaffDto>(userstaff.Result);
+                Console.WriteLine(userstaff);
+
+
                 return Ok(new
                 {
                     token = GenerateJwtToken(user).Result,
-                    user = userToReturn
+                    user = userToReturn, 
+                    staff = userStaffToReturn
+                    
 
                 });
             }
