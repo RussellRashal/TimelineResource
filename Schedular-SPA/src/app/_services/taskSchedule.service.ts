@@ -18,8 +18,8 @@ export class TaskScheduleService {
     return this.http.get<TaskSchedule[]>(this.baseUrl);
   }
 
-  getTaskScheduleByStaffId(id): Observable<TaskSchedule[]> {
-    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byStaff/' + id);
+  getTaskScheduleByUserId(id): Observable<TaskSchedule[]> {
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUser/' + id);
   }
 
 

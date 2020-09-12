@@ -31,7 +31,6 @@ export class NavigationBarComponent implements OnInit {
 
 
     this.authService.login(this.model).subscribe(next => {
-      console.log('Logged in successfully');
       this.router.navigateByUrl('/CalendarView');
     }, error => {
       console.log('failed to login');
@@ -47,18 +46,13 @@ export class NavigationBarComponent implements OnInit {
 
   // has the user logged in
   loggedIn() {
-    const token = localStorage.getItem('token');
-    return !!token;
+    return this.authService.loggedIn();
   }
 
   loggedOut() {
     const token = localStorage.removeItem('token');
-    const username = localStorage.removeItem('username');
-    const userId = localStorage.removeItem('id');
-    const staff = localStorage.removeItem('staff');
-    // window.location.reload();
-
-    console.log('logged out');
+    const username = localStorage.removeItem('user');
+    const userId = localStorage.removeItem('role');
   }
 
 

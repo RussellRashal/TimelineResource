@@ -1,4 +1,4 @@
-import { StaffMemberModel } from '../_models/StaffMemberModel';
+import { UserMemberModel } from '../_models/UserMemberModel';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -8,15 +8,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class StaffMemberService {
-  baseUrl = environment.apiUrl + 'Staff';
+export class UserMemberService {
+  baseUrl = environment.apiUrl + 'user';
 
 constructor(
   private http: HttpClient,
   ) { }
 
   // return an array of staff
-  getStaffs(): Observable<StaffMemberModel[]> {
-    return this.http.get<StaffMemberModel[]>(this.baseUrl);
+  getUsers(): Observable<UserMemberModel[]> {
+    return this.http.get<UserMemberModel[]>(this.baseUrl);
   }
 }

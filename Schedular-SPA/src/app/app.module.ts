@@ -7,7 +7,6 @@ import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 // my components
 import { AppRoutingModule } from './app-routing.module';
 import { CalendarViewComponent } from './CalendarView/CalendarView.component';
-import { StaffLoaderResolver } from './_resolvers/staff-loader.resolver';
 import { TestTaskComponent } from './TestTask/TestTask.component';
 import { NavigationBarComponent } from './navigationBar/navigationBar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -42,6 +41,8 @@ import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { LoginPageComponent } from './loginPage/loginPage.component';
+import { stateStorageResolver } from './_resolvers/state-storage.resolver';
+import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 
 
 // register FullCalendar plugins
@@ -100,7 +101,8 @@ export function tokengetter() {
    }),
   ],
   providers: [
-    StaffLoaderResolver,
+    UserLoaderResolver,
+    stateStorageResolver,
     DatePipe
   ],
   bootstrap: [AppComponent]

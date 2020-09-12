@@ -25,19 +25,15 @@ namespace Schedular.API.Controllers
         private readonly IMapper _mapper;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        private readonly IStaffRepository _repo;
 
 
         public AuthController(IConfiguration config, IMapper mapper,
-        UserManager<User> userManager, SignInManager<User> signInManager,
-        IStaffRepository repo)
+        UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _config = config;
-            _repo = repo;
-
         }
 
         [HttpPost("register")]
@@ -71,18 +67,11 @@ namespace Schedular.API.Controllers
             if (result.Succeeded)
             {   
                 var userToReturn = _mapper.Map<UserForReturnDto>(user); 
-                var userstaff = _repo.GetUserLinkStaff(user.Id);
-                var userStaffToReturn = _mapper.Map<userStaffDto>(userstaff.Result);
-                Console.WriteLine(userstaff);
-
 
                 return Ok(new
                 {
                     token = GenerateJwtToken(user).Result,
-                    user = userToReturn, 
-                    staff = userStaffToReturn
-                    
-
+                    user = userToReturn,                 
                 });
             }
             return Unauthorized(); //if username and password are incorrect return unauthorised

@@ -7,12 +7,18 @@ using Schedular.API.Models;
 using Schedular.API.Dtos;
 using AutoMapper;
 using System;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using System.Linq;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Http;
 
 namespace Schedular.API.Controllers
 {
-    //[Authorize]
-    [AllowAnonymous]
+    [Authorize]
+    //[AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController] 
     public class TaskScheduleController : ControllerBase
@@ -22,6 +28,7 @@ namespace Schedular.API.Controllers
          private readonly IMapper _mapper;
 
 
+        
         // add DTO code here 
         //contructor to use private _repo
         public TaskScheduleController(ITaskScheduleRepository repo, IMapper mapper)
@@ -31,10 +38,12 @@ namespace Schedular.API.Controllers
             // add DTO code here 
         }
 
-        //[Authorize(Policy ="ManagerAccess")]
+        [Authorize(Policy ="ManagerAccess")]
         [HttpGet]
         public async Task<IActionResult> GetTaskSchedules()
-        {
+        {          
+
+
             var taskschedules = await _repo.GetTasks();
 
             // add DTO code here 
@@ -42,12 +51,12 @@ namespace Schedular.API.Controllers
             return Ok(taskschedules);
         }
 
-        [HttpGet("byStaff/{staffId}")]
+        [HttpGet("byUser/{UserId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
-        public async Task<IActionResult> GetTaskSchedule(int staffId)
+        public async Task<IActionResult> GetTaskSchedulesByUser(int UserId)
         {
-            // //get userId from the jwt token
-            // var UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
+            //get userId from the jwt token
+            //var UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
 
 
             // // is the user allowed access to the staff table
@@ -64,11 +73,9 @@ namespace Schedular.API.Controllers
             //     var taskSchedule = await _repo.GetTask(staffId);
             //     return Ok(taskSchedule);
             // }
-            // return Unauthorized();
+            // return Unauthorized();         
+            var taskSchedule = await _repo.GetTaskSchedulesByUser(UserId);
 
-
-
-            var taskSchedule = await _repo.GetTask(staffId);
             var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
 
             return Ok(taskReturn);
@@ -94,7 +101,7 @@ namespace Schedular.API.Controllers
             
         }
         //get the tasks worked in the hours selected
-        //[Authorize(Policy ="ManagerAccess")]
+        // [Authorize(Policy ="ManagerAccess")]
         [HttpGet("tasksWithinHours/{id}/{startDate}/{endDate}")]
         public async Task<IActionResult> GetTasksWithinHoursWorked(int id, DateTime startDate, DateTime endDate)
         {

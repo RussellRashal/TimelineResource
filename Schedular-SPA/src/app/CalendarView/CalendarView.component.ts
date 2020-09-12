@@ -23,9 +23,10 @@ import { delay } from 'rxjs/operators';
 export class CalendarViewComponent implements OnInit {
   apiEvents: any[];
   currentUserLoggedIn;
-  selectedFullNameStaff;
   testTaskSchedule;
-  currentStaffSelected;
+  currentUserSelected;
+  selectedFullName;
+  test;
 
 
   calendarOptions: CalendarOptions = {
@@ -49,23 +50,25 @@ export class CalendarViewComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.currentStaffSelected = JSON.parse(localStorage.getItem('staff'));
-    this.runCalendarData(this.currentStaffSelected);
+    this.currentUserSelected = JSON.parse(localStorage.getItem('user'));
+    this.stateStorageService.setClickedOnUser(this.currentUserSelected);
+    this.selectedFullName = this.currentUserSelected.firstName + ' ' + this.currentUserSelected.lastName;
+    this.runCalendarData(this.currentUserSelected);
   }
 
-  runCalendarData(staff) {
-    this.currentStaffSelected = staff;
-    this.stateStorageService.setClickedOnStaffMember(staff);
-    this.selectedFullNameStaff = staff.firstName + ' ' + staff.lastName;
-    this.taskScheduleService.getTaskScheduleByStaffId(staff.id).subscribe((data) => {
+  runCalendarData(userclicked) {
+    this.currentUserSelected = userclicked;
+    this.stateStorageService.setClickedOnUser(userclicked);
+    this.selectedFullName = userclicked.firstName + ' ' + userclicked.lastName;
+    this.taskScheduleService.getTaskScheduleByUserId(userclicked.id).subscribe((data) => {
       this.apiEvents = data;
       this.calendar(this.apiEvents);
     });
 
   }
 
-  CalendarData(staffId) {
-    this.taskScheduleService.getTaskScheduleByStaffId(staffId).subscribe((data) => {
+  CalendarData(UserId) {
+    this.taskScheduleService.getTaskScheduleByUserId(UserId).subscribe((data) => {
       this.apiEvents = data;
       this.calendar(this.apiEvents);
     });
@@ -103,7 +106,7 @@ export class CalendarViewComponent implements OnInit {
 
   // reload the data from update component once dialog box has been closed
   dataReload() {
-    this.CalendarData(this.currentStaffSelected.id);
+    this.CalendarData(this.currentUserSelected.id);
   }
 
   openDialogAddTask() {

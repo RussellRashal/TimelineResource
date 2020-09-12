@@ -1,3 +1,4 @@
+import { UserMemberModel } from './../_models/UserMemberModel';
 import { TaskSchedule } from '../_models/taskSchedule';
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { Router } from '@angular/router';
@@ -28,7 +29,7 @@ export class UpdateTaskComponent implements OnInit {
   time = {hour: 13, minute: 30};
   taskScheduleData;
   currentUserData;
-  StaffMemberModels;
+  userMemberModels;
   currentStartTimeDate;
   currentEndTimeDate;
   startDateConvert;
@@ -38,11 +39,11 @@ export class UpdateTaskComponent implements OnInit {
   hourEndTimeConvert;
   minuteEndTimeConvert;
   currentFullName: string;
-  stringStaffMemberModel: any[];
   returnedStartDateAndTime: string;
   returnedEndDateAndTime: string;
   putServiceTaskSchedule: TaskSchedule;
-
+  role;
+  userAuthorised: boolean;
 
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
@@ -57,8 +58,18 @@ export class UpdateTaskComponent implements OnInit {
 
   ngOnInit() {
     this.taskScheduleData = this.stateStorageService.gettaskScheduleStorage();
-    this.currentUserData = this.stateStorageService.getClickedOnStaffMember();
-    this.StaffMemberModels = this.stateStorageService.getStaffMemberStorage();
+    this.currentUserData = this.stateStorageService.getClickedOnUser();
+
+    this.role = JSON.parse(localStorage.getItem('role'));
+    // if user is not a manager
+    if (this.role !== 'Manager') {
+      this.userAuthorised = false;
+    } // if user is a manager
+    else {
+      // list of users for the drop down
+      this.userMemberModels = this.stateStorageService.getUserMemberStorage();
+      this.userAuthorised = true;
+    }
 
     this.currentStartTimeDate = this.taskScheduleData.event.start;
     this.currentEndTimeDate = this.taskScheduleData.event.end;
@@ -67,14 +78,11 @@ export class UpdateTaskComponent implements OnInit {
     this.dropDownTimeList();
     this.initForm();
 
-    // console.log('end time converted ' + this.hourEndTimeConvert);
-    // console.log('true end time ' + this.taskScheduleData.event.end);
-
   }
 
   initForm() {
     this.profileForm = new FormGroup({
-      staffName: new FormControl(this.currentUserData.id),
+      userName: new FormControl(this.currentUserData.id),
       taskTextArea: new FormControl(this.taskScheduleData.event.title),
       startDate: new FormControl(this.startDateConvert),
       startHourTime: new FormControl(this.hourStartTimeConvert),
@@ -133,7 +141,7 @@ export class UpdateTaskComponent implements OnInit {
     this.profileForm.value.startMinuteTime === '' ||
     this.profileForm.value.endMinuteTime === '' ||
     this.profileForm.value.taskTextArea === '' ||
-    this.profileForm.value.staffName === '') {
+    this.profileForm.value.userName === '') {
       this.nullError = true;
     }
     else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
@@ -168,7 +176,7 @@ export class UpdateTaskComponent implements OnInit {
         title: this.profileForm.value.taskTextArea,
         start: this.returnedStartDateAndTime,
         end: this.returnedEndDateAndTime,
-        staffId: Number(this.profileForm.value.staffName)
+        userId: Number(this.profileForm.value.userName)
       };
 
       // send data to api
@@ -219,6 +227,10 @@ export class UpdateTaskComponent implements OnInit {
   loggedOut() {
     const token = localStorage.removeItem('token');
     console.log('logged out');
+  }
+
+  authorised() {
+    return this.userAuthorised;
   }
 
 }

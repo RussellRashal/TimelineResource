@@ -1,12 +1,12 @@
 <button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
 
 <form *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
-  <div>
-    <label>Staff Name</label>      
-    <select class="ml-2" formControlName="staffName">
-      <option *ngFor="let StaffMemberModel of StaffMemberModels"
-        [value]="StaffMemberModel.id"> 
-          {{StaffMemberModel.firstName}} {{StaffMemberModel.lastName}}
+  <div *ngIf="authorised()">
+    <label>Name</label>      
+    <select class="ml-2" formControlName="userName">
+      <option *ngFor="let userMemberModel of userMemberModels"
+        [value]="userMemberModel.id"> 
+          {{userMemberModel.firstName}} {{userMemberModel.lastName}}
       </option>      
    </select>
   </div>

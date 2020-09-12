@@ -3,6 +3,7 @@ using System.Linq;
 using Schedular.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
+using System;
 
 namespace Schedular.API.Data
 {
@@ -15,13 +16,15 @@ namespace Schedular.API.Data
             {
                 new Role{Name = "Admin"},
                 new Role{Name = "Manager"},
-                new Role{Name = "Staff"},
+                new Role{Name = "Standard"}, 
             };
 
-            // foreach (var role in roles)
-            // {
-            //     roleManager.CreateAsync(role).Wait();                    
-            // }            
+            foreach (var role in roles)
+            {
+                roleManager.CreateAsync(role).Wait();                    
+            }
+
+          
         }    
     }
 }

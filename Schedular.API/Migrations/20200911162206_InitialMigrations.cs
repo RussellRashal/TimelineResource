@@ -42,25 +42,13 @@ namespace Schedular.API.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Staffs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Staffs", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,38 +166,14 @@ namespace Schedular.API.Migrations
                     Title = table.Column<string>(nullable: true),
                     Start = table.Column<DateTime>(nullable: false),
                     End = table.Column<DateTime>(nullable: false),
-                    staffId = table.Column<int>(nullable: false)
+                    userId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TaskSchedules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TaskSchedules_Staffs_staffId",
-                        column: x => x.staffId,
-                        principalTable: "Staffs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserStaffs",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(nullable: false),
-                    StaffId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserStaffs", x => new { x.UserId, x.StaffId });
-                    table.ForeignKey(
-                        name: "FK_UserStaffs_Staffs_StaffId",
-                        column: x => x.StaffId,
-                        principalTable: "Staffs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserStaffs_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_TaskSchedules_AspNetUsers_userId",
+                        column: x => x.userId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -253,14 +217,9 @@ namespace Schedular.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskSchedules_staffId",
+                name: "IX_TaskSchedules_userId",
                 table: "TaskSchedules",
-                column: "staffId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserStaffs_StaffId",
-                table: "UserStaffs",
-                column: "StaffId");
+                column: "userId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -284,13 +243,7 @@ namespace Schedular.API.Migrations
                 name: "TaskSchedules");
 
             migrationBuilder.DropTable(
-                name: "UserStaffs");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Staffs");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -26,14 +26,15 @@ export class AddTaskComponent implements OnInit {
 
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
-  StaffMemberModels;
+  userMemberModels;
   profileForm: FormGroup;
   returnedStartDateAndTime: string;
   returnedEndDateAndTime: string;
   postServiceTaskSchedule: TaskSchedule;
   currentUser;
-  StaffLinkedToUser;
-  currentUserDataOnService;
+  currentUserData;
+  userAuthorised: boolean;
+  role;
 
   constructor(
     private stateStorageService: StateStorageService,
@@ -44,11 +45,20 @@ export class AddTaskComponent implements OnInit {
 
 
   ngOnInit() {
-    // get staff from storageService
-    this.StaffMemberModels = this.stateStorageService.getStaffMemberStorage();
-    this.StaffLinkedToUser = JSON.parse(localStorage.getItem('staff'));
-    // the below will put the name of the person who is logged in or had the button clicked onto the staff name automatically
-    this.currentUserDataOnService = this.stateStorageService.getClickedOnStaffMember();
+    // get user from storageService
+    // the below will put the name of the person who is logged in or had the button clicked onto the user name automatically
+    this.currentUserData = this.stateStorageService.getClickedOnUser();
+
+    this.role = JSON.parse(localStorage.getItem('role'));
+    // if user is not a manager
+    if (this.role !== 'Manager') {
+      this.userAuthorised = false;
+    } // if user is a manager
+    else {
+      // list of users for the drop down
+      this.userMemberModels = this.stateStorageService.getUserMemberStorage();
+      this.userAuthorised = true;
+    }
 
     this.dropDownTimeList();
     this.initForm();
@@ -56,7 +66,7 @@ export class AddTaskComponent implements OnInit {
 
   initForm() {
     this.profileForm = new FormGroup({
-      staffName: new FormControl(this.currentUserDataOnService.id),
+      userName: new FormControl(this.currentUserData.id),
       taskTextArea: new FormControl(''),
       startDate: new FormControl(new Date().toISOString().slice(0, 10)),
       startHourTime: new FormControl(''),
@@ -101,7 +111,7 @@ export class AddTaskComponent implements OnInit {
         this.profileForm.value.startMinuteTime === '' ||
         this.profileForm.value.endMinuteTime === '' ||
         this.profileForm.value.taskTextArea === '' ||
-        this.profileForm.value.staffName === '') {
+        this.profileForm.value.userName === '') {
           this.nullError = true;
     }
     else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
@@ -136,7 +146,7 @@ export class AddTaskComponent implements OnInit {
         title: this.profileForm.value.taskTextArea,
         start: this.returnedStartDateAndTime,
         end: this.returnedEndDateAndTime,
-        staffId: Number(this.profileForm.value.staffName)
+        userId: Number(this.profileForm.value.userName)
       };
 
       // send data to api
@@ -179,5 +189,9 @@ export class AddTaskComponent implements OnInit {
   loggedOut() {
     const token = localStorage.removeItem('token');
     console.log('logged out');
+  }
+
+  authorised() {
+    return this.userAuthorised;
   }
 }

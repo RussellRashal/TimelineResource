@@ -34,7 +34,7 @@ namespace Schedular.API.Data
             TaskScheduleDb.Title = taskSchedule.Title;
             TaskScheduleDb.Start = taskSchedule.Start;
             TaskScheduleDb.End = taskSchedule.End;
-            TaskScheduleDb.staffId = taskSchedule.staffId;
+            TaskScheduleDb.userId = taskSchedule.userId;
 
             _context.SaveChanges();
 
@@ -52,50 +52,33 @@ namespace Schedular.API.Data
         }
 
         //get individual taskschedules data
-        public async Task<IEnumerable<TaskSchedule>> GetTask(int staffId)
+        public async Task<IEnumerable<TaskSchedule>> GetTask(int id)
         {    
             //remember to add users with linq include
              var taskSchedule = await _context.TaskSchedules
-                .Include(s => s.staffs)
-                .Where(s => s.staffId == staffId)
+                .Where(u => u.userId == id)
                 .ToListAsync();
 
             return taskSchedule;  
         }        
 
-        // is the user allowed to access the staff members table. do a query search on the userStaff link table
-        public bool isUserStaffAllowed(int staffId, int userId)
-        {
-             var UserStaffMatch =  _context.UserStaffs
-                .Where(u => u.UserId == userId)
-                .Where(s => s.StaffId == staffId)
-                .Any(); 
-
-            if(UserStaffMatch)
-            {
-                return true;
-            }
-            return false;
-         }
-
-
         //get all data of taskSchedules
         public async Task<IEnumerable<TaskSchedule>> GetTasks()
         {
             var taskSchedule = await _context.TaskSchedules
-                .Include(s => s.staffs)
-                .ToListAsync();
+                .ToListAsync();             
+           
+           return taskSchedule;
 
-            return taskSchedule;            
         }
         
     
         //get users tasks
-        public async Task<IList<TaskSchedule>> GetTaskSchedulesByStaffId(int id)
+        public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int UserId)
         {
             var userTaskSchedule = await _context.TaskSchedules
-            .Where(s => s.staffId == id)
-            .ToListAsync();                                    
+            .Where(u => u.userId == UserId)
+            .ToListAsync();                                   
 
             return userTaskSchedule;            
         }
@@ -107,12 +90,12 @@ namespace Schedular.API.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
-
+        //work out the number of hours worked
         public async Task<TimeSpan> GetHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)
         {
             DateTime endDateAdjust = endDate.AddDays(1);
             var taskSchedulesWorked = await _context.TaskSchedules
-                .Where(s => s.staffId == id)
+                .Where(u => u.userId == id)
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
                 .ToListAsync();
 
@@ -131,11 +114,12 @@ namespace Schedular.API.Data
             } 
             return HoursWorked;    
         }
+        //get the tasks between the hours worked
         public async Task<IEnumerable<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)
         {
             DateTime endDateAdjust = endDate.AddDays(1);
             var taskSchedulesWorked = await _context.TaskSchedules
-                .Where(s => s.staffId == id)
+                .Where(u => u.userId == id)
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
                 .ToListAsync();
                 

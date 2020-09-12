@@ -1,10 +1,10 @@
 <div class="sidebar">
   <ul class="nav flex-column">  
-      <div *ngFor="let staffMemberModel of staffMemberModelsResolve"  
+      <div *ngFor="let UserMemberModel of UserMemberModels"  
         class="btn-group-vertical">
-        <button (click)="sendStaffButtonClick(staffMemberModel)" class="btn btn-secondary">
-          {{staffMemberModel.firstName}}
-          {{staffMemberModel.lastName}}
+        <button (click)="sendUserButtonClick(UserMemberModel)" class="btn btn-secondary">
+          {{UserMemberModel.firstName}}
+          {{UserMemberModel.lastName}}
         </button>
       </div> 
   </ul>  

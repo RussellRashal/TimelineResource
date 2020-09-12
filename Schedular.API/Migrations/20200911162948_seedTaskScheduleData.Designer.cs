@@ -9,8 +9,8 @@ using Schedular.API.Data;
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200812153137_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20200911162948_seedTaskScheduleData")]
+    partial class seedTaskScheduleData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -130,23 +130,6 @@ namespace Schedular.API.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Schedular.API.Models.Staff", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Staffs");
-                });
-
             modelBuilder.Entity("Schedular.API.Models.TaskSchedule", b =>
                 {
                     b.Property<int>("Id")
@@ -162,14 +145,80 @@ namespace Schedular.API.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("staffId")
+                    b.Property<int>("userId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("staffId");
+                    b.HasIndex("userId");
 
                     b.ToTable("TaskSchedules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            End = new DateTime(2020, 9, 14, 14, 45, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 14, 12, 12, 0, 0, DateTimeKind.Unspecified),
+                            Title = "create this to achieve that",
+                            userId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            End = new DateTime(2020, 9, 14, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 14, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Antoher task to do",
+                            userId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            End = new DateTime(2020, 9, 15, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 15, 11, 14, 0, 0, DateTimeKind.Unspecified),
+                            Title = "collection of objects",
+                            userId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            End = new DateTime(2020, 9, 16, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 16, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Title = "removal needed to clear",
+                            userId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            End = new DateTime(2020, 9, 16, 15, 36, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 16, 12, 12, 0, 0, DateTimeKind.Unspecified),
+                            Title = "create documentation needed",
+                            userId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            End = new DateTime(2020, 9, 18, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 18, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            Title = "setup equipment for the day",
+                            userId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            End = new DateTime(2020, 9, 15, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 15, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            Title = "speak to other customers in regards to",
+                            userId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            End = new DateTime(2020, 9, 15, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 12, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            Title = "allow for time to be selected within",
+                            userId = 2
+                        });
                 });
 
             modelBuilder.Entity("Schedular.API.Models.User", b =>
@@ -191,6 +240,12 @@ namespace Schedular.API.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -252,21 +307,6 @@ namespace Schedular.API.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Schedular.API.Models.UserStaff", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StaffId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "StaffId");
-
-                    b.HasIndex("StaffId");
-
-                    b.ToTable("UserStaffs");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Schedular.API.Models.Role", null)
@@ -305,9 +345,9 @@ namespace Schedular.API.Migrations
 
             modelBuilder.Entity("Schedular.API.Models.TaskSchedule", b =>
                 {
-                    b.HasOne("Schedular.API.Models.Staff", "staffs")
+                    b.HasOne("Schedular.API.Models.User", "user")
                         .WithMany()
-                        .HasForeignKey("staffId")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -322,21 +362,6 @@ namespace Schedular.API.Migrations
 
                     b.HasOne("Schedular.API.Models.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Schedular.API.Models.UserStaff", b =>
-                {
-                    b.HasOne("Schedular.API.Models.Staff", "Staffs")
-                        .WithMany("UserStaffs")
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Schedular.API.Models.User", "Users")
-                        .WithMany("UserStaffs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

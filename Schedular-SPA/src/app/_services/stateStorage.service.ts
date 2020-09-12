@@ -1,6 +1,6 @@
 import { TaskSchedule } from './../_models/taskSchedule';
 import { Injectable } from '@angular/core';
-import { StaffMemberModel } from '../_models/StaffMemberModel';
+import { UserMemberModel } from '../_models/UserMemberModel';
 import { endWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -9,9 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class StateStorageService {
   taskSchedule: TaskSchedule[];
-  currentStaffData: [];
-  staffMembers: [];
-  currentClickedStaff: StaffMemberModel[];
+  userMembers: [];
+  currentClickedUser: UserMemberModel[];
 
 
   constructor() { }
@@ -24,24 +23,22 @@ export class StateStorageService {
   }
 
 
-
-
   // staff member clicked on for updateTask component
-  setClickedOnStaffMember(currentCllickedStaff) {
-    this.currentClickedStaff = currentCllickedStaff;
+  setClickedOnUser(CllickedUser) {
+    this.currentClickedUser = CllickedUser;
   }
-  getClickedOnStaffMember() {
-    return this.currentClickedStaff;
+  getClickedOnUser() {
+    return this.currentClickedUser;
   }
 
 
 
   // storage of staff member to use in calendarView component from the sidebar component
   // the data is coming from sidebar.component and it sends all staff names and data
-  setStaffMemberStorage(sidebarstaffMembers) {
-    this.staffMembers = sidebarstaffMembers;
+  setUserMemberStorage(sidebarUserMembers) {
+    this.userMembers = sidebarUserMembers;
   }
-  getStaffMemberStorage() {
-    return this.staffMembers;
+  getUserMemberStorage() {
+    return this.userMembers;
   }
 }

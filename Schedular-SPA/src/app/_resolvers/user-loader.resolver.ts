@@ -1,20 +1,20 @@
 import {Injectable} from '@angular/core';
-import { StaffMemberModel } from '../_models/StaffMemberModel';
+import { UserMemberModel } from '../_models/UserMemberModel';
 import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { StaffMemberService } from '../_services/staffMember.service';
+import { UserMemberService } from '../_services/userMember.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class StaffLoaderResolver implements Resolve<StaffMemberModel> {
+export class UserLoaderResolver implements Resolve<UserMemberModel> {
 
     constructor(
-        private staffMemberService: StaffMemberService,
+        private userMemberService: UserMemberService,
         private router: Router) {}
 
     // get staff json data
-    resolve(route: ActivatedRouteSnapshot): Observable<StaffMemberModel> {
-        return this.staffMemberService.getStaffs().pipe(
+    resolve(route: ActivatedRouteSnapshot): Observable<UserMemberModel> {
+        return this.userMemberService.getUsers().pipe(
             catchError(error => {
                 console.log(error);
                 return of(null);

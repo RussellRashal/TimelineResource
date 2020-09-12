@@ -2,6 +2,7 @@ import { HoursWorkedService } from './../_services/hoursWorked.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { StateStorageService } from '../_services/stateStorage.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-hours-worked',
@@ -10,31 +11,60 @@ import { StateStorageService } from '../_services/stateStorage.service';
 })
 export class HoursWorkedComponent implements OnInit {
   profileForm: FormGroup;
-  StaffMemberModels;
+  UserMemberModels;
   hoursWorked;
   minuteWorked;
   nullError;
-
+  currentUser;
+  userAuthorised: boolean;
   dateError: boolean;
-
   tasksFromHoursWorkeds;
+  role;
 
   constructor(
     private stateStorageService: StateStorageService,
-    private hoursWorkedService: HoursWorkedService) { }
+    private hoursWorkedService: HoursWorkedService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.StaffMemberModels = this.stateStorageService.getStaffMemberStorage();
 
-    this.initForm();
+
+    // who the current user is
+    this.route.data.subscribe(data => {
+      this.currentUser = data['CurrentUser'];
+    });
+
+    console.log('id of current user = ' + this.currentUser.id);
+
+    this.role = JSON.parse(localStorage.getItem('role'));
+    // if user is not a manager
+    if (this.role !== 'Manager') {
+      console.log('not manager');
+      this.userAuthorised = false;
+    } // if user is a manager
+    else {
+      // list of users for the drop down
+      this.route.data.subscribe(data => {
+        this.UserMemberModels = data['UserMemberModel'];
+      });
+      this.userAuthorised = true;
+      console.log('manager has logged in login');
+    }
+
+
+
+    this.initialiseForm();
   }
+
+
+
 
   onSubmit() {
     this.dateError = false;
     this.nullError = false;
 
     // validation check
-    if (this.profileForm.value.staffId === '') {
+    if (this.profileForm.value.userId === '') {
       this.nullError = true;
     }
     else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
@@ -42,7 +72,7 @@ export class HoursWorkedComponent implements OnInit {
     }
     else {
       this.hoursWorkedService.GetHoursWorked(
-        this.profileForm.value.staffId,
+        this.profileForm.value.userId,
         this.profileForm.value.startDate,
         this.profileForm.value.endDate
       ).subscribe((data) => {
@@ -54,7 +84,7 @@ export class HoursWorkedComponent implements OnInit {
 
       // tasks to show on the bottom
       this.hoursWorkedService.GetTasksWithinHoursWorked(
-        this.profileForm.value.staffId,
+        this.profileForm.value.userId,
         this.profileForm.value.startDate,
         this.profileForm.value.endDate
       ).subscribe((data) => {
@@ -63,16 +93,16 @@ export class HoursWorkedComponent implements OnInit {
     }
   }
 
-  initForm() {
+  initialiseForm() {
     this.profileForm = new FormGroup({
-      staffId: new FormControl(''),
+      userId: new FormControl(this.currentUser.id),
       startDate: new FormControl(new Date().toISOString().slice(0, 10)),
       endDate: new FormControl(new Date().toISOString().slice(0, 10))
     });
   }
 
    // validation checker for template div tags
-  getDateError() {
+  getDateError(){
     return this.dateError;
   }
   getNullError() {
@@ -88,6 +118,10 @@ export class HoursWorkedComponent implements OnInit {
   loggedOut() {
     const token = localStorage.removeItem('token');
     console.log('logged out');
+  }
+
+  authorised() {
+    return this.userAuthorised;
   }
 
 }

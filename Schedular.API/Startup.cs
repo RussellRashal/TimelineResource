@@ -80,8 +80,8 @@ namespace Schedular.API
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminAccess", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("ManagerAccess", policy => policy.RequireRole("Manager", "Admin"));
-                options.AddPolicy("EveryoneAccess", policy => policy.RequireRole("Staff", "Manager", "Admin"));
+                options.AddPolicy("ManagerAccess", policy => policy.RequireRole("Admin", "Manager"));
+                options.AddPolicy("everyone", policy => policy.RequireRole("Admin", "Manager", "standard"));
             });
 
             services.AddControllers(options => 
@@ -99,8 +99,7 @@ namespace Schedular.API
             }); 
             services.AddCors();  
             services.AddScoped<ITaskScheduleRepository, TaskScheduleRepository>();
-            services.AddScoped<IStaffRepository, StaffRepository>();
-            services.AddScoped<IStaffRepository, StaffRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
         
 

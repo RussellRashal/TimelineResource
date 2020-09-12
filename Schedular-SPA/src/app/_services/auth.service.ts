@@ -3,12 +3,16 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { DefaultUrlSerializer } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   baseUrl = environment.apiUrl + 'auth/';
+  decodedToken: any;
+  jwtHelper = new JwtHelperService();
+
 
   constructor(private http: HttpClient) { }
 
@@ -19,16 +23,18 @@ export class AuthService {
           const user = response;
           if (user) {
             localStorage.setItem('token', user.token);
-            localStorage.setItem('username', JSON.stringify(user.user.username));
-            localStorage.setItem('staff', JSON.stringify(user.staff.staffs));
-            localStorage.setItem('id', JSON.stringify(user.user.id));
+            localStorage.setItem('user', JSON.stringify(user.user));
+            this.decodedToken = this.jwtHelper.decodeToken(user.token);
+            localStorage.setItem('role', JSON.stringify(this.decodedToken.role));
+
           }
         })
       );
   }
 
-
-
-
+  loggedIn() {
+    const token = localStorage.getItem('token');
+    return !this.jwtHelper.isTokenExpired(token);
+  }
 
 }

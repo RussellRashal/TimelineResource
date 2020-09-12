@@ -8,7 +8,7 @@ namespace Schedular.API.Models
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public Staff staffs { get; set; }
-        public int staffId { get; set; }     
+        public User user { get; set; }
+        public int userId { get; set; }     
     }
 }

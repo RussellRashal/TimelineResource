@@ -9,7 +9,7 @@ namespace Schedular.API.Dtos
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public int staffId { get; set; }   
+        public int userId { get; set; }   
 
     }
 }
