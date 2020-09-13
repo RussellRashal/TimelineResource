@@ -17,7 +17,7 @@ namespace Schedular.API.Data
       //IEnumerable loops over a collection of classes
       Task<bool> SaveAll();
       //get an individual task 
-      Task<IEnumerable<TaskSchedule>> GetTask(int staffId);   
+      Task<IList<TaskSchedule>> GetTask(int id);   
       // get all tasks        
       Task<IEnumerable<TaskSchedule>> GetTasks(); 
       //get users task

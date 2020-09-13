@@ -12,7 +12,7 @@ export class UserLoaderResolver implements Resolve<UserMemberModel> {
         private userMemberService: UserMemberService,
         private router: Router) {}
 
-    // get staff json data
+    // get user in json data from API
     resolve(route: ActivatedRouteSnapshot): Observable<UserMemberModel> {
         return this.userMemberService.getUsers().pipe(
             catchError(error => {

@@ -15,7 +15,7 @@ export const appRoutes: Routes = [
     {
         path: 'CalendarView', component: CalendarViewComponent,
         resolve: {
-            UserMemberModel: UserLoaderResolver
+             UserMemberModel: UserLoaderResolver
         }
     },
     {

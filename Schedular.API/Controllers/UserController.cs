@@ -9,8 +9,7 @@ using Schedular.API.Models;
 
 namespace Schedular.API.Controllers
 {
-    //[Authorize]
-    [AllowAnonymous]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController] 
     public class UserController : ControllerBase
@@ -25,6 +24,7 @@ namespace Schedular.API.Controllers
             _repo = repo;
         }
 
+        [Authorize(Policy ="ManagerAccess")]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {

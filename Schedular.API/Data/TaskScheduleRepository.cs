@@ -52,15 +52,16 @@ namespace Schedular.API.Data
         }
 
         //get individual taskschedules data
-        public async Task<IEnumerable<TaskSchedule>> GetTask(int id)
+        public async Task<IList<TaskSchedule>> GetTask(int id)
         {    
             //remember to add users with linq include
              var taskSchedule = await _context.TaskSchedules
-                .Where(u => u.userId == id)
+                .Where(u => u.Id == id)
                 .ToListAsync();
-
+                
             return taskSchedule;  
-        }        
+        }  
+     
 
         //get all data of taskSchedules
         public async Task<IEnumerable<TaskSchedule>> GetTasks()
@@ -77,8 +78,8 @@ namespace Schedular.API.Data
         public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int UserId)
         {
             var userTaskSchedule = await _context.TaskSchedules
-            .Where(u => u.userId == UserId)
-            .ToListAsync();                                   
+                .Where(u => u.userId == UserId)
+                .ToListAsync();                                   
 
             return userTaskSchedule;            
         }

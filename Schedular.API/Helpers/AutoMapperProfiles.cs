@@ -1,7 +1,8 @@
 using AutoMapper;
 using Schedular.API.Models;
 using Schedular.API.Dtos;
-
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Schedular.API.Helpers
 {
@@ -12,6 +13,8 @@ namespace Schedular.API.Helpers
             CreateMap<UserForRegisterDto, User>();
             CreateMap<User, UserForReturnDto>();
             CreateMap<TaskSchedule, getTaskScheduleDto>();
+            CreateMap<Task<IEnumerable<TaskSchedule>>, getTaskScheduleDto>();
+
 
         }
     }
