@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class UserLoaderResolver implements Resolve<UserMemberModel> {
+    role;
 
     constructor(
         private userMemberService: UserMemberService,
@@ -14,11 +15,17 @@ export class UserLoaderResolver implements Resolve<UserMemberModel> {
 
     // get user in json data from API
     resolve(route: ActivatedRouteSnapshot): Observable<UserMemberModel> {
-        return this.userMemberService.getUsers().pipe(
-            catchError(error => {
-                console.log(error);
-                return of(null);
-            })
-        );
+        this.role = JSON.parse(localStorage.getItem('role'));
+        if (this.role === 'Manager' || this.role === 'Admin') {
+            return this.userMemberService.getUsers().pipe(
+                catchError(error => {
+                    console.log(error);
+                    return of(null);
+                })
+            );
+        }
+        else {
+            return of(null);
+        }
     }
 }

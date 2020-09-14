@@ -1,3 +1,4 @@
+import { AuthGuard } from './_guards/auth.guard';
 import { UserMemberModel } from './_models/UserMemberModel';
 import { stateStorageResolver } from './_resolvers/state-storage.resolver';
 import { HoursWorkedComponent } from './HoursWorked/HoursWorked.component';
@@ -12,27 +13,20 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginPageComponent } from './loginPage/loginPage.component';
 
 export const appRoutes: Routes = [
-    {
-        path: 'CalendarView', component: CalendarViewComponent,
-        resolve: {
-             UserMemberModel: UserLoaderResolver
+    { path: 'CalendarView', component: CalendarViewComponent, canActivate: [AuthGuard],
+        resolve: {UserMemberModel: UserLoaderResolver
         }
     },
-    {
-        path: 'testtask', component: TestTaskComponent
-    },
+    { path: 'testtask', component: TestTaskComponent, canActivate: [AuthGuard] },
     // { path: 'addtask', component: AddTaskComponent},
     // { path: 'updatetask', component: UpdateTaskComponent},
-    {
-        path: 'hoursworked', component: HoursWorkedComponent,
+    { path: 'hoursworked', component: HoursWorkedComponent, canActivate: [AuthGuard],
         resolve: {
             UserMemberModel: UserLoaderResolver,
             CurrentUser: stateStorageResolver
         }
     },
-    {
-        path: 'login', component: LoginPageComponent
-    }
+    { path: 'login', component: LoginPageComponent}
     // { path: '', redirectTo: 'login', pathMatch: 'full'}
 ];
 
