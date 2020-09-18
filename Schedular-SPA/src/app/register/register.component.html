@@ -1,0 +1,24 @@
+<form [formGroup]="BookComplete" (ngSubmit)="Register()"> 
+
+
+  <label>firstName</label>
+  <div class="form-group">
+    <input formControlName="firstname" type="text" class="form-control" placeholder="firstName">
+  </div>
+
+
+  <label>lastName</label>
+  <div class="form-group">
+    <input formControlName="lastName" type="text" class="form-control" placeholder="LastName">
+  </div>
+
+  <label>Password</label>
+  <div class="form-group">
+    <input formControlName="Password" type="password" class="form-control" placeholder="Password">
+  </div>
+
+ <div class="form-group text-center">
+    <button class="btn btn-success" type="submit">Register</button>
+  </div>      
+
+</form>
