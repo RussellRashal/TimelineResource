@@ -37,6 +37,7 @@ namespace Schedular.API.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             var userToCreate = _mapper.Map<User>(userForRegisterDto);

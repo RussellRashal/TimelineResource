@@ -12,7 +12,7 @@ import { NavigationBarComponent } from './navigationBar/navigationBar.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AddTaskComponent } from './addTask/addTask.component';
 import { HoursWorkedComponent } from './HoursWorked/HoursWorked.component';
-
+import { RegisterComponent } from './register/register.component';
 // angular material
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -68,7 +68,8 @@ export function tokengetter() {
     TimePickerComponent,
     HoursWorkedComponent,
     UpdateTaskComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    RegisterComponent
    ],
   imports: [
     CommonModule,

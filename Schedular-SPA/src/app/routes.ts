@@ -1,3 +1,4 @@
+import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { UserMemberModel } from './_models/UserMemberModel';
 import { stateStorageResolver } from './_resolvers/state-storage.resolver';
@@ -20,6 +21,7 @@ export const appRoutes: Routes = [
     { path: 'testtask', component: TestTaskComponent, canActivate: [AuthGuard] },
     // { path: 'addtask', component: AddTaskComponent},
     // { path: 'updatetask', component: UpdateTaskComponent},
+    { path: 'register', component: RegisterComponent},
     { path: 'hoursworked', component: HoursWorkedComponent, canActivate: [AuthGuard],
         resolve: {
             UserMemberModel: UserLoaderResolver,

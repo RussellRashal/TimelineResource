@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "schedular-spa"
+  "defaultProject": "schedular-spa",
+  "cli": {
+    "analytics": false
+  }
 }

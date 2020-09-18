@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { DefaultUrlSerializer } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,9 @@ export class AuthService {
           }
         })
       );
+  }
+  register(model: any): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'register', model);
   }
 
   loggedIn() {
