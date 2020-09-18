@@ -27,6 +27,7 @@ namespace Schedular.API.Controllers
         //initialise the taskschedule repository    
         private readonly ITaskScheduleRepository _repo;
          private readonly IMapper _mapper;
+         private int test;
 
         // add DTO code here 
         //contructor to use private _repo
