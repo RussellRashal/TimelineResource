@@ -70,16 +70,29 @@ namespace Schedular.API.Data
                 .ToListAsync();             
            
            return taskSchedule;
-
         }
         
     
         //get users tasks
+        // public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int UserId)
+        // {
+        //     var userTaskSchedule = await _context.TaskSchedules
+        //         .Where(u => u.userId == UserId)
+        //         .ToListAsync();                                   
+
+        //     return userTaskSchedule;            
+        // }
+
+        //get users with notes test 
         public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int UserId)
         {
             var userTaskSchedule = await _context.TaskSchedules
                 .Where(u => u.userId == UserId)
-                .ToListAsync();                                   
+                //.Join(n in _context.Notes on n.taskID == )
+                .ToListAsync();
+
+            var test = userTaskSchedule[0].Id;  
+                                            
 
             return userTaskSchedule;            
         }
