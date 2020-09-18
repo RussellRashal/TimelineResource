@@ -13,6 +13,8 @@ namespace Schedular.API.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         
         public DbSet<TaskSchedule> TaskSchedules { get; set; }
+        public DbSet<Note> Notes { get; set; }
+
          protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

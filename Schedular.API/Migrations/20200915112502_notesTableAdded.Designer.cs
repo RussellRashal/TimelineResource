@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Schedular.API.Data;
 
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200915112502_notesTableAdded")]
+    partial class notesTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,33 +101,6 @@ namespace Schedular.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Schedular.API.Models.Note", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("NotesInfo")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("dateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("taskScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("taskScheduleId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("Schedular.API.Models.Role", b =>
@@ -266,6 +241,33 @@ namespace Schedular.API.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("Schedular.API.Models.note", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("NotesInfo")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("taskId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("taskScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("taskScheduleId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Notes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Schedular.API.Models.Role", null)
@@ -302,19 +304,6 @@ namespace Schedular.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Schedular.API.Models.Note", b =>
-                {
-                    b.HasOne("Schedular.API.Models.TaskSchedule", "taskSchedule")
-                        .WithMany()
-                        .HasForeignKey("taskScheduleId");
-
-                    b.HasOne("Schedular.API.Models.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Schedular.API.Models.TaskSchedule", b =>
                 {
                     b.HasOne("Schedular.API.Models.User", "user")
@@ -335,6 +324,19 @@ namespace Schedular.API.Migrations
                     b.HasOne("Schedular.API.Models.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Schedular.API.Models.note", b =>
+                {
+                    b.HasOne("Schedular.API.Models.TaskSchedule", "taskSchedule")
+                        .WithMany()
+                        .HasForeignKey("taskScheduleId");
+
+                    b.HasOne("Schedular.API.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -14,6 +14,8 @@ namespace Schedular.API.Helpers
             CreateMap<User, UserForReturnDto>();
             CreateMap<TaskSchedule, getTaskScheduleDto>();
             CreateMap<Task<IEnumerable<TaskSchedule>>, getTaskScheduleDto>();
+            CreateMap<Note, noteDto>();
+
 
 
         }
