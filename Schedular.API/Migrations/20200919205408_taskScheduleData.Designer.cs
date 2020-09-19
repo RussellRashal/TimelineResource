@@ -9,8 +9,8 @@ using Schedular.API.Data;
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200911162948_seedTaskScheduleData")]
-    partial class seedTaskScheduleData
+    [Migration("20200919205408_taskScheduleData")]
+    partial class taskScheduleData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,6 +101,33 @@ namespace Schedular.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Schedular.API.Models.Note", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("NotesInfo")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("TaskScheduleId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("dateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskScheduleId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("Schedular.API.Models.Role", b =>
@@ -339,6 +366,19 @@ namespace Schedular.API.Migrations
                     b.HasOne("Schedular.API.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Schedular.API.Models.Note", b =>
+                {
+                    b.HasOne("Schedular.API.Models.TaskSchedule", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("TaskScheduleId");
+
+                    b.HasOne("Schedular.API.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

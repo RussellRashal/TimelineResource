@@ -110,18 +110,18 @@ namespace Schedular.API.Migrations
                     b.Property<string>("NotesInfo")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<int?>("TaskScheduleId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("dateCreated")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("taskScheduleId")
-                        .HasColumnType("int");
 
                     b.Property<int>("userId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("taskScheduleId");
+                    b.HasIndex("TaskScheduleId");
 
                     b.HasIndex("userId");
 
@@ -178,6 +178,72 @@ namespace Schedular.API.Migrations
                     b.HasIndex("userId");
 
                     b.ToTable("TaskSchedules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            End = new DateTime(2020, 9, 14, 14, 45, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 14, 12, 12, 0, 0, DateTimeKind.Unspecified),
+                            Title = "create this to achieve that",
+                            userId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            End = new DateTime(2020, 9, 14, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 14, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Antoher task to do",
+                            userId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            End = new DateTime(2020, 9, 15, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 15, 11, 14, 0, 0, DateTimeKind.Unspecified),
+                            Title = "collection of objects",
+                            userId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            End = new DateTime(2020, 9, 16, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 16, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            Title = "removal needed to clear",
+                            userId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            End = new DateTime(2020, 9, 16, 15, 36, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 16, 12, 12, 0, 0, DateTimeKind.Unspecified),
+                            Title = "create documentation needed",
+                            userId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            End = new DateTime(2020, 9, 18, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 18, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            Title = "setup equipment for the day",
+                            userId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            End = new DateTime(2020, 9, 15, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 15, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            Title = "speak to other customers in regards to",
+                            userId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            End = new DateTime(2020, 9, 15, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            Start = new DateTime(2020, 9, 12, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            Title = "allow for time to be selected within",
+                            userId = 2
+                        });
                 });
 
             modelBuilder.Entity("Schedular.API.Models.User", b =>
@@ -304,9 +370,9 @@ namespace Schedular.API.Migrations
 
             modelBuilder.Entity("Schedular.API.Models.Note", b =>
                 {
-                    b.HasOne("Schedular.API.Models.TaskSchedule", "taskSchedule")
-                        .WithMany()
-                        .HasForeignKey("taskScheduleId");
+                    b.HasOne("Schedular.API.Models.TaskSchedule", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("TaskScheduleId");
 
                     b.HasOne("Schedular.API.Models.User", "user")
                         .WithMany()

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Schedular.API.Models
 {
@@ -9,6 +10,7 @@ namespace Schedular.API.Models
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public User user { get; set; }
-        public int userId { get; set; }     
+        public int userId { get; set; } 
+        public List<Note> Notes { get; set; }  
     }
 }

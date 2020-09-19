@@ -86,15 +86,12 @@ namespace Schedular.API.Data
         //get users with notes test 
         public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int UserId)
         {
-            var userTaskSchedule = await _context.TaskSchedules
-                .Where(u => u.userId == UserId)
-                //.Join(n in _context.Notes on n.taskID == )
-                .ToListAsync();
+               var userTaskSchedule = await _context.TaskSchedules
+                    .Include(ts => ts.Notes)
+                    .Where(u => u.userId == UserId)
+                    .ToListAsync(); 
 
-            var test = userTaskSchedule[0].Id;  
-                                            
-
-            return userTaskSchedule;            
+                return userTaskSchedule;         
         }
 
         //lets us know if changes have been saved on the database

@@ -9,8 +9,8 @@ using Schedular.API.Data;
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200918173000_notesDateCreated")]
-    partial class notesDateCreated
+    [Migration("20200919203020_InitialMigrations")]
+    partial class InitialMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -112,18 +112,18 @@ namespace Schedular.API.Migrations
                     b.Property<string>("NotesInfo")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<int?>("TaskScheduleId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("dateCreated")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("taskScheduleId")
-                        .HasColumnType("int");
 
                     b.Property<int>("userId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("taskScheduleId");
+                    b.HasIndex("TaskScheduleId");
 
                     b.HasIndex("userId");
 
@@ -306,9 +306,9 @@ namespace Schedular.API.Migrations
 
             modelBuilder.Entity("Schedular.API.Models.Note", b =>
                 {
-                    b.HasOne("Schedular.API.Models.TaskSchedule", "taskSchedule")
-                        .WithMany()
-                        .HasForeignKey("taskScheduleId");
+                    b.HasOne("Schedular.API.Models.TaskSchedule", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("TaskScheduleId");
 
                     b.HasOne("Schedular.API.Models.User", "user")
                         .WithMany()

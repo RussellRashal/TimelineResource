@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Schedular.API.Migrations
 {
-    public partial class seedTaskScheduleData : Migration
+    public partial class taskScheduleData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

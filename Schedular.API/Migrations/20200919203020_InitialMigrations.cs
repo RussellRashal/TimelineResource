@@ -179,6 +179,34 @@ namespace Schedular.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Notes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NotesInfo = table.Column<string>(nullable: true),
+                    dateCreated = table.Column<DateTime>(nullable: false),
+                    userId = table.Column<int>(nullable: false),
+                    TaskScheduleId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notes_TaskSchedules_TaskScheduleId",
+                        column: x => x.TaskScheduleId,
+                        principalTable: "TaskSchedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Notes_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -217,6 +245,16 @@ namespace Schedular.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Notes_TaskScheduleId",
+                table: "Notes",
+                column: "TaskScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notes_userId",
+                table: "Notes",
+                column: "userId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TaskSchedules_userId",
                 table: "TaskSchedules",
                 column: "userId");
@@ -240,10 +278,13 @@ namespace Schedular.API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "TaskSchedules");
+                name: "Notes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "TaskSchedules");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
