@@ -7,7 +7,7 @@ namespace Schedular.API.Dtos
     {
         public int Id { get; set; }
         public string NotesInfo { get; set; }
-        public DateTime dateCreated {get; set;}
-        public int userId { get; set; } 
+        public DateTime DateCreated {get; set;}
+        public int UserId { get; set; } 
     }
 }

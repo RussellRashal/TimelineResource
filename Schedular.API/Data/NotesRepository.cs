@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Schedular.API.Models;
 
 namespace Schedular.API.Data
 {
-    public class NotesRepository
+    public class NotesRepository : INotesRepository
     {
         private readonly DataContext _context;
         public NotesRepository(DataContext context)
@@ -19,16 +22,15 @@ namespace Schedular.API.Data
         
 
         // update notes
-        public Note Update(int Id, Note note) 
+        public void Update(int Id, Note note) 
         {
             var NoteDb =  _context.Notes.SingleOrDefault(s => s.Id == Id);
 
-            NoteDb.NotesInfo = note.NotesInfo;
-            
+            NoteDb.NotesInfo = note.NotesInfo;            
 
             _context.SaveChanges();
 
-            return NoteDb;
+            //return NoteDb;
 
         } 
 
@@ -38,6 +40,21 @@ namespace Schedular.API.Data
             _context.Notes.Remove(_context.Notes
                 .FirstOrDefault(t => t.Id == id));
             _context.SaveChanges();        
-        }  
+        }
+
+        // has the data saved
+        public async Task<bool> SaveAll()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+        //get individual note
+        public async Task<IList<Note>> GetNote(int id)
+        {
+            var note = await _context.Notes
+                .Where(u => u.Id == id)
+                .ToListAsync();
+                
+            return note;  
+        }
     }
 }

@@ -16,11 +16,11 @@ namespace Schedular.API.Data
       //"task" returns type task object, executes asyncrhonous on a thread
       //IEnumerable loops over a collection of classes
       Task<bool> SaveAll();
-      //get an individual task 
+      //get an individual taskSchedule 
       Task<IList<TaskSchedule>> GetTask(int id);   
-      // get all tasks        
+      // get all taskSchedule        
       Task<IEnumerable<TaskSchedule>> GetTasks(); 
-      //get users task
+      //get users taskSchedule
       Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int id);
       Task<TimeSpan> GetHoursWorkedRepo(int id, DateTime startDate, DateTime endDate);  
       Task<IEnumerable<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, DateTime startDate, DateTime endDate);      

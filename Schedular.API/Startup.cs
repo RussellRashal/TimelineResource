@@ -100,6 +100,7 @@ namespace Schedular.API
             services.AddCors();  
             services.AddScoped<ITaskScheduleRepository, TaskScheduleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<INotesRepository, NotesRepository>();
             services.AddControllers();
         
 
