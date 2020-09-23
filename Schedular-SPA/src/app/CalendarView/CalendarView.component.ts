@@ -27,7 +27,8 @@ export class CalendarViewComponent implements OnInit {
   currentUserSelected;
   selectedFullName;
   test;
-
+  selectedTask: any[];
+  idSelected: number;
 
   calendarOptions: CalendarOptions = {
     plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -86,12 +87,12 @@ export class CalendarViewComponent implements OnInit {
       // dateClick: this.handleDateClick.bind(this), // bind is important!
       events: this.apiEvents,
       eventClick: (idOfClickedTask) => {
-        // console.log('id = ' + idOfClickedTask.event.id);
-        // console.log('Title = ' + idOfClickedTask.event.title);
-        // console.log('Start time = ' + idOfClickedTask.event.start);
-        // console.log('End time = ' + idOfClickedTask.event.end);
-        // console.log(idOfClickedTask.event);
-        this.stateStorageService.setTaskScheduleStorage(idOfClickedTask);
+        // get id of selected task, then filter out the array to get the selected task sent to updateTask
+        this.idSelected = Number(idOfClickedTask.event.id);
+        this.selectedTask =  this.apiEvents.find(x => x.id === this.idSelected);
+        console.log(this.selectedTask);
+
+        this.stateStorageService.setTaskScheduleStorage(this.selectedTask);
         // this.router.navigate(['/updatetask']);
         const dialogRef = this.dialog.open(UpdateTaskComponent, {
           width: '80%',

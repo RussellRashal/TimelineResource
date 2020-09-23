@@ -1,10 +1,11 @@
+import { element } from 'protractor';
 import { UserMemberModel } from './../_models/UserMemberModel';
 import { TaskSchedule } from '../_models/taskSchedule';
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { DatePipe } from '@angular/common';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { TaskScheduleService } from '../_services/taskSchedule.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -25,6 +26,7 @@ export class UpdateTaskComponent implements OnInit {
   nullError: boolean;
 
   profileForm: FormGroup;
+  notesForm: FormGroup;
 
   time = {hour: 13, minute: 30};
   taskScheduleData;
@@ -41,9 +43,12 @@ export class UpdateTaskComponent implements OnInit {
   currentFullName: string;
   returnedStartDateAndTime: string;
   returnedEndDateAndTime: string;
-  putServiceTaskSchedule: TaskSchedule;
+  putServiceTaskSchedule;
   role;
   userAuthorised: boolean;
+  notesArray: any[];
+
+
 
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
@@ -59,6 +64,8 @@ export class UpdateTaskComponent implements OnInit {
   ngOnInit() {
     this.taskScheduleData = this.stateStorageService.gettaskScheduleStorage();
     this.currentUserData = this.stateStorageService.getClickedOnUser();
+    this.notesArray = this.taskScheduleData.notes;
+
 
     this.role = JSON.parse(localStorage.getItem('role'));
     // if user is not a manager
@@ -71,8 +78,8 @@ export class UpdateTaskComponent implements OnInit {
       this.userAuthorised = true;
     }
 
-    this.currentStartTimeDate = this.taskScheduleData.event.start;
-    this.currentEndTimeDate = this.taskScheduleData.event.end;
+    this.currentStartTimeDate = this.taskScheduleData.start;
+    this.currentEndTimeDate = this.taskScheduleData.end;
     this.transformDate();
 
     this.dropDownTimeList();
@@ -80,17 +87,21 @@ export class UpdateTaskComponent implements OnInit {
 
   }
 
+
   initForm() {
     this.profileForm = new FormGroup({
       userName: new FormControl(this.currentUserData.id),
-      taskTextArea: new FormControl(this.taskScheduleData.event.title),
+      title: new FormControl(this.taskScheduleData.title),
       startDate: new FormControl(this.startDateConvert),
       startHourTime: new FormControl(this.hourStartTimeConvert),
       startMinuteTime: new FormControl(this.minuteStartTimeConvert),
       endDate: new FormControl(this.endDateConvert),
       endHourTime: new FormControl(this.hourEndTimeConvert),
-      endMinuteTime: new FormControl(this.minuteEndTimeConvert)
-    });
+      endMinuteTime: new FormControl(this.minuteEndTimeConvert),
+      notes: new FormArray(this.taskScheduleData.notes.notesInfo ?
+        this.taskScheduleData.notes.notesInfo.map(x => new FormControl(x.notesInfo)) :
+        [])
+      });
   }
 
 
@@ -140,7 +151,7 @@ export class UpdateTaskComponent implements OnInit {
     this.profileForm.value.endHourTime === '' ||
     this.profileForm.value.startMinuteTime === '' ||
     this.profileForm.value.endMinuteTime === '' ||
-    this.profileForm.value.taskTextArea === '' ||
+    this.profileForm.value.title === '' ||
     this.profileForm.value.userName === '') {
       this.nullError = true;
     }
@@ -173,7 +184,7 @@ export class UpdateTaskComponent implements OnInit {
 
       // put data into an array for the api
       this.putServiceTaskSchedule = {
-        title: this.profileForm.value.taskTextArea,
+        title: this.profileForm.value.title,
         start: this.returnedStartDateAndTime,
         end: this.returnedEndDateAndTime,
         userId: Number(this.profileForm.value.userName)
@@ -181,7 +192,7 @@ export class UpdateTaskComponent implements OnInit {
 
       // send data to api
       this.taskScheduleService.putTaskSchedule(
-        this.taskScheduleData.event.id,
+        this.taskScheduleData.id,
         this.putServiceTaskSchedule).subscribe(next => {
           console.log('success');
           this.router.navigate(['/CalendarView']);
@@ -193,8 +204,8 @@ export class UpdateTaskComponent implements OnInit {
   }
 
   deleteTask() {
-    console.log(this.taskScheduleData.event.id);
-    this.taskScheduleService.deleteTaskSchedule(this.taskScheduleData.event.id).subscribe(next => {
+    console.log(this.taskScheduleData.id);
+    this.taskScheduleService.deleteTaskSchedule(this.taskScheduleData.id).subscribe(next => {
       console.log('Deleted');
       this.router.navigate(['/CalendarView']);
       this.dialogRef.close({event: 'Cancel'}); // dialog box close

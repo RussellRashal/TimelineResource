@@ -43,6 +43,7 @@ import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { LoginPageComponent } from './loginPage/loginPage.component';
 import { stateStorageResolver } from './_resolvers/state-storage.resolver';
 import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
+import { NoteComponent } from './note/note.component';
 
 
 // register FullCalendar plugins
@@ -57,7 +58,7 @@ export function tokengetter() {
 }
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     NavigationBarComponent,
     CalendarViewComponent,
@@ -69,7 +70,8 @@ export function tokengetter() {
     HoursWorkedComponent,
     UpdateTaskComponent,
     LoginPageComponent,
-    RegisterComponent
+    RegisterComponent,
+      NoteComponent
    ],
   imports: [
     CommonModule,

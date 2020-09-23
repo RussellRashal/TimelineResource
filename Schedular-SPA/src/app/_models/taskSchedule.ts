@@ -4,4 +4,5 @@ export interface TaskSchedule {
     start: any;
     end: any;
     userId?: number;
+    notes: any[];
 }

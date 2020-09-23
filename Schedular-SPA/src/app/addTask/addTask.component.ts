@@ -30,7 +30,7 @@ export class AddTaskComponent implements OnInit {
   profileForm: FormGroup;
   returnedStartDateAndTime: string;
   returnedEndDateAndTime: string;
-  postServiceTaskSchedule: TaskSchedule;
+  postServiceTaskSchedule;
   currentUser;
   currentUserData;
   userAuthorised: boolean;

@@ -1,3 +1,4 @@
+import { NoteComponent } from './note/note.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { UserMemberModel } from './_models/UserMemberModel';

@@ -11,15 +11,14 @@
    </select>
   </div>
   <div>
-    <label>Task</label>
-    <div>
-      <textarea formControlName="taskTextArea" class="mb-1"></textarea>
-    </div>
+    <label>Title</label>
+      <input formControlName="title" class="ml-2">
   </div>
+
   <div class="mb-1">
 
     <label>Start Date</label>
-    <input type="date" formControlName="startDate" class="ml-1">
+    <input type="date" formControlName="startDate" class="ml-2">
 
     <label class="ml-3">Start Time</label>
     <select class="ml-1" formControlName="startHourTime">
@@ -68,7 +67,16 @@
   <div class="text-danger" *ngIf="getTimingError()">start time cannot be greater than end time</div>
   <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
 
+
+
 </form>
+
+
+<div *ngFor="let noteA of notesArray; index as i">
+  <app-note [note]="notesArray[i]">  
+  </app-note>
+</div>
+
 
 
 

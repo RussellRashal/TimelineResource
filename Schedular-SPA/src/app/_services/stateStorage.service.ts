@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StateStorageService {
-  taskSchedule: TaskSchedule[];
+  taskSchedule: any[];
   userMembers: [];
   currentClickedUser: UserMemberModel[];
 

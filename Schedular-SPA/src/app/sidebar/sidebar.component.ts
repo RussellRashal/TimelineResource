@@ -22,13 +22,13 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.role = JSON.parse(localStorage.getItem('role'));
 
-    if (this.role === 'Manager') {    
+    if (this.role === 'Manager') {
       // list of users for the drop down
       this.route.data.subscribe(data => {
         this.UserMemberModels = data['UserMemberModel'];
         // to allow for use in the update component
         this.stateStorageService.setUserMemberStorage(this.UserMemberModels);
-      });     
+      });
     }
   }
 
