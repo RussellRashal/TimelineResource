@@ -99,16 +99,16 @@ namespace Schedular.API.Controllers
         }
         //edit user's name
         [Authorize(Policy ="ManagerAccess")]
-        [HttpPost("editName/{userName}/{firstName}/{lastName}")]
-        public async Task<IActionResult> EditRoles(string userName, string firstName, string lastName)
+        [HttpPost("editName/{currentUserName}/{newFirstName}/{newLastName}")]
+        public async Task<IActionResult> EditRoles(string currentUserName, string newFirstName, string newLastName)
         {
                 // get the user first 
-                var user = await _userManager.FindByNameAsync(userName);
+                var user = await _userManager.FindByNameAsync(currentUserName);
 
                 //set the changes
-                user.FirstName = firstName;
-                user.LastName = lastName;
-                user.UserName = firstName + lastName;
+                user.FirstName = newFirstName;
+                user.LastName = newLastName;
+                user.UserName = newFirstName + newLastName;
 
                 //update the changes
                 var result = await _userManager.UpdateAsync(user);
