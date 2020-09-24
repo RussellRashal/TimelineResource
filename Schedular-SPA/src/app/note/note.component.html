@@ -1,10 +1,16 @@
-<form [formGroup]="profileForm">
-  <label>Notes</label>
-  <textarea formControlName="notesInfo"></textarea> 
-  
-  <label>Date created</label>
-  <input formControlName="dateCreated">
-  
-  <label>Created by </label>
-  <input formControlName="userId">
-</form>
+<div class="mt-1">
+  <div>
+    <textarea [formControl]="notesInfo"></textarea> 
+  </div>
+  <div>
+    <label> Date {{date}}</label>
+    <label class="ml-3"> Time {{time}}</label>
+    <label class="ml-3">Created by {{selectedName}}</label>
+  </div>
+  <div>
+    <button *ngIf="canUserUpdateAndDelete()" type="button" class="btn btn-primary">Update</button>
+    <button *ngIf="canUserUpdateAndDelete()" type="button" class="btn btn-primary">Delete</button>
+  </div>
+</div>
+
+

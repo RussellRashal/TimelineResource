@@ -14,5 +14,6 @@ namespace Schedular.API.Dtos
         // [StringLength(20,MinimumLength = 6, ErrorMessage = "You must specify password at least 6 characters")]
         public string Password { get; set; } 
         public int OUId { get; set; } 
+        public string Role { get; set; }    
     }
 }

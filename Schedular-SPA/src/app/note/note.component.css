@@ -1,0 +1,11 @@
+textarea {
+    width: 100%;
+    height: 200px;
+}
+
+.mainForm {
+    width: 90%;
+    height: 50%;
+    margin: auto;
+    position: center;    
+}

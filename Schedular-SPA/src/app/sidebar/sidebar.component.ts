@@ -11,6 +11,7 @@ import { StateStorageService } from '../_services/stateStorage.service';
 export class SidebarComponent implements OnInit {
   role;
   UserMemberModels;
+  standardAccountUsers;
   // goes to the calendar view for sharing data between components
   // <app-sidebar (StaffButtonClick)="runCalendarData($event)">
   @Output() UserButtonClick = new EventEmitter<number>();
@@ -22,11 +23,19 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.role = JSON.parse(localStorage.getItem('role'));
 
-    if (this.role === 'Manager') {
+    if (this.role === 'Manager')
+    {
       // list of users for the drop down
       this.route.data.subscribe(data => {
         this.UserMemberModels = data['UserMemberModel'];
         // to allow for use in the update component
+        this.stateStorageService.setUserMemberStorage(this.UserMemberModels);
+      });
+    }
+    else
+    {
+      this.route.data.subscribe(data => {
+        this.standardAccountUsers = data['UserMemberModel'];
         this.stateStorageService.setUserMemberStorage(this.UserMemberModels);
       });
     }

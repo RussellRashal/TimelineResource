@@ -12,7 +12,7 @@
   </div>
   <div>
     <label>Title</label>
-      <input formControlName="title" class="ml-2">
+      <textarea formControlName="title"></textarea>
   </div>
 
   <div class="mb-1">
@@ -58,24 +58,42 @@
         {{minuteSelector}}
       </option>
     </select>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-primary">Update Task</button>
+    <button type="button" class="btn btn-primary ml-2" (click)="deleteTask()">Delete Task</button>
+  
+    <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
+    <div class="text-danger" *ngIf="getTimingError()">start time cannot be greater than end time</div>
+    <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>    
+  </div>
 
-  </div>   
-  <button type="submit" class="btn btn-primary">Update</button>
-  <button type="button" class="btn btn-primary ml-2" (click)="deleteTask()">Delete</button>
-
-  <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
-  <div class="text-danger" *ngIf="getTimingError()">start time cannot be greater than end time</div>
-  <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
-
-
+  <div class="mt-4">
+    <div>
+      <label>New Note</label>
+      <textarea class="textareaNew" formControlName="newNote"></textarea>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary" (click)="noteCreation()">Add New note</button>
+    </div>
+  </div>
+  
+  <div class="mt-4">
+    <div>
+      <label>Previous Notes</label>
+    </div> 
+    <div *ngFor="let noteA of notesArray; index as i">
+      <app-note [note]="notesArray[i]">  
+      </app-note>
+    </div> 
+  </div>
 
 </form>
 
 
-<div *ngFor="let noteA of notesArray; index as i">
-  <app-note [note]="notesArray[i]">  
-  </app-note>
-</div>
+
+
+
 
 
 

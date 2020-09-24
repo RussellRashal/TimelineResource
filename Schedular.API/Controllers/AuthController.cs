@@ -18,7 +18,6 @@ namespace Schedular.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -35,28 +34,95 @@ namespace Schedular.API.Controllers
             _mapper = mapper;
             _config = config;
         }
-
+        [Authorize(Policy ="ManagerAccess")]
         [HttpPost("register")]
-        [AllowAnonymous]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            var userToCreate = _mapper.Map<User>(userForRegisterDto);
-
-            var result = await _userManager.CreateAsync(userToCreate,
-            userForRegisterDto.Password);
-
-            //var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
-
-            if(result.Succeeded)
+            //check if role name is valid
+            if(userForRegisterDto.Role == "Standard" || userForRegisterDto.Role == "Manager")
             {
-                return CreatedAtRoute("GetUser", new {controller = "Users", 
-                id = userToCreate.Id});
-            }
+                //create the user account
+                userForRegisterDto.Username = userForRegisterDto.FirstName + userForRegisterDto.LastName;
+                var userToCreate = _mapper.Map<User>(userForRegisterDto);
+                var result = await _userManager.CreateAsync(userToCreate,
+                userForRegisterDto.Password);
+                
+                //create the role
+                var roleResult = await _userManager.AddToRoleAsync(userToCreate, userForRegisterDto.Role);
 
-            return BadRequest(result.Errors);
+                if(result.Succeeded)
+                {
+                    return Ok("User Account " + userForRegisterDto.Username +  " has been created");
+
+                } 
+                else 
+                {
+                    return BadRequest(result.Errors);
+                }
+            }
+            else
+            {
+                return BadRequest("Incorrect role added");
+            }          
 
         }
+        //edit user's roles
+        [Authorize(Policy ="ManagerAccess")]
+        [HttpPost("editRoles/{userName}/{newRole}")]
+        public async Task<IActionResult> EditRoles(string userName, string newRole)
+        {
+            if(newRole == "Standard" || newRole == "Manager")
+            {
+                // get the user first 
+                var user = await _userManager.FindByNameAsync(userName);
 
+                // find out what roles the user currently belongs to 
+                var userRoles = await _userManager.GetRolesAsync(user);
+
+                // remove user from old role
+                var removeUserRole = await _userManager.GetRolesAsync(user);
+                var userRoleRemoved = await _userManager.RemoveFromRolesAsync(user, removeUserRole);
+
+                // add user to the new roles
+                var result = await _userManager.AddToRoleAsync(user, newRole);
+                
+                if(!result.Succeeded)
+                    return BadRequest("Failed to add to roles");           
+                if(!userRoleRemoved.Succeeded)
+                    return BadRequest("failed to remove the roles");                
+                return Ok("User role has been changed");
+            }
+            else
+            {
+                return BadRequest("Incorrect role inserted");
+            }         
+        }
+        //edit user's name
+        [Authorize(Policy ="ManagerAccess")]
+        [HttpPost("editName/{userName}/{firstName}/{lastName}")]
+        public async Task<IActionResult> EditRoles(string userName, string firstName, string lastName)
+        {
+                // get the user first 
+                var user = await _userManager.FindByNameAsync(userName);
+
+                //set the changes
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.UserName = firstName + lastName;
+
+                //update the changes
+                var result = await _userManager.UpdateAsync(user);
+                
+                if(result.Succeeded)
+                {
+                    return Ok("user has been updated");         
+                }
+                else 
+                {
+                    return BadRequest(result.Errors);                
+                }         
+        }
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {

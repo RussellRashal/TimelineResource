@@ -1,3 +1,5 @@
+import { Note } from './../_models/note';
+import { NoteService } from './../_services/note.service';
 import { element } from 'protractor';
 import { UserMemberModel } from './../_models/UserMemberModel';
 import { TaskSchedule } from '../_models/taskSchedule';
@@ -47,6 +49,8 @@ export class UpdateTaskComponent implements OnInit {
   role;
   userAuthorised: boolean;
   notesArray: any[];
+  postNote: Note;
+  currentUserId;
 
 
 
@@ -58,6 +62,7 @@ export class UpdateTaskComponent implements OnInit {
     private stateStorageService: StateStorageService,
     private datePipe: DatePipe,
     private taskScheduleService: TaskScheduleService,
+    private noteService: NoteService,
     public dialogRef: MatDialogRef<UpdateTaskComponent>) {}
 
 
@@ -98,10 +103,8 @@ export class UpdateTaskComponent implements OnInit {
       endDate: new FormControl(this.endDateConvert),
       endHourTime: new FormControl(this.hourEndTimeConvert),
       endMinuteTime: new FormControl(this.minuteEndTimeConvert),
-      notes: new FormArray(this.taskScheduleData.notes.notesInfo ?
-        this.taskScheduleData.notes.notesInfo.map(x => new FormControl(x.notesInfo)) :
-        [])
-      });
+      newNote: new FormControl()
+    });
   }
 
 
@@ -211,6 +214,20 @@ export class UpdateTaskComponent implements OnInit {
       this.dialogRef.close({event: 'Cancel'}); // dialog box close
     }, error => {
       console.log('unable to delete');
+    });
+  }
+
+  noteCreation() {
+    this.postNote = {
+      notesInfo: this.profileForm.value.newNote,
+      taskScheduleId: this.taskScheduleData.id
+    };
+    this.noteService.postNote(this.postNote).subscribe(next => {
+      console.log(next);
+      this.ngOnInit();
+      window.location.reload();
+      }, error => {
+        console.log('error, POST did not go through: ' + error);
     });
   }
 

@@ -1,11 +1,21 @@
 .mainForm {
-    width: 80%;
+    width: 90%;
     height: 50%;
     margin: auto;
     position: center;    
-    }
+}
     
 textarea {
-    width: 1200px;
+    width: 100%;
+    height: 50px;
+}
+
+.textareaNew {
+    width: 100%;
     height: 200px;
-    }
+}
+
+.centreCorrection {
+    width: 90%;
+    height: 50%;
+}

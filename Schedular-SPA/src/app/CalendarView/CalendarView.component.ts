@@ -96,7 +96,7 @@ export class CalendarViewComponent implements OnInit {
         // this.router.navigate(['/updatetask']);
         const dialogRef = this.dialog.open(UpdateTaskComponent, {
           width: '80%',
-          height: '60%'
+          height: '90%'
         });
         dialogRef.afterClosed().subscribe(result => {
           this.dataReload();
