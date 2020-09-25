@@ -30,13 +30,8 @@ export class SidebarComponent implements OnInit {
         this.UserMemberModels = data['UserMemberModel'];
         // to allow for use in the update component
         this.stateStorageService.setUserMemberStorage(this.UserMemberModels);
-      });
-    }
-    else
-    {
-      this.route.data.subscribe(data => {
-        this.standardAccountUsers = data['UserMemberModel'];
-        this.stateStorageService.setUserMemberStorage(this.UserMemberModels);
+      }, error => {
+        console.log(error);
       });
     }
   }

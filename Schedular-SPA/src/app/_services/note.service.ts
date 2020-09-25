@@ -16,11 +16,11 @@ export class NoteService {
     return this.http.post<Note>(this.baseUrl, note);
   }
 
-  updateNote(note) {
-    return this.http.put<Note>(this.baseUrl, note);
+  putNote(id: number, note: Note) {
+    return this.http.put<Note>(this.baseUrl + '/' + id, note);
   }
 
-  deleteNote(id) {
+  deleteNote(id: number) {
     return this.http.delete(this.baseUrl + '/' + id);
   }
 

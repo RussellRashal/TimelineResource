@@ -104,6 +104,28 @@ namespace Schedular.API.Controllers
         [HttpPost]        
         public async Task<IActionResult> PostSchedule(TaskSchedule taskSchedule)
         {
+            // TaskSchedule sendTask;
+            // sendTask.Title = taskSchedule.Title;
+            // sendTask.Start = taskSchedule.Start;
+            // sendTask.End = taskSchedule.End;
+            // sendTask.userId = taskSchedule.userId;
+
+
+
+
+            // Note sendNote;
+            // sendNote.NotesInfo = taskSchedule.Notes[0].NotesInfo;
+            // sendNote.UserId = taskSchedule.userId;
+
+            DateTime thisDay = DateTime.Now;
+            string NowDate =  thisDay.ToString("g");
+            taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
+            taskSchedule.Notes[0].UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+           
+
+
+
+            
             if(taskSchedule.Start > taskSchedule.End) {
                 return BadRequest("start time is not less than end time");  
             }

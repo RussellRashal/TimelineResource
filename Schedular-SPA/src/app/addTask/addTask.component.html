@@ -11,7 +11,7 @@
    </select>
   </div> 
   <div>
-    <label>Task</label>
+    <label>Title</label>
     <div>
       <textarea formControlName="taskTextArea" class="mb-1"></textarea>
     </div>
@@ -61,11 +61,23 @@
     </select>
 
   </div>   
+
+  <div class="mt-4">
+    <div>
+      <label>New Note</label>
+      <textarea class="textareaNew" formControlName="noteInfo"></textarea>
+    </div>
+  </div>
+  
   <button type="submit" class="btn btn-primary">Add Task</button>
 
   <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
   <div class="text-danger" *ngIf="getTimingError()">start time cannot be greater than end time</div>
   <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
+
+  
+
+
 </form>
 
 

@@ -1,7 +1,8 @@
 <button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
 
 <form *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
-  <div *ngIf="authorised()">
+  <!-- <div *ngIf="authorised()"> to allow to disallow standard account to select -->
+  <div>
     <label>Name</label>      
     <select class="ml-2" formControlName="userName">
       <option *ngFor="let userMemberModel of userMemberModels"
@@ -86,6 +87,10 @@
       <app-note [note]="notesArray[i]">  
       </app-note>
     </div> 
+  </div>
+
+  <div>
+    <button type="button" class="btn btn-primary" (click)="test()">refresh</button>
   </div>
 
 </form>

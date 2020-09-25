@@ -3,5 +3,5 @@ export interface Note {
     notesInfo: string;
     dateCreated?: Date;
     userId?: number;
-    taskScheduleId: number;
+    taskScheduleId?: number;
 }

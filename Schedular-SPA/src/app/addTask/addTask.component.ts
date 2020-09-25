@@ -1,3 +1,4 @@
+import { NoteService } from './../_services/note.service';
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -6,6 +7,7 @@ import { TaskScheduleService } from '../_services/taskSchedule.service';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { isNull } from '@angular/compiler/src/output/output_ast';
+import { Note } from '../_models/note';
 
 
 
@@ -35,11 +37,13 @@ export class AddTaskComponent implements OnInit {
   currentUserData;
   userAuthorised: boolean;
   role;
+  postNote: Note;
 
   constructor(
     private stateStorageService: StateStorageService,
     private taskScheduleService: TaskScheduleService,
     private router: Router,
+    private noteService: NoteService,
     public dialogRef: MatDialogRef<AddTaskComponent>) { }
 
 
@@ -73,7 +77,8 @@ export class AddTaskComponent implements OnInit {
       startMinuteTime: new FormControl(''),
       endDate: new FormControl(new Date().toISOString().slice(0, 10)),
       endHourTime: new FormControl(''),
-      endMinuteTime: new FormControl('')
+      endMinuteTime: new FormControl(''),
+      noteInfo: new FormControl('')
     }, );
   }
 
@@ -111,7 +116,8 @@ export class AddTaskComponent implements OnInit {
         this.profileForm.value.startMinuteTime === '' ||
         this.profileForm.value.endMinuteTime === '' ||
         this.profileForm.value.taskTextArea === '' ||
-        this.profileForm.value.userName === '') {
+        this.profileForm.value.userName === '' ||
+        this.profileForm.value.noteInfo === '') {
           this.nullError = true;
     }
     else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
@@ -146,7 +152,10 @@ export class AddTaskComponent implements OnInit {
         title: this.profileForm.value.taskTextArea,
         start: this.returnedStartDateAndTime,
         end: this.returnedEndDateAndTime,
-        userId: Number(this.profileForm.value.userName)
+        userId: Number(this.profileForm.value.userName),
+        notes: [{
+          notesInfo: this.profileForm.value.noteInfo
+        }]
       };
 
       // send data to api
@@ -164,6 +173,17 @@ export class AddTaskComponent implements OnInit {
     }
     // console.log(this.postServiceTaskSchedule);
   }
+
+  // noteCreation() {
+  //   this.postNote = {
+  //     notesInfo: this.profileForm.value.noteInfo
+  //   };
+  //   this.noteService.postNote(this.postNote).subscribe(next => {
+  //     console.log(next);
+  //     }, error => {
+  //       console.log(error);
+  //   });
+  // }
 
   closeButton() {
     this.dialogRef.close({event: 'Cancel'});

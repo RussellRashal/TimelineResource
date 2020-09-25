@@ -19,7 +19,7 @@ namespace Schedular.API.Data
         {
             _context = context;
         }
-        
+
         //add new data to the database
         public void Add<T>(T entity) where T : class
         {

@@ -64,6 +64,8 @@ export class CalendarViewComponent implements OnInit {
     this.taskScheduleService.getTaskScheduleByUserId(userclicked.id).subscribe((data) => {
       this.apiEvents = data;
       this.calendar(this.apiEvents);
+    }, error => {
+      console.log(error);
     });
 
   }
@@ -72,6 +74,8 @@ export class CalendarViewComponent implements OnInit {
     this.taskScheduleService.getTaskScheduleByUserId(UserId).subscribe((data) => {
       this.apiEvents = data;
       this.calendar(this.apiEvents);
+    }, error => {
+      console.log(error);
     });
   }
 

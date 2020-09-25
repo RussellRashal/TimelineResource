@@ -71,11 +71,11 @@ export class UpdateTaskComponent implements OnInit {
     this.currentUserData = this.stateStorageService.getClickedOnUser();
     this.notesArray = this.taskScheduleData.notes;
 
-
     this.role = JSON.parse(localStorage.getItem('role'));
     // if user is not a manager
     if (this.role !== 'Manager') {
       this.userAuthorised = false;
+      this.userMemberModels = this.stateStorageService.getUserMemberStorage();
     } // if user is a manager
     else {
       // list of users for the drop down
@@ -217,6 +217,11 @@ export class UpdateTaskComponent implements OnInit {
     });
   }
 
+  test() {
+    // this.ngOnInit();
+    window.location.reload();
+  }
+
   noteCreation() {
     this.postNote = {
       notesInfo: this.profileForm.value.newNote,
@@ -224,10 +229,10 @@ export class UpdateTaskComponent implements OnInit {
     };
     this.noteService.postNote(this.postNote).subscribe(next => {
       console.log(next);
-      this.ngOnInit();
-      window.location.reload();
+      // this.ngOnInit();
+      // window.location.reload();
       }, error => {
-        console.log('error, POST did not go through: ' + error);
+        console.log(error);
     });
   }
 

@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Note } from '../_models/note';
+import { NoteService } from '../_services/note.service';
 import { StateStorageService } from '../_services/stateStorage.service';
 
 @Component({
@@ -16,21 +18,26 @@ export class NoteComponent implements OnInit {
   date;
   time;
   currentUserIdLogged;
+  sendNote: Note;
 
-  constructor(private stateStorageService: StateStorageService) { }
+  constructor(
+    private stateStorageService: StateStorageService,
+    private noteService: NoteService
+    ) { }
 
   @Input() note;
 
 
   ngOnInit() {
     this.initForm();
-    console.log(this.note);
+    // console.log(this.note);
     this.userMemberModels = this.stateStorageService.getUserMemberStorage();
     this.currentUserIdLogged = JSON.parse(localStorage.getItem('user'));
     this.currentUserId = this.note.userId;
 
 
     this.whichUser();
+    console.log(this.userMemberModels);
 
     this.date = this.note.dateCreated.toString().slice(0, 10);
     this.time = this.note.dateCreated.toString().slice(11, 16);
@@ -53,7 +60,6 @@ export class NoteComponent implements OnInit {
     for (let i = 0; i < this.userMemberModels.length; i++) {
       if (this.userMemberModels[i].id === this.note.userId) {
         this.selectedName = this.userMemberModels[i].username;
-        console.log('loop went through');
       }
     }
   }
@@ -64,10 +70,30 @@ export class NoteComponent implements OnInit {
 
   canUserUpdateAndDelete() {
     if (this.currentUserIdLogged.id === this.currentUserId){
-      console.log('this one matches with logged in user');
+      // console.log('this one matches with logged in user');
       return true;
     }
   }
 
+  putNote() {
+    this.sendNote = {
+      notesInfo: this.notesInfo.value
+    };
+    this.noteService.putNote(
+      this.note.id,
+      this.sendNote).subscribe(next => {
+        console.log('success');
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  deleteNote() {
+    this.noteService.deleteNote(this.note.id).subscribe(next => {
+      console.log('success');
+    }, error => {
+      console.log(error);
+    });
+  }
 
 }

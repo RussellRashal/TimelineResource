@@ -5,6 +5,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateTaskComponent } from '../updateTask/updateTask.component';
 import { Router } from '@angular/router';
+import { UserMemberService } from '../_services/userMember.service';
+import { StateStorageService } from '../_services/stateStorage.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -14,12 +16,15 @@ import { Router } from '@angular/router';
 export class NavigationBarComponent implements OnInit {
   model: any = {};
   loginReactiveForm: FormGroup;
+  users: any[];
 
 
   constructor(
     private authService: AuthService,
     public dialog: MatDialog,
-    private router: Router) { }
+    private router: Router,
+    private userMemberService: UserMemberService,
+    private stateStorageService: StateStorageService) { }
 
   ngOnInit() {
     this.initForm();
@@ -31,9 +36,19 @@ export class NavigationBarComponent implements OnInit {
 
 
     this.authService.login(this.model).subscribe(next => {
+      this.loadUsers();
       this.router.navigateByUrl('/CalendarView');
     }, error => {
       console.log('failed to login');
+    });
+  }
+
+  loadUsers() {
+    this.userMemberService.getUsers().subscribe((data) => {
+      this.users = data;
+      this.stateStorageService.setUserMemberStorage(this.users);
+    }, error => {
+      console.log(error);
     });
   }
 

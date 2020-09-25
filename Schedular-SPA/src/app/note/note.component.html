@@ -8,8 +8,8 @@
     <label class="ml-3">Created by {{selectedName}}</label>
   </div>
   <div>
-    <button *ngIf="canUserUpdateAndDelete()" type="button" class="btn btn-primary">Update</button>
-    <button *ngIf="canUserUpdateAndDelete()" type="button" class="btn btn-primary">Delete</button>
+    <button *ngIf="canUserUpdateAndDelete()" (click)="putNote()" type="button" class="btn btn-primary">Update</button>
+    <button *ngIf="canUserUpdateAndDelete()" (click)="deleteNote()" type="button" class="btn btn-primary">Delete</button>
   </div>
 </div>
 

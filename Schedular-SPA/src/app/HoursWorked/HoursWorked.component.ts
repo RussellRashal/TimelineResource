@@ -32,6 +32,8 @@ export class HoursWorkedComponent implements OnInit {
     // who the current user is
     this.route.data.subscribe(data => {
       this.currentUser = data['CurrentUser'];
+    }, error => {
+      console.log(error);
     });
 
     console.log('id of current user = ' + this.currentUser.id);
@@ -46,6 +48,8 @@ export class HoursWorkedComponent implements OnInit {
       // list of users for the drop down
       this.route.data.subscribe(data => {
         this.UserMemberModels = data['UserMemberModel'];
+      }, error => {
+        console.log(error);
       });
       this.userAuthorised = true;
       console.log('manager has logged in login');
@@ -80,6 +84,8 @@ export class HoursWorkedComponent implements OnInit {
         this.hoursWorked = data[0];
         this.minuteWorked = data[1];
         // console.log(this.hoursWorked[0]);
+      }, error => {
+        console.log(error);
       });
 
       // tasks to show on the bottom
@@ -89,6 +95,8 @@ export class HoursWorkedComponent implements OnInit {
         this.profileForm.value.endDate
       ).subscribe((data) => {
         this.tasksFromHoursWorkeds = data;
+      }, error => {
+        console.log(error);
       });
     }
   }

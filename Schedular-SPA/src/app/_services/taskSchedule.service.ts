@@ -29,11 +29,9 @@ export class TaskScheduleService {
     // return taskSchedule;
   }
 
-  postTaskSchedule(taskSchedule: TaskSchedule): Observable<TaskSchedule> {
-    return this.http.post<TaskSchedule>(this.baseUrl, taskSchedule);
+  postTaskSchedule(taskSchedule) {
+    return this.http.post(this.baseUrl, taskSchedule);
   }
-
-
 
   deleteTaskSchedule(id) {
     return this.http.delete(this.baseUrl + '/' + id);
