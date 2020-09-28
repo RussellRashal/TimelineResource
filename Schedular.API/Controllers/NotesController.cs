@@ -41,6 +41,11 @@ namespace Schedular.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSchedule(int id, [FromBody] Note note)
         {
+            //get todays date of when the update has taken place
+            DateTime thisDay = DateTime.Now;
+            string NowDate =  thisDay.ToString("g");
+            note.DateCreated = Convert.ToDateTime(NowDate);
+
             //get note information from db so see who created the note, only allowing the creator to edit
             var noteFromDb = await _repo.GetNote(id);
 

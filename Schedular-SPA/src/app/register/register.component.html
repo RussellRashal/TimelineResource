@@ -1,13 +1,13 @@
 <form [formGroup]="BookComplete" (ngSubmit)="Register()"> 
 
 
-  <label>firstName</label>
+  <label>First Name</label>
   <div class="form-group">
     <input formControlName="firstname" type="text" class="form-control" placeholder="firstName">
   </div>
 
 
-  <label>lastName</label>
+  <label>last Name</label>
   <div class="form-group">
     <input formControlName="lastName" type="text" class="form-control" placeholder="LastName">
   </div>
@@ -17,8 +17,29 @@
     <input formControlName="Password" type="password" class="form-control" placeholder="Password">
   </div>
 
+  <div>
+    <label>UserName = {{BookComplete.value.firstname}}{{BookComplete.value.lastName}}</label>
+  </div>
+
+
+  <div class="form-group">
+    <div>
+      <label>Manager</label>
+      <input type="radio" value="Manager" formControlName="role"> 
+    </div>
+    <div>
+      <label>Standard</label>
+      <input type="radio" value="Standard" formControlName="role"> 
+    </div>
+</div>
+
+
+
+
  <div class="form-group text-center">
     <button class="btn btn-success" type="submit">Register</button>
   </div>      
+
+  <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
 
 </form>

@@ -1,6 +1,21 @@
-.example-container {
-  width: 400px;
+.mainForm {
+  width: 90%;
+  height: 50%;
+  margin: auto;
+  position: center;    
+}
+  
+textarea {
+  width: 100%;
+  height: 50px;
+}
+
+.textareaNew {
+  width: 100%;
   height: 200px;
-  margin: 10px;
-  border: 1px solid #555;
+}
+
+.centreCorrection {
+  width: 90%;
+  height: 50%;
 }

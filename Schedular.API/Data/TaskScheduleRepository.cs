@@ -56,6 +56,7 @@ namespace Schedular.API.Data
         {    
              var taskSchedule = await _context.TaskSchedules
                 .Where(u => u.Id == id)
+                .Include(ts => ts.Notes)
                 .ToListAsync();
                 
             return taskSchedule;  
@@ -66,6 +67,7 @@ namespace Schedular.API.Data
         public async Task<IEnumerable<TaskSchedule>> GetTasks()
         {
             var taskSchedule = await _context.TaskSchedules
+                .Include(ts => ts.Notes)
                 .ToListAsync();             
            
            return taskSchedule;

@@ -1,3 +1,5 @@
+import { Component } from '@angular/core';
+import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
 import { NoteComponent } from './note/note.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './_guards/auth.guard';
@@ -15,21 +17,40 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginPageComponent } from './loginPage/loginPage.component';
 
 export const appRoutes: Routes = [
-    { path: 'CalendarView', component: CalendarViewComponent, canActivate: [AuthGuard],
-        resolve: {UserMemberModel: UserLoaderResolver
-        }
+    { 
+        path: 'CalendarView', 
+        component: CalendarViewComponent, canActivate: [AuthGuard],
+        resolve: { UserMemberModel: UserLoaderResolver }
     },
-    { path: 'testtask', component: TestTaskComponent, canActivate: [AuthGuard] },
+    // { 
+    //     path: 'updateTask/:id', 
+    //     component: UpdateTaskComponent, canActivate: [AuthGuard],
+    //     resolve: {taskSchedule: taskScheduleResolver}
+    // },  
+    // { 
+    //     path: 'testtask', 
+    //     component: TestTaskComponent, 
+    //     canActivate: [AuthGuard] 
+    // },
     // { path: 'addtask', component: AddTaskComponent},
     // { path: 'updatetask', component: UpdateTaskComponent},
-    { path: 'register', component: RegisterComponent},
-    { path: 'hoursworked', component: HoursWorkedComponent, canActivate: [AuthGuard],
+    { 
+        path: 'register', 
+        component: RegisterComponent
+    },
+    { 
+        path: 'hoursworked', 
+        component: HoursWorkedComponent, 
+        canActivate: [AuthGuard],
         resolve: {
             UserMemberModel: UserLoaderResolver,
             CurrentUser: stateStorageResolver
         }
     },
-    { path: 'login', component: LoginPageComponent}
+    { 
+        path: 'login', 
+        component: LoginPageComponent
+    }
     // { path: '', redirectTo: 'login', pathMatch: 'full'}
 ];
 

@@ -45,6 +45,13 @@ namespace Schedular.API.Controllers
             return Ok(taskschedules);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTask(int id)
+        {         
+            var taskschedule = await _repo.GetTask(id);
+            return Ok(taskschedule);
+        }
+
         [HttpGet("byUser/{UserId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
         public async Task<IActionResult> GetTaskSchedulesByUser(int UserId)

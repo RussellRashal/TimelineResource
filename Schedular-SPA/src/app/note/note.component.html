@@ -1,6 +1,9 @@
 <div class="mt-1">
-  <div>
-    <textarea [formControl]="notesInfo"></textarea> 
+  <div *ngIf="canUserUpdateAndDelete()">
+    <textarea [formControl]="notesInfo"></textarea>
+  </div>
+  <div *ngIf="!canUserUpdateAndDelete()">
+    <textarea [formControl]="notesInfo" disabled></textarea> 
   </div>
   <div>
     <label> Date {{date}}</label>

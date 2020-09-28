@@ -1,3 +1,4 @@
+import { TestTaskComponent } from './../TestTask/TestTask.component';
 import { StateStorageService } from './../_services/stateStorage.service';
 import { AuthService } from './../_services/auth.service';
 import { TaskSchedule } from './../_models/taskSchedule';
@@ -93,11 +94,11 @@ export class CalendarViewComponent implements OnInit {
       eventClick: (idOfClickedTask) => {
         // get id of selected task, then filter out the array to get the selected task sent to updateTask
         this.idSelected = Number(idOfClickedTask.event.id);
-        this.selectedTask =  this.apiEvents.find(x => x.id === this.idSelected);
-        console.log(this.selectedTask);
+        // this.selectedTask =  this.apiEvents.find(x => x.id === this.idSelected);
+        // console.log(this.selectedTask);
 
-        this.stateStorageService.setTaskScheduleStorage(this.selectedTask);
-        // this.router.navigate(['/updatetask']);
+        this.stateStorageService.setTaskId(this.idSelected);
+        // this.router.navigate(['/updateTask/' + this.idSelected]);
         const dialogRef = this.dialog.open(UpdateTaskComponent, {
           width: '80%',
           height: '90%'
@@ -133,7 +134,6 @@ handleDateClick(arg) {
 loggedIn() {
     const token = localStorage.getItem('token');
     return !!token;
-
   }
 
 

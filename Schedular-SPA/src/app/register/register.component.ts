@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit {
   Combine: any;
   model: any = {};
   BookComplete: FormGroup;
+  nullError: boolean;
 
   constructor(
     private authService: AuthService,
@@ -23,10 +24,29 @@ export class RegisterComponent implements OnInit {
 
 
   Register() {
+    this.nullError = false;
+
+    // below is the code to check if all of the boxes are completed
+    if (this.BookComplete.value.firstname === '' ||
+    this.BookComplete.value.lastName === '' ||
+    this.BookComplete.value.Password === '' ||
+    this.BookComplete.value.role === '') {
+      this.nullError = true;
+    }
+
     this.model.firstname = this.BookComplete.value.firstname;
     this.model.lastName = this.BookComplete.value.lastName;
     this.model.Password = this.BookComplete.value.Password;
-    this.model.username = this.BookComplete.value.firstname + this.BookComplete.value.lastName;
+    this.model.role = this.BookComplete.value.role;
+
+
+
+
+
+
+
+  //  this.model.username = this.BookComplete.value.firstname + this.BookComplete.value.lastName;
+    this.model.role = this.BookComplete.value.role;
 
     console.log(this.model);
 
@@ -46,9 +66,14 @@ export class RegisterComponent implements OnInit {
     this.BookComplete = new FormGroup({
       firstname: new FormControl(),
       lastName: new FormControl(),
-      username: new FormControl(),
+    //  username: new FormControl(),
       Password: new FormControl(),
+      role: new FormControl()
     });
+  }
+
+  getNullError() {
+    return this.nullError;
   }
 
 }

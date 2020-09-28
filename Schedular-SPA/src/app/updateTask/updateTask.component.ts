@@ -4,7 +4,7 @@ import { element } from 'protractor';
 import { UserMemberModel } from './../_models/UserMemberModel';
 import { TaskSchedule } from '../_models/taskSchedule';
 import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
@@ -31,7 +31,7 @@ export class UpdateTaskComponent implements OnInit {
   notesForm: FormGroup;
 
   time = {hour: 13, minute: 30};
-  taskScheduleData;
+  taskId;
   currentUserData;
   userMemberModels;
   currentStartTimeDate;
@@ -48,11 +48,13 @@ export class UpdateTaskComponent implements OnInit {
   putServiceTaskSchedule;
   role;
   userAuthorised: boolean;
-  notesArray: any[];
+  notesArray;
   postNote: Note;
   currentUserId;
-
-
+  taskScheduleDataArray;
+  taskScheduleData;
+  testTask;
+  isDataAvailable: boolean;
 
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
@@ -63,32 +65,38 @@ export class UpdateTaskComponent implements OnInit {
     private datePipe: DatePipe,
     private taskScheduleService: TaskScheduleService,
     private noteService: NoteService,
+    private route: ActivatedRoute,
     public dialogRef: MatDialogRef<UpdateTaskComponent>) {}
 
 
   ngOnInit() {
-    this.taskScheduleData = this.stateStorageService.gettaskScheduleStorage();
+    this.isDataAvailable = false;
+    this.taskId = this.stateStorageService.getTaskId();
     this.currentUserData = this.stateStorageService.getClickedOnUser();
-    this.notesArray = this.taskScheduleData.notes;
+    this.userMemberModels = this.stateStorageService.getUserMemberStorage();
 
-    this.role = JSON.parse(localStorage.getItem('role'));
-    // if user is not a manager
-    if (this.role !== 'Manager') {
-      this.userAuthorised = false;
-      this.userMemberModels = this.stateStorageService.getUserMemberStorage();
-    } // if user is a manager
-    else {
-      // list of users for the drop down
-      this.userMemberModels = this.stateStorageService.getUserMemberStorage();
-      this.userAuthorised = true;
-    }
+    this.taskScheduleService.getTaskSchedule(this.taskId).subscribe((data) => {
+      this.taskScheduleDataArray = data;
+      this.isDataAvailable = true;
+      this.taskScheduleData = this.taskScheduleDataArray[0];
+      this.notesArray = this.taskScheduleData.notes;
+      this.currentStartTimeDate = this.taskScheduleData.start;
+      this.currentEndTimeDate = this.taskScheduleData.end;
 
-    this.currentStartTimeDate = this.taskScheduleData.start;
-    this.currentEndTimeDate = this.taskScheduleData.end;
-    this.transformDate();
+      this.transformDate();
 
-    this.dropDownTimeList();
-    this.initForm();
+      this.dropDownTimeList();
+      this.initForm();
+
+
+      console.log('success');
+      console.log('below is task');
+      console.log(this.taskScheduleData);
+      console.log('value of bool = ' + this.isDataAvailable);
+      }, error => {
+        console.log(error);
+    });
+
 
   }
 
@@ -198,8 +206,10 @@ export class UpdateTaskComponent implements OnInit {
         this.taskScheduleData.id,
         this.putServiceTaskSchedule).subscribe(next => {
           console.log('success');
-          this.router.navigate(['/CalendarView']);
-          this.dialogRef.close({event: 'Cancel'}); // dialog box close
+          // this.router.navigate(['/CalendarView']);
+          // this.dialogRef.close({event: 'Cancel'}); // dialog box close
+          this.ngOnInit();
+          alert('Task has been updated');
         }, error => {
           console.log('error POST did not go through: ' + error);
         });
@@ -207,21 +217,16 @@ export class UpdateTaskComponent implements OnInit {
   }
 
   deleteTask() {
-    console.log(this.taskScheduleData.id);
-    this.taskScheduleService.deleteTaskSchedule(this.taskScheduleData.id).subscribe(next => {
-      console.log('Deleted');
-      this.router.navigate(['/CalendarView']);
-      this.dialogRef.close({event: 'Cancel'}); // dialog box close
-    }, error => {
-      console.log('unable to delete');
-    });
+    if (confirm('Are you sure you want to delete this task?')) {
+      this.taskScheduleService.deleteTaskSchedule(this.taskScheduleData.id).subscribe(next => {
+        console.log('Deleted');
+        this.router.navigate(['/CalendarView']);
+        this.dialogRef.close({event: 'Cancel'}); // dialog box close
+        }, error => {
+          console.log('unable to delete');
+      });
+    }
   }
-
-  test() {
-    // this.ngOnInit();
-    window.location.reload();
-  }
-
   noteCreation() {
     this.postNote = {
       notesInfo: this.profileForm.value.newNote,
@@ -229,7 +234,7 @@ export class UpdateTaskComponent implements OnInit {
     };
     this.noteService.postNote(this.postNote).subscribe(next => {
       console.log(next);
-      // this.ngOnInit();
+      this.ngOnInit();
       // window.location.reload();
       }, error => {
         console.log(error);

@@ -8,18 +8,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StateStorageService {
-  taskSchedule: any[];
+  taskId: number;
   userMembers: [];
   currentClickedUser: UserMemberModel[];
 
 
   constructor() { }
   // tasks details for updateTask component
-  gettaskScheduleStorage() {
-    return this.taskSchedule;
+  getTaskId() {
+    return this.taskId;
   }
-  setTaskScheduleStorage(TaskScheduleSet) {
-    this.taskSchedule = TaskScheduleSet;
+  setTaskId(taskIdIn) {
+    this.taskId = taskIdIn;
   }
 
 

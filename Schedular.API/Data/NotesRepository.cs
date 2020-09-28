@@ -26,7 +26,8 @@ namespace Schedular.API.Data
         {
             var NoteDb =  _context.Notes.SingleOrDefault(s => s.Id == Id);
 
-            NoteDb.NotesInfo = note.NotesInfo;            
+            NoteDb.NotesInfo = note.NotesInfo;
+            NoteDb.DateCreated = note.DateCreated;            
 
             _context.SaveChanges();
 

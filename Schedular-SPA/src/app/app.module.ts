@@ -44,6 +44,7 @@ import { LoginPageComponent } from './loginPage/loginPage.component';
 import { stateStorageResolver } from './_resolvers/state-storage.resolver';
 import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { NoteComponent } from './note/note.component';
+import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
 
 
 // register FullCalendar plugins
@@ -106,6 +107,7 @@ export function tokengetter() {
   providers: [
     UserLoaderResolver,
     stateStorageResolver,
+    taskScheduleResolver,
     DatePipe
   ],
   bootstrap: [AppComponent]

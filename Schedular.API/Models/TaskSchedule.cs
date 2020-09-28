@@ -12,5 +12,7 @@ namespace Schedular.API.Models
         public User user { get; set; }
         public int userId { get; set; } 
         public List<Note> Notes { get; set; }  
+        public User userLastEdit { get; set; }
+        public int userLastEditId { get; set; } 
     }
 }

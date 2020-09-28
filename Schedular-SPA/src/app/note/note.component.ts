@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Note } from '../_models/note';
 import { NoteService } from '../_services/note.service';
 import { StateStorageService } from '../_services/stateStorage.service';
+import { TaskScheduleService } from '../_services/taskSchedule.service';
 
 @Component({
   selector: 'app-note',
@@ -19,13 +20,16 @@ export class NoteComponent implements OnInit {
   time;
   currentUserIdLogged;
   sendNote: Note;
+  NoteData;
 
   constructor(
     private stateStorageService: StateStorageService,
-    private noteService: NoteService
+    private noteService: NoteService,
+    private taskScheduleService: TaskScheduleService
     ) { }
 
   @Input() note;
+  @Output() reload: EventEmitter<any> = new EventEmitter<any>();
 
 
   ngOnInit() {
@@ -35,9 +39,11 @@ export class NoteComponent implements OnInit {
     this.currentUserIdLogged = JSON.parse(localStorage.getItem('user'));
     this.currentUserId = this.note.userId;
 
+    // this.NoteData = this.taskScheduleService.getTaskSchedule();
+
 
     this.whichUser();
-    console.log(this.userMemberModels);
+    // console.log(this.userMemberModels);
 
     this.date = this.note.dateCreated.toString().slice(0, 10);
     this.time = this.note.dateCreated.toString().slice(11, 16);
@@ -83,6 +89,7 @@ export class NoteComponent implements OnInit {
       this.note.id,
       this.sendNote).subscribe(next => {
         console.log('success');
+        this.reload.emit();
       }, error => {
         console.log(error);
       });
@@ -91,6 +98,7 @@ export class NoteComponent implements OnInit {
   deleteNote() {
     this.noteService.deleteNote(this.note.id).subscribe(next => {
       console.log('success');
+      this.reload.emit();
     }, error => {
       console.log(error);
     });

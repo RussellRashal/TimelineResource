@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -7,12 +8,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./TestTask.component.css']
 })
 export class TestTaskComponent implements OnInit {
+  taskId;
 
 
+  constructor(
+    private route: ActivatedRoute
+  ) {}
 
-  constructor( ) { }
 
   ngOnInit() {
+    this.route.data.subscribe(data => {
+      this.taskId = data['taskSchedule'];
+    });
+
+    console.log('below is testtask');
+    console.log(this.taskId);
+
+
   }
+
+
 
 }
