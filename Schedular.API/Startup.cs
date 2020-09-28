@@ -80,8 +80,7 @@ namespace Schedular.API
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminAccess", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("ManagerAccess", policy => policy.RequireRole("Admin", "Manager"));
-                options.AddPolicy("everyone", policy => policy.RequireRole("Admin", "Manager", "standard"));
+                options.AddPolicy("everyone", policy => policy.RequireRole("Admin", "standard"));
             });
 
             services.AddControllers(options => 

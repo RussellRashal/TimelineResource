@@ -34,7 +34,8 @@ namespace Schedular.API.Data
             TaskScheduleDb.Title = taskSchedule.Title;
             TaskScheduleDb.Start = taskSchedule.Start;
             TaskScheduleDb.End = taskSchedule.End;
-            TaskScheduleDb.userId = taskSchedule.userId;
+            TaskScheduleDb.userCurrentAssignedId = taskSchedule.userCurrentAssignedId;
+            TaskScheduleDb.userLastEditId = taskSchedule.userLastEditId;
 
             _context.SaveChanges();
 
@@ -75,21 +76,21 @@ namespace Schedular.API.Data
         
     
         //get users tasks
-        // public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int UserId)
+        // public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int userCurrentAssignedId)
         // {
         //     var userTaskSchedule = await _context.TaskSchedules
-        //         .Where(u => u.userId == UserId)
+        //         .Where(u => u.userCurrentAssignedId == userCurrentAssignedId)
         //         .ToListAsync();                                   
 
         //     return userTaskSchedule;            
         // }
 
         //get users with notes test 
-        public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int UserId)
+        public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId)
         {
                var userTaskSchedule = await _context.TaskSchedules
                     .Include(ts => ts.Notes)
-                    .Where(u => u.userId == UserId)
+                    .Where(u => u.userCurrentAssignedId == UserCurrentAssignedId)
                     .ToListAsync(); 
 
                 return userTaskSchedule;         
@@ -107,7 +108,7 @@ namespace Schedular.API.Data
         {
             DateTime endDateAdjust = endDate.AddDays(1);
             var taskSchedulesWorked = await _context.TaskSchedules
-                .Where(u => u.userId == id)
+                .Where(u => u.userCurrentAssignedId == id)
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
                 .ToListAsync();
 
@@ -131,7 +132,7 @@ namespace Schedular.API.Data
         {
             DateTime endDateAdjust = endDate.AddDays(1);
             var taskSchedulesWorked = await _context.TaskSchedules
-                .Where(u => u.userId == id)
+                .Where(u => u.userCurrentAssignedId == id)
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
                 .ToListAsync();
                 

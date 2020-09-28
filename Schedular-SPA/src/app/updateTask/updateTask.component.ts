@@ -55,6 +55,7 @@ export class UpdateTaskComponent implements OnInit {
   taskScheduleData;
   testTask;
   isDataAvailable: boolean;
+  userNameOfLastEdit;
 
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
@@ -87,11 +88,11 @@ export class UpdateTaskComponent implements OnInit {
 
       this.dropDownTimeList();
       this.initForm();
+      this.whichUser();
 
 
       console.log('success');
-      console.log('below is task');
-      console.log(this.taskScheduleData);
+      // console.log(this.taskScheduleData);
       console.log('value of bool = ' + this.isDataAvailable);
       }, error => {
         console.log(error);
@@ -198,7 +199,7 @@ export class UpdateTaskComponent implements OnInit {
         title: this.profileForm.value.title,
         start: this.returnedStartDateAndTime,
         end: this.returnedEndDateAndTime,
-        userId: Number(this.profileForm.value.userName)
+        userCurrentAssignedId: Number(this.profileForm.value.userName)
       };
 
       // send data to api
@@ -210,6 +211,7 @@ export class UpdateTaskComponent implements OnInit {
           // this.dialogRef.close({event: 'Cancel'}); // dialog box close
           this.ngOnInit();
           alert('Task has been updated');
+          this.dialogRef.close({event: 'Cancel'}); // dialog box close
         }, error => {
           console.log('error POST did not go through: ' + error);
         });
@@ -239,6 +241,15 @@ export class UpdateTaskComponent implements OnInit {
       }, error => {
         console.log(error);
     });
+  }
+
+  whichUser() {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.userMemberModels.length; i++) {
+      if (this.userMemberModels[i].id === this.taskScheduleData.userLastEditId) {
+        this.userNameOfLastEdit = this.userMemberModels[i].username;
+      }
+    }
   }
 
   closeButton() {

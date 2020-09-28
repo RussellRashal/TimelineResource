@@ -55,7 +55,7 @@ export class AddTaskComponent implements OnInit {
 
     this.role = JSON.parse(localStorage.getItem('role'));
     // if user is not a manager
-    if (this.role !== 'Manager') {
+    if (this.role !== 'Admin') {
       this.userAuthorised = false;
     } // if user is a manager
     else {
@@ -152,7 +152,7 @@ export class AddTaskComponent implements OnInit {
         title: this.profileForm.value.taskTextArea,
         start: this.returnedStartDateAndTime,
         end: this.returnedEndDateAndTime,
-        userId: Number(this.profileForm.value.userName),
+        userCurrentAssignedId: Number(this.profileForm.value.userName),
         notes: [{
           notesInfo: this.profileForm.value.noteInfo
         }]

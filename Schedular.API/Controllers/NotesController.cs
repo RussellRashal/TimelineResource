@@ -71,7 +71,7 @@ namespace Schedular.API.Controllers
                 _repo.Delete(id);
                  return Ok();
             }
-            else if (User.IsInRole("Manager") || User.IsInRole("Admin")) {
+            else if (User.IsInRole("Admin")) {
                 _repo.Delete(id);
                  return Ok();
             } 

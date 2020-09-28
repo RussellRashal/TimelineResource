@@ -24,7 +24,7 @@ namespace Schedular.API.Controllers
             _repo = repo;
         }
 
-        //[Authorize(Policy ="ManagerAccess")]
+        //[Authorize(Policy ="AdminAccess")]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {

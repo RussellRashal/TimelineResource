@@ -9,8 +9,8 @@ using Schedular.API.Data;
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200919203020_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20200928161039_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,23 +109,23 @@ namespace Schedular.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("NotesInfo")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("TaskScheduleId")
+                    b.Property<int>("TaskScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("dateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("userId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TaskScheduleId");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Notes");
                 });
@@ -175,9 +175,14 @@ namespace Schedular.API.Migrations
                     b.Property<int>("userId")
                         .HasColumnType("int");
 
+                    b.Property<int>("userLastEditId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("userId");
+
+                    b.HasIndex("userLastEditId");
 
                     b.ToTable("TaskSchedules");
                 });
@@ -308,11 +313,13 @@ namespace Schedular.API.Migrations
                 {
                     b.HasOne("Schedular.API.Models.TaskSchedule", null)
                         .WithMany("Notes")
-                        .HasForeignKey("TaskScheduleId");
+                        .HasForeignKey("TaskScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Schedular.API.Models.User", "user")
+                    b.HasOne("Schedular.API.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("userId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -322,6 +329,12 @@ namespace Schedular.API.Migrations
                     b.HasOne("Schedular.API.Models.User", "user")
                         .WithMany()
                         .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Schedular.API.Models.User", "userLastEdit")
+                        .WithMany()
+                        .HasForeignKey("userLastEditId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

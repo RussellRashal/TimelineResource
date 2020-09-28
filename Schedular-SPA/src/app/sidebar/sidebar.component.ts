@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.role = JSON.parse(localStorage.getItem('role'));
 
-    if (this.role === 'Manager')
+    if (this.role === 'Admin')
     {
       // list of users for the drop down
       this.route.data.subscribe(data => {

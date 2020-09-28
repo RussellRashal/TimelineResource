@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Schedular.API.Models
 {
@@ -9,10 +10,19 @@ namespace Schedular.API.Models
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public User user { get; set; }
-        public int userId { get; set; } 
-        public List<Note> Notes { get; set; }  
+
+        public List<Note> Notes { get; set; } 
+
+        //user currently assigned to the task 
+
+        public int userCurrentAssignedId { get; set; } 
+        [ForeignKey("userCurrentAssignedId")]
+        public User userCurrentAssigned { get; set; }
+
+        //user who last edited the task
+        public int userLastEditId { get; set; }
+        [ForeignKey("userLastEditId")]
         public User userLastEdit { get; set; }
-        public int userLastEditId { get; set; } 
+
     }
 }

@@ -34,12 +34,13 @@ namespace Schedular.API.Controllers
             _mapper = mapper;
             _config = config;
         }
-        [Authorize(Policy ="ManagerAccess")]
+        [Authorize(Policy ="AdminAccess")]
+        // [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             //check if role name is valid
-            if(userForRegisterDto.Role == "Standard" || userForRegisterDto.Role == "Manager")
+            if(userForRegisterDto.Role == "Standard" || userForRegisterDto.Role == "Admin")
             {
                 //create the user account
                 userForRegisterDto.Username = userForRegisterDto.FirstName + userForRegisterDto.LastName;
@@ -67,11 +68,11 @@ namespace Schedular.API.Controllers
 
         }
         //edit user's roles
-        [Authorize(Policy ="ManagerAccess")]
+        [Authorize(Policy ="AdminAccess")]
         [HttpPost("editRoles/{userName}/{newRole}")]
         public async Task<IActionResult> EditRoles(string userName, string newRole)
         {
-            if(newRole == "Standard" || newRole == "Manager")
+            if(newRole == "Standard" || newRole == "Admin")
             {
                 // get the user first 
                 var user = await _userManager.FindByNameAsync(userName);
@@ -98,7 +99,7 @@ namespace Schedular.API.Controllers
             }         
         }
         //edit user's name
-        [Authorize(Policy ="ManagerAccess")]
+        [Authorize(Policy ="AdminAccess")]
         [HttpPost("editName/{currentUserName}/{newFirstName}/{newLastName}")]
         public async Task<IActionResult> EditRoles(string currentUserName, string newFirstName, string newLastName)
         {

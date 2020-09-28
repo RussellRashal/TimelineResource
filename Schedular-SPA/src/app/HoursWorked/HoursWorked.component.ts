@@ -40,8 +40,8 @@ export class HoursWorkedComponent implements OnInit {
 
     this.role = JSON.parse(localStorage.getItem('role'));
     // if user is not a manager
-    if (this.role !== 'Manager') {
-      console.log('not manager');
+    if (this.role !== 'Admin') {
+      console.log('not Admin');
       this.userAuthorised = false;
     } // if user is a manager
     else {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Schedular.API.Migrations
 {
-    public partial class InitialMigrations : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -166,7 +166,8 @@ namespace Schedular.API.Migrations
                     Title = table.Column<string>(nullable: true),
                     Start = table.Column<DateTime>(nullable: false),
                     End = table.Column<DateTime>(nullable: false),
-                    userId = table.Column<int>(nullable: false)
+                    userId = table.Column<int>(nullable: false),
+                    userLastEditId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,6 +175,12 @@ namespace Schedular.API.Migrations
                     table.ForeignKey(
                         name: "FK_TaskSchedules_AspNetUsers_userId",
                         column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TaskSchedules_AspNetUsers_userLastEditId",
+                        column: x => x.userLastEditId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -186,9 +193,9 @@ namespace Schedular.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     NotesInfo = table.Column<string>(nullable: true),
-                    dateCreated = table.Column<DateTime>(nullable: false),
-                    userId = table.Column<int>(nullable: false),
-                    TaskScheduleId = table.Column<int>(nullable: true)
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
+                    TaskScheduleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -198,10 +205,10 @@ namespace Schedular.API.Migrations
                         column: x => x.TaskScheduleId,
                         principalTable: "TaskSchedules",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Notes_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_Notes_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -250,14 +257,19 @@ namespace Schedular.API.Migrations
                 column: "TaskScheduleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notes_userId",
+                name: "IX_Notes_UserId",
                 table: "Notes",
-                column: "userId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TaskSchedules_userId",
                 table: "TaskSchedules",
                 column: "userId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskSchedules_userLastEditId",
+                table: "TaskSchedules",
+                column: "userLastEditId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

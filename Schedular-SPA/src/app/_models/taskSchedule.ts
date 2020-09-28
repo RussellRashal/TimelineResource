@@ -4,6 +4,7 @@ export interface TaskSchedule {
     title: string;
     start: any;
     end: any;
-    userId?: number;
+    userCurrentAssigned?: number;
+    userLastEditId?: number;
     notes: Note [];
 }

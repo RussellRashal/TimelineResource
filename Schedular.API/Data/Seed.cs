@@ -15,14 +15,13 @@ namespace Schedular.API.Data
             var roles = new List<Role>
             {
                 new Role{Name = "Admin"},
-                new Role{Name = "Manager"},
-                new Role{Name = "Standard"}, 
+                new Role{Name = "Standard"} 
             };
 
-            foreach (var role in roles)
-            {
-                roleManager.CreateAsync(role).Wait();                    
-            }
+            // foreach (var role in roles)
+            // {
+            //     roleManager.CreateAsync(role).Wait();                    
+            // }
 
           
         }    
