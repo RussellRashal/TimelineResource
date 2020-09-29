@@ -11,6 +11,14 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/hoursworked']">Hours Worked</a>
       </li>
+
+      <div *ngIf="userAuthorised">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/register']">Admin Console</a>
+      </li>
+      </div>
+
+
       <li class="nav-item">
         <a class="nav-link" >Help</a>
       </li>

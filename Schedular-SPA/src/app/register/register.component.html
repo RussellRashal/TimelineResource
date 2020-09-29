@@ -7,9 +7,13 @@
   </div>
 
 
-  <label>last Name</label>
+  <label>Last Name</label>
   <div class="form-group">
     <input formControlName="lastName" type="text" class="form-control" placeholder="LastName">
+  </div>
+
+  <div>
+    <label>UserName = {{BookComplete.value.firstname}}{{BookComplete.value.lastName}}</label>
   </div>
 
   <label>Password</label>
@@ -17,22 +21,16 @@
     <input formControlName="Password" type="password" class="form-control" placeholder="Password">
   </div>
 
+
   <div>
-    <label>UserName = {{BookComplete.value.firstname}}{{BookComplete.value.lastName}}</label>
+    <label>Admin</label>
+    <input type="radio" value="Admin" formControlName="role"> 
   </div>
-
-
-  <div class="form-group">
-    <div>
-      <label>Admin</label>
-      <input type="radio" value="Admin" formControlName="role"> 
-    </div>
-    <div>
-      <label>Standard</label>
-      <input type="radio" value="Standard" formControlName="role"> 
-    </div>
-</div>
-
+  
+  <div>
+    <label>Standard</label>
+    <input type="radio" value="Standard" formControlName="role"> 
+  </div>
 
 
 
