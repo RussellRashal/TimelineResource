@@ -16,7 +16,9 @@ import { StateStorageService } from '../_services/stateStorage.service';
 export class NavigationBarComponent implements OnInit {
   model: any = {};
   loginReactiveForm: FormGroup;
+  role;
   users: any[];
+  userAuthorised: boolean;
 
 
   constructor(
@@ -28,6 +30,8 @@ export class NavigationBarComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.isUserAdmin();
+    this.loadUsers();
   }
 
   login() {
@@ -38,9 +42,26 @@ export class NavigationBarComponent implements OnInit {
     this.authService.login(this.model).subscribe(next => {
       this.loadUsers();
       this.router.navigateByUrl('/CalendarView');
-    }, error => {
-      console.log('failed to login');
-    });
+      this.isUserAdmin();
+      }, error => {
+        console.log('failed to login');
+      });
+  }
+
+  isUserAdmin() {
+    // get users role
+    this.role = JSON.parse(localStorage.getItem('role'));
+    console.log('this is role = ' + this.role);
+  // if user is not an Admin
+    if (this.role !== 'Admin') {
+      this.userAuthorised = false;
+      console.log('value of auth is = ' + this.userAuthorised );
+    } // if user is an Admin
+    else {
+      // list of users for the drop down
+      this.userAuthorised = true;
+      console.log('value of auth is = ' + this.userAuthorised );
+    }
   }
 
   loadUsers() {

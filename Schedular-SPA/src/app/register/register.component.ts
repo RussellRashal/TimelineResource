@@ -13,6 +13,8 @@ export class RegisterComponent implements OnInit {
   model: any = {};
   BookComplete: FormGroup;
   nullError: boolean;
+  role;
+  userAuthorised: boolean;
 
   constructor(
     private authService: AuthService,
@@ -20,10 +22,24 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.alterForm();
+
+    // get users role
+    this.role = JSON.parse(localStorage.getItem('role'));
+    // if user is not a manager
+    if (this.role !== 'Admin') {
+      this.userAuthorised = false;
+    } // if user is a manager
+    else {
+      // list of users for the drop down
+      this.userAuthorised = true;
+    }
+
   }
 
 
   Register() {
+    if (this.BookComplete.valid) { // the if statment code clears the form Once the button
+
     this.nullError = false;
 
     // below is the code to check if all of the boxes are completed
@@ -47,15 +63,18 @@ export class RegisterComponent implements OnInit {
 
   //  this.model.username = this.BookComplete.value.firstname + this.BookComplete.value.lastName;
     this.model.role = this.BookComplete.value.role;
+    alert('Registration Completed');
 
     console.log(this.model);
 
     this.authService.register(this.model).subscribe(next => {
-      console.log('Booked successfully');
+      alert('Account Created');
    }, error => {
      console.log('error = ' + error);
    });
 
+    this.BookComplete.reset();
+  }
 
   }
 
