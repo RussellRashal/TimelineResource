@@ -7,5 +7,6 @@ export interface TaskSchedule {
     userCurrentAssigned?: number;
     userLastEditId?: number;
     notes: Note [];
+    highPriority?: boolean;
     isComplete?: boolean;
 }
