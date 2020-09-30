@@ -10,6 +10,7 @@ namespace Schedular.API.Dtos
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+        public bool isClosed { get; set; }
         public List<Note> Notes { get; set; }
         //user currently assigned to the task   
         public int UserCurrentAssignedId { get; set; }

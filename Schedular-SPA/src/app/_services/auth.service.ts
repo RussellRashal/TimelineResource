@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { DefaultUrlSerializer } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
+import { yearsPerPage } from '@angular/material/datepicker';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,10 @@ export class AuthService {
   loggedIn() {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);
+  }
+
+  role() {
+    return localStorage.getItem('role');
   }
 
 }

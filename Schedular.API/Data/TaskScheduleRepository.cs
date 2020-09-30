@@ -36,11 +36,11 @@ namespace Schedular.API.Data
             TaskScheduleDb.End = taskSchedule.End;
             TaskScheduleDb.userCurrentAssignedId = taskSchedule.userCurrentAssignedId;
             TaskScheduleDb.userLastEditId = taskSchedule.userLastEditId;
+            TaskScheduleDb.isClosed = taskSchedule.isClosed;
 
             _context.SaveChanges();
 
             return TaskScheduleDb;
-
         }    
 
         // Delete data

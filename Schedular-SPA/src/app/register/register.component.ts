@@ -44,10 +44,10 @@ export class RegisterComponent implements OnInit {
 
     // below is the code to check if all of the boxes are completed
     if (this.BookComplete.value.firstname === '' ||
-    this.BookComplete.value.lastName === '' ||
-    this.BookComplete.value.Password === '' ||
-    this.BookComplete.value.role === '') {
-      this.nullError = true;
+        this.BookComplete.value.lastName === '' ||
+        this.BookComplete.value.Password === '' ||
+        this.BookComplete.value.role === '') {
+          this.nullError = true;
     }
 
     this.model.firstname = this.BookComplete.value.firstname;
