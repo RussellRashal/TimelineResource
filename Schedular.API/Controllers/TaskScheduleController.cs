@@ -185,10 +185,6 @@ namespace Schedular.API.Controllers
             }           
         }
 
-
-
-
-
         //tasks worked within hours method 
         public async Task<IActionResult> GetHoursWorkedM(int id, DateTime startDate, DateTime endDate)
         {
