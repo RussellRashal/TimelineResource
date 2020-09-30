@@ -92,8 +92,6 @@ export class UpdateTaskComponent implements OnInit {
 
 
       console.log('success');
-      // console.log(this.taskScheduleData);
-      console.log('value of bool = ' + this.isDataAvailable);
       }, error => {
         console.log(error);
     });
@@ -112,7 +110,8 @@ export class UpdateTaskComponent implements OnInit {
       endDate: new FormControl(this.endDateConvert),
       endHourTime: new FormControl(this.hourEndTimeConvert),
       endMinuteTime: new FormControl(this.minuteEndTimeConvert),
-      newNote: new FormControl()
+      newNote: new FormControl(),
+      isClosed: new FormControl(this.taskScheduleData.isClosed)
     });
   }
 
@@ -199,7 +198,8 @@ export class UpdateTaskComponent implements OnInit {
         title: this.profileForm.value.title,
         start: this.returnedStartDateAndTime,
         end: this.returnedEndDateAndTime,
-        userCurrentAssignedId: Number(this.profileForm.value.userName)
+        userCurrentAssignedId: Number(this.profileForm.value.userName),
+        isClosed: this.profileForm.value.isClosed
       };
 
       // send data to api

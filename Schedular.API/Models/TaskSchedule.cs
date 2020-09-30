@@ -10,6 +10,7 @@ namespace Schedular.API.Models
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+        public bool isClosed { get; set; }
 
         public List<Note> Notes { get; set; } 
 

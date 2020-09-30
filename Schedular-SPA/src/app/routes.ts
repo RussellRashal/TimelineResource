@@ -1,3 +1,4 @@
+import { RoleGuard } from './_guards/role.guard';
 import { Component } from '@angular/core';
 import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
 import { NoteComponent } from './note/note.component';
@@ -35,8 +36,9 @@ export const appRoutes: Routes = [
     // { path: 'addtask', component: AddTaskComponent},
     // { path: 'updatetask', component: UpdateTaskComponent},
     { 
-        path: 'register', 
-        component: RegisterComponent
+        path: 'register',
+        component: RegisterComponent,
+        canActivate: [RoleGuard]
     },
     { 
         path: 'hoursworked', 
