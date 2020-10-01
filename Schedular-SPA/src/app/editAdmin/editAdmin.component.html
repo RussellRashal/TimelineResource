@@ -1,0 +1,10 @@
+<p>
+  editAdmin works!
+</p>
+
+<select class="ml-2">
+  <option *ngFor="let userMemberModel of userMemberModels"
+    [value]="userMemberModel.id"> 
+      {{userMemberModel.firstName}} {{userMemberModel.lastName}}
+  </option>      
+</select>

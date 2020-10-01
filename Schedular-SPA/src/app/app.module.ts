@@ -45,6 +45,7 @@ import { stateStorageResolver } from './_resolvers/state-storage.resolver';
 import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { NoteComponent } from './note/note.component';
 import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
+import { EditAdminComponent } from './editAdmin/editAdmin.component';
 
 
 // register FullCalendar plugins
@@ -59,7 +60,7 @@ export function tokengetter() {
 }
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     NavigationBarComponent,
     CalendarViewComponent,
@@ -72,7 +73,8 @@ export function tokengetter() {
     UpdateTaskComponent,
     LoginPageComponent,
     RegisterComponent,
-      NoteComponent
+      NoteComponent,
+      EditAdminComponent
    ],
   imports: [
     CommonModule,
