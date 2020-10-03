@@ -56,7 +56,6 @@ export class UpdateTaskComponent implements OnInit {
   testTask;
   isDataAvailable: boolean;
   userNameOfLastEdit;
-
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
 
@@ -111,10 +110,10 @@ export class UpdateTaskComponent implements OnInit {
       endHourTime: new FormControl(this.hourEndTimeConvert),
       endMinuteTime: new FormControl(this.minuteEndTimeConvert),
       newNote: new FormControl(),
-      isClosed: new FormControl(this.taskScheduleData.isClosed)
+      isClosed: new FormControl(this.taskScheduleData.isClosed),
+      highPriority: new FormControl(this.taskScheduleData.highPriority)
     });
   }
-
 
   // convert date into a usable format for the datepicker in the template
 
@@ -199,7 +198,8 @@ export class UpdateTaskComponent implements OnInit {
         start: this.returnedStartDateAndTime,
         end: this.returnedEndDateAndTime,
         userCurrentAssignedId: Number(this.profileForm.value.userName),
-        isClosed: this.profileForm.value.isClosed
+        isClosed: this.profileForm.value.isClosed,
+        highPriority: this.profileForm.value.highPriority
       };
 
       // send data to api
@@ -251,6 +251,8 @@ export class UpdateTaskComponent implements OnInit {
       }
     }
   }
+
+
 
   closeButton() {
     this.dialogRef.close({event: 'Cancel'});

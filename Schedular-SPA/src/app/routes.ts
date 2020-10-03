@@ -23,18 +23,6 @@ export const appRoutes: Routes = [
         component: CalendarViewComponent, canActivate: [AuthGuard],
         resolve: { UserMemberModel: UserLoaderResolver }
     },
-    // { 
-    //     path: 'updateTask/:id', 
-    //     component: UpdateTaskComponent, canActivate: [AuthGuard],
-    //     resolve: {taskSchedule: taskScheduleResolver}
-    // },  
-    // { 
-    //     path: 'testtask', 
-    //     component: TestTaskComponent, 
-    //     canActivate: [AuthGuard] 
-    // },
-    // { path: 'addtask', component: AddTaskComponent},
-    // { path: 'updatetask', component: UpdateTaskComponent},
     { 
         path: 'register',
         component: RegisterComponent,
