@@ -1,3 +1,5 @@
+import { EditRoleComponent } from './editRole/editRole.component';
+import { EditAdminComponent } from './editAdmin/editAdmin.component';
 import { RoleGuard } from './_guards/role.guard';
 import { Component } from '@angular/core';
 import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
@@ -18,27 +20,49 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginPageComponent } from './loginPage/loginPage.component';
 
 export const appRoutes: Routes = [
-    { 
-        path: 'CalendarView', 
+    {
+        path: 'CalendarView',
         component: CalendarViewComponent, canActivate: [AuthGuard],
         resolve: { UserMemberModel: UserLoaderResolver }
     },
-    { 
+    // {
+    //     path: 'updateTask/:id',
+    //     component: UpdateTaskComponent, canActivate: [AuthGuard],
+    //     resolve: {taskSchedule: taskScheduleResolver}
+    // },
+    // {
+    //     path: 'testtask',
+    //     component: TestTaskComponent,
+    //     canActivate: [AuthGuard]
+    // },
+    // { path: 'addtask', component: AddTaskComponent},
+    // { path: 'updatetask', component: UpdateTaskComponent},
+    {
         path: 'register',
         component: RegisterComponent,
         canActivate: [RoleGuard]
     },
-    { 
-        path: 'hoursworked', 
-        component: HoursWorkedComponent, 
+    {
+        path: 'edit',
+        component: EditAdminComponent,
+        canActivate: [RoleGuard]
+    },
+    {
+        path: 'editRole',
+        component: EditRoleComponent,
+        canActivate: [RoleGuard]
+    },
+    {
+        path: 'hoursworked',
+        component: HoursWorkedComponent,
         canActivate: [AuthGuard],
         resolve: {
             UserMemberModel: UserLoaderResolver,
             CurrentUser: stateStorageResolver
         }
     },
-    { 
-        path: 'login', 
+    {
+        path: 'login',
         component: LoginPageComponent
     }
     // { path: '', redirectTo: 'login', pathMatch: 'full'}
