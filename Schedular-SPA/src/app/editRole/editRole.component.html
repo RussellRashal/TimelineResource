@@ -1,0 +1,27 @@
+<form [formGroup]="editForm" (ngSubmit)="updateRole()">
+
+
+  
+  <div>
+    <label>UserName</label>
+    <input type="text" formControlName="userName">
+  </div>
+
+
+  <div>
+    <label>Admin</label>
+    <input type="radio" value="Admin" formControlName="role"> 
+  </div>
+  
+  <div>
+    <label>Standard</label>
+    <input type="radio" value="Standard" formControlName="role"> 
+  </div>
+
+
+ 
+
+  <button type="submit" class="btn btn-primary">Update</button>
+
+
+</form>

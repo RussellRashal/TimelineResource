@@ -1,0 +1,33 @@
+<form [formGroup]="editForm" (ngSubmit)="UpdateUser()">
+
+  <div>
+    <label>Select UserName to update</label>
+    <select class="ml-2" formControlName="currentUserName">
+      <option *ngFor="let userMemberModel of userMemberModels"
+        [value]="userMemberModel.id"> 
+          {{userMemberModel.username}} 
+      </option>      
+   </select>
+
+
+  </div>
+
+
+  <div>
+    <label>FirstName</label>
+    <input type="text" formControlName="firstname">
+  </div>
+
+  <div>
+    <label>LastName</label>
+    <input type="text" formControlName="LastName">
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">Update</button>
+
+
+</form>
+
+
+
