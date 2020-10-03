@@ -11,7 +11,7 @@ import { EditNameService } from '../_services/editName.service';
   styleUrls: ['./editRole.component.scss']
 })
 export class EditRoleComponent implements OnInit {
-newRole;
+role;
 userName;
 editForm: FormGroup;
 
@@ -29,14 +29,14 @@ editForm: FormGroup;
 
   updateRole(){
     this.userName = this.editForm.value.userName,
-    this.newRole = this.editForm.value.newRole;
+    this.role = this.editForm.value.role;
 
-    console.log(this.newRole, this.userName);
+    console.log(this.role, this.userName);
 
-    this.editNameService.editRole( this.userName, this.newRole).subscribe(next => {
+    this.editNameService.editRole( this.userName, this.role).subscribe(next => {
       alert('update sucessful');
   }, error => {
-      alert('something went wrong');
+      console.log(error);
 
   });
 

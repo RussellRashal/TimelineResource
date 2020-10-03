@@ -17,10 +17,11 @@ export class EditAdminComponent implements OnInit {
   editForm: FormGroup;
   currentUserData;
   role;
-
+  userMemberModels;
   currentUserName;
   firstname: any;
   LastName: any;
+  usernameSelected;
 
   constructor(
     private userMemberService: UserMemberService,
@@ -31,19 +32,24 @@ export class EditAdminComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit() {
+    this.userMemberModels = this.stateStorageService.getUserMemberStorage();
     this.CreateForm();
+    console.log(this.userMemberModels);
+
   }
 UpdateUser() {
+    this.usernameSelected = this.userMemberModels.username;
 
-    this.currentUserName = this.editForm.value.currentUserName,
+
+    this.currentUserName = this.editForm.value.currentUserName.username,
     this.firstname = this.editForm.value.firstname,
     this.LastName = this.editForm.value.LastName;
 
-
+    console.log(this.currentUserName);
 
     console.log(this.currentUserName, this.firstname , this.LastName);
 
-    this.editNameService.puteditName(this.currentUserName  , this.firstname, this.LastName).subscribe(next => {
+    this.editNameService.puteditName(this.usernameSelected  , this.firstname, this.LastName).subscribe(next => {
       alert('update sucessful');
   }, error => {
       alert('something went wrong');

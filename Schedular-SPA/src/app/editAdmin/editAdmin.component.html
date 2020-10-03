@@ -1,9 +1,17 @@
 <form [formGroup]="editForm" (ngSubmit)="UpdateUser()">
 
   <div>
-    <label>CurrentuserName</label>
-    <input type="text" formControlName="currentUserName">
+    <label>Select UserName to update</label>
+    <select class="ml-2" formControlName="currentUserName">
+      <option *ngFor="let userMemberModel of userMemberModels"
+        [value]="userMemberModel.id"> 
+          {{userMemberModel.username}} 
+      </option>      
+   </select>
+
+
   </div>
+
 
   <div>
     <label>FirstName</label>
@@ -20,7 +28,6 @@
 
 
 </form>
-<mat-drawer mode="center" opened>
-  <app-editRole></app-editRole>
-</mat-drawer>
+
+
 

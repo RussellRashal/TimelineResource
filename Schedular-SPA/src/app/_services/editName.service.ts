@@ -13,8 +13,8 @@ constructor(
 ) { }
 
 
-editRole(userName, newRole) {
-    return this.http.put(this.SecondUrl + '/' + userName + '/' + newRole, { });
+editRole(userName, role) {
+    return this.http.put(this.SecondUrl + '/' + userName + '/' + role, { });
 }
 
 
