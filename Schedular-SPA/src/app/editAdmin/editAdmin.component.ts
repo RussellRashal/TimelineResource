@@ -1,3 +1,4 @@
+import { EditNameService } from './../_services/editName.service';
 import { StateStorageService } from './../_services/stateStorage.service';
 import { UserMemberService } from './../_services/userMember.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,39 +14,52 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./editAdmin.component.scss']
 })
 export class EditAdminComponent implements OnInit {
-  profileForm: FormGroup;
+  editForm: FormGroup;
   currentUserData;
   role;
-  userMembers: any;
-  userAuthorised: boolean;
-  userMemberModels: any;
+
+  currentUserName;
+  firstname: any;
+  LastName: any;
 
   constructor(
     private userMemberService: UserMemberService,
     private stateStorageService: StateStorageService,
+    private editNameService: EditNameService,
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient) { }
 
   ngOnInit() {
-    this.userMemberModels = this.stateStorageService.getUserMemberStorage();
-    console.log(this.userMemberModels);
-
-    this.role = JSON.parse(localStorage.getItem('role'));
-    // if user is not a manager
-    if (this.role !== 'Admin') {
-      this.userAuthorised = false;
-    } // if user is a manager
-    else {
-      // list of users for the drop down
-      this.userMemberModels = this.userMemberService.getUsers();
-
-      this.userAuthorised = true;
-
-    }
-    this.loggedIn();
-
+    this.CreateForm();
   }
+UpdateUser() {
+
+    this.currentUserName = this.editForm.value.currentUserName,
+    this.firstname = this.editForm.value.firstname,
+    this.LastName = this.editForm.value.LastName;
+
+
+
+    console.log(this.currentUserName, this.firstname , this.LastName);
+
+    this.editNameService.puteditName(this.currentUserName  , this.firstname, this.LastName).subscribe(next => {
+      alert('update sucessful');
+  }, error => {
+      alert('something went wrong');
+
+  });
+
+}
+
+CreateForm() {
+  this.editForm = new FormGroup({
+    currentUserName: new FormControl(''),
+    firstname: new FormControl(''),
+    LastName: new FormControl('')
+  });
+}
+
 
   loggedIn() {
     const token = localStorage.getItem('token');

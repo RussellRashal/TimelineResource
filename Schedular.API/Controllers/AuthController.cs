@@ -69,7 +69,7 @@ namespace Schedular.API.Controllers
         }
         //edit user's roles
         [Authorize(Policy ="AdminAccess")]
-        [HttpPost("editRoles/{userName}/{newRole}")]
+        [HttpPut("editRoles/{userName}/{newRole}")]
         public async Task<IActionResult> EditRoles(string userName, string newRole)
         {
             if(newRole == "Standard" || newRole == "Admin")
@@ -100,7 +100,7 @@ namespace Schedular.API.Controllers
         }
         //edit user's name
         [Authorize(Policy ="AdminAccess")]
-        [HttpPost("editName/{currentUserName}/{newFirstName}/{newLastName}")]
+        [HttpPut("editName/{currentUserName}/{newFirstName}/{newLastName}")]
         public async Task<IActionResult> EditRoles(string currentUserName, string newFirstName, string newLastName)
         {
                 // get the user first 
@@ -110,6 +110,9 @@ namespace Schedular.API.Controllers
                 user.FirstName = newFirstName;
                 user.LastName = newLastName;
                 user.UserName = newFirstName + newLastName;
+
+
+
 
                 //update the changes
                 var result = await _userManager.UpdateAsync(user);

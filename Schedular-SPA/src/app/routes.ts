@@ -1,3 +1,4 @@
+import { EditRoleComponent } from './editRole/editRole.component';
 import { EditAdminComponent } from './editAdmin/editAdmin.component';
 import { RoleGuard } from './_guards/role.guard';
 import { Component } from '@angular/core';
@@ -44,6 +45,11 @@ export const appRoutes: Routes = [
     {
         path: 'edit',
         component: EditAdminComponent,
+        canActivate: [RoleGuard]
+    },
+    {
+        path: 'editRole',
+        component: EditRoleComponent,
         canActivate: [RoleGuard]
     },
     {
