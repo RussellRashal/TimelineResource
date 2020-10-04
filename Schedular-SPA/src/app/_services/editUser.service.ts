@@ -14,12 +14,13 @@ export class EditUserService {
     private http: HttpClient) { }
 
   editRole(userName, role) {
-      return this.http.put(this.SecondUrl + '/' + userName + '/' + role, { });
+      return this.http.put(this.SecondUrl + '/' + userName + '/' + role, { },
+      { responseType: 'text' });
   }
 
   putEditName(currentUserName, firstName, LastName) {
-    return this.http.put<string>(
-      this.baseUrl + '/' + currentUserName + '/' + firstName + '/' + LastName , {});
+    return this.http.put(
+      this.baseUrl + '/' + currentUserName + '/' + firstName + '/' + LastName, '',
+      { responseType: 'text' });
   }
-
 }
