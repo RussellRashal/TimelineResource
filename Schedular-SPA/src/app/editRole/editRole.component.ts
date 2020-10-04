@@ -2,7 +2,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EditNameService } from '../_services/editName.service';
+import { EditUserService } from '../_services/editUser.service';
 
 @Component({
   // tslint:disable-next-line: component-selector
@@ -11,13 +11,13 @@ import { EditNameService } from '../_services/editName.service';
   styleUrls: ['./editRole.component.scss']
 })
 export class EditRoleComponent implements OnInit {
-role;
-userName;
-editForm: FormGroup;
+  role;
+  userName;
+  editForm: FormGroup;
 
 
   constructor(
-    private editNameService: EditNameService,
+    private editUserService: EditUserService,
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
@@ -33,7 +33,7 @@ editForm: FormGroup;
 
     console.log(this.role, this.userName);
 
-    this.editNameService.editRole( this.userName, this.role).subscribe(next => {
+    this.editUserService.editRole( this.userName, this.role).subscribe(next => {
       alert('update sucessful');
   }, error => {
       console.log(error);
@@ -61,7 +61,4 @@ editForm: FormGroup;
     const token = localStorage.removeItem('token');
     console.log('logged out');
   }
-
-
-
 }

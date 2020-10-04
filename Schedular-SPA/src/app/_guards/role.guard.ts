@@ -10,7 +10,6 @@ export class RoleGuard implements CanActivate {
         private router: Router){}
 
     canActivate(): boolean {
-        this.role = JSON.parse(localStorage.getItem('role'));
         if (JSON.parse(localStorage.getItem('role')) === 'Admin'){
         return true;
         }
