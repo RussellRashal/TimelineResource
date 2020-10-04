@@ -4,7 +4,7 @@
     <label>Select UserName to update</label>
     <select class="ml-2" formControlName="currentUserName">
       <option *ngFor="let userMemberModel of userMemberModels"
-        [value]="userMemberModel.id"> 
+        [value]="userMemberModel.username"> 
           {{userMemberModel.username}} 
       </option>      
    </select>
