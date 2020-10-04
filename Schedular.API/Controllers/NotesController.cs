@@ -55,7 +55,7 @@ namespace Schedular.API.Controllers
                 return Ok();  
             }
             else {     
-                return BadRequest("Unauthorised"); 
+                return Unauthorized();
             }  
         }
         [HttpDelete("{id}")]
