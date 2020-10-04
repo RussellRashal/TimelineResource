@@ -12,7 +12,7 @@ import { NavigationBarComponent } from './navigationBar/navigationBar.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AddTaskComponent } from './addTask/addTask.component';
 import { HoursWorkedComponent } from './HoursWorked/HoursWorked.component';
-import { RegisterComponent } from './register/register.component';
+
 // angular material
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -45,8 +45,10 @@ import { stateStorageResolver } from './_resolvers/state-storage.resolver';
 import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { NoteComponent } from './note/note.component';
 import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
-import { EditUsernameComponent } from './Admin Console/editUsername/editUsername.component';
-import { EditRoleComponent } from './Admin Console/editRole/editRole.component';
+import { RegisterComponent } from './AdminConsole/register/register.component';
+import { EditUsernameComponent } from './AdminConsole/editUsername/editUsername.component';
+import { EditRoleComponent } from './AdminConsole/editRole/editRole.component';
+
 
 
 // register FullCalendar plugins
