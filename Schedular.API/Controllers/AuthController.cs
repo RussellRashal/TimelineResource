@@ -111,15 +111,14 @@ namespace Schedular.API.Controllers
                 user.LastName = newLastName;
                 user.UserName = newFirstName + newLastName;
 
-
-
-
                 //update the changes
                 var result = await _userManager.UpdateAsync(user);
                 
                 if(result.Succeeded)
                 {
-                    return Ok("user has been updated");         
+                    
+                    return Ok("user has been updated");  
+                    //return Ok();       
                 }
                 else 
                 {
