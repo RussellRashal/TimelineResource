@@ -38,6 +38,4 @@ export class TaskScheduleService {
   deleteTaskSchedule(id) {
     return this.http.delete(this.baseUrl + '/' + id);
   }
-
-
 }

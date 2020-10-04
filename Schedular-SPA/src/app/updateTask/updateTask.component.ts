@@ -32,7 +32,6 @@ export class UpdateTaskComponent implements OnInit {
 
   time = {hour: 13, minute: 30};
   taskId;
-  currentUserData;
   userMemberModels;
   currentStartTimeDate;
   currentEndTimeDate;
@@ -72,7 +71,6 @@ export class UpdateTaskComponent implements OnInit {
   ngOnInit() {
     this.isDataAvailable = false;
     this.taskId = this.stateStorageService.getTaskId();
-    this.currentUserData = this.stateStorageService.getClickedOnUser();
     this.userMemberModels = this.stateStorageService.getUserMemberStorage();
 
     this.taskScheduleService.getTaskSchedule(this.taskId).subscribe((data) => {
@@ -82,6 +80,7 @@ export class UpdateTaskComponent implements OnInit {
       this.notesArray = this.taskScheduleData.notes;
       this.currentStartTimeDate = this.taskScheduleData.start;
       this.currentEndTimeDate = this.taskScheduleData.end;
+      this.currentUserId = this.taskScheduleData.userCurrentAssignedId;
 
       this.transformDate();
 
@@ -93,6 +92,7 @@ export class UpdateTaskComponent implements OnInit {
       console.log('success');
       }, error => {
         console.log(error);
+        this.isDataAvailable = false;
     });
 
 
@@ -101,7 +101,7 @@ export class UpdateTaskComponent implements OnInit {
 
   initForm() {
     this.profileForm = new FormGroup({
-      userName: new FormControl(this.currentUserData.id),
+      userName: new FormControl(this.currentUserId),
       title: new FormControl(this.taskScheduleData.title),
       startDate: new FormControl(this.startDateConvert),
       startHourTime: new FormControl(this.hourStartTimeConvert),

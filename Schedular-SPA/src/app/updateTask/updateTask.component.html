@@ -109,6 +109,11 @@
 
 </div>
 
+<div *ngIf="!isDataAvailable">
+  <button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
+  Incorrect Task number
+</div>
+
 
 
 
