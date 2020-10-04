@@ -1,8 +1,8 @@
+import { EditUserService } from './../../_services/editUser.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EditUserService } from '../_services/editUser.service';
 
 @Component({
   // tslint:disable-next-line: component-selector

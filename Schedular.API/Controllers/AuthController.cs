@@ -115,10 +115,9 @@ namespace Schedular.API.Controllers
                 var result = await _userManager.UpdateAsync(user);
                 
                 if(result.Succeeded)
-                {
-                    
+                {                    
                     return Ok("user has been updated");  
-                    //return Ok();       
+                    // return Ok(result.Succeeded); 
                 }
                 else 
                 {

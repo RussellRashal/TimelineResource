@@ -18,7 +18,8 @@ export class EditUserService {
   }
 
   putEditName(currentUserName, firstName, LastName) {
-    return this.http.put<string>(this.baseUrl + '/' + currentUserName + '/' + firstName + '/' + LastName , '');
+    return this.http.put<string>(
+      this.baseUrl + '/' + currentUserName + '/' + firstName + '/' + LastName , {});
   }
 
 }

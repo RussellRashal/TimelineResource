@@ -1,5 +1,3 @@
-import { EditRoleComponent } from './editRole/editRole.component';
-import { EditAdminComponent } from './editAdmin/editAdmin.component';
 import { RoleGuard } from './_guards/role.guard';
 import { Component } from '@angular/core';
 import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
@@ -18,6 +16,8 @@ import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginPageComponent } from './loginPage/loginPage.component';
+import { EditUsernameComponent } from './Admin Console/editUsername/editUsername.component';
+import { EditRoleComponent } from './Admin Console/editRole/editRole.component';
 
 export const appRoutes: Routes = [
     {
@@ -44,7 +44,7 @@ export const appRoutes: Routes = [
     },
     {
         path: 'edit',
-        component: EditAdminComponent,
+        component: EditUsernameComponent,
         canActivate: [RoleGuard]
     },
     {
