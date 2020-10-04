@@ -69,7 +69,7 @@ namespace Schedular.API.Controllers
                 return Ok(taskReturn);
             }
             else {     
-                return BadRequest("Unauthorised"); 
+                return Unauthorized();
             }             
         }
 
@@ -85,7 +85,7 @@ namespace Schedular.API.Controllers
                 return await GetHoursWorkedM(id, startDate, endDate);
             }
             else {     
-                return BadRequest("Unauthorised"); 
+                return Unauthorized();
             }  
             
         }
@@ -104,7 +104,7 @@ namespace Schedular.API.Controllers
                 return Ok(tasksWorkedWithinHours);  
             }
             else {     
-                return BadRequest("Unauthorised"); 
+                return Unauthorized();
             }         
         }
         
@@ -132,7 +132,7 @@ namespace Schedular.API.Controllers
                 _repo.Add(taskSchedule);   
             }
             else {     
-                return BadRequest("Unauthorised"); 
+                return Unauthorized();
             }
 
             if(await _repo.SaveAll())
@@ -159,7 +159,7 @@ namespace Schedular.API.Controllers
             //     return updateTask;
             // }
             // else {     
-            //     return BadRequest("Unauthorised"); 
+            //     return Unauthorized();
             // }     
 
         }

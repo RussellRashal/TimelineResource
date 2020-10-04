@@ -2,22 +2,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { EditUsernameComponent } from '../Admin Console/editUsername/editUsername.component';
 
-import { EditAdminComponent } from './editAdmin.component';
+
 
 describe('EditAdminComponent', () => {
-  let component: EditAdminComponent;
-  let fixture: ComponentFixture<EditAdminComponent>;
+  let component: EditUsernameComponent;
+  let fixture: ComponentFixture<EditUsernameComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditAdminComponent ]
+      declarations: [ EditUsernameComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditAdminComponent);
+    fixture = TestBed.createComponent(EditUsernameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

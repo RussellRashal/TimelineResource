@@ -45,8 +45,8 @@ import { stateStorageResolver } from './_resolvers/state-storage.resolver';
 import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { NoteComponent } from './note/note.component';
 import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
-import { EditAdminComponent } from './editAdmin/editAdmin.component';
-import { EditRoleComponent } from './editRole/editRole.component';
+import { EditUsernameComponent } from './Admin Console/editUsername/editUsername.component';
+import { EditRoleComponent } from './Admin Console/editRole/editRole.component';
 
 
 // register FullCalendar plugins
@@ -74,9 +74,9 @@ export function tokengetter() {
     UpdateTaskComponent,
     LoginPageComponent,
     RegisterComponent,
-      NoteComponent,
-      EditAdminComponent,
-      EditRoleComponent
+    NoteComponent,
+    EditUsernameComponent,
+    EditRoleComponent
    ],
   imports: [
     CommonModule,

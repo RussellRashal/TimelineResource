@@ -1,19 +1,19 @@
-import { EditUserService } from '../_services/editUser.service';
-import { StateStorageService } from './../_services/stateStorage.service';
-import { UserMemberService } from './../_services/userMember.service';
+import { EditUserService } from '../../_services/editUser.service';
+import { StateStorageService } from '../../_services/stateStorage.service';
+import { UserMemberService } from '../../_services/userMember.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserMemberModel } from './../_models/UserMemberModel';
+import { UserMemberModel } from '../../_models/UserMemberModel';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   // tslint:disable-next-line: component-selector
-  selector: 'app-editAdmin',
-  templateUrl: './editAdmin.component.html',
-  styleUrls: ['./editAdmin.component.scss']
+  selector: 'app-editUsername',
+  templateUrl: './editUsername.component.html',
+  styleUrls: ['./editUsername.component.scss']
 })
-export class EditAdminComponent implements OnInit {
+export class EditUsernameComponent implements OnInit {
   editForm: FormGroup;
   currentUserData;
   role;
