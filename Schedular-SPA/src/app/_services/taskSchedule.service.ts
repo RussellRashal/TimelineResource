@@ -32,7 +32,7 @@ export class TaskScheduleService {
   }
 
   postTaskSchedule(taskSchedule) {
-    return this.http.post(this.baseUrl, taskSchedule);
+    return this.http.post(this.baseUrl + '/task', taskSchedule);
   }
 
   deleteTaskSchedule(id) {

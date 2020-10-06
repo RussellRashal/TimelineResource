@@ -116,8 +116,8 @@ namespace Schedular.API.Controllers
             }         
         }
         
-        [HttpPost]        
-        public async Task<IActionResult> PostSchedule(TaskSchedule taskSchedule)
+        [HttpPost("task")]        
+        public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule)
         {
             // Note sendNote;
             // sendNote.NotesInfo = taskSchedule.Notes[0].NotesInfo;
