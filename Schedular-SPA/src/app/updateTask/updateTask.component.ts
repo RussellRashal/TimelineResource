@@ -139,7 +139,7 @@ export class UpdateTaskComponent implements OnInit {
       }
     }
     // hour creation
-    for (let i = 0; i < 24; i++) {
+    for (let i = 1; i < 24; i++) {
       this.hourSelectors[i] = i.toString();
     }
   }
@@ -199,7 +199,7 @@ export class UpdateTaskComponent implements OnInit {
         end: this.returnedEndDateAndTime,
         userCurrentAssignedId: Number(this.profileForm.value.userName),
         isClosed: this.profileForm.value.isClosed,
-        highPriority: this.profileForm.value.highPriority
+        highPriority: Boolean(this.profileForm.value.highPriority)
       };
 
       // send data to api

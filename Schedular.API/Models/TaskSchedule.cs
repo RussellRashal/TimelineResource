@@ -12,6 +12,7 @@ namespace Schedular.API.Models
         public DateTime End { get; set; }
         public bool isClosed { get; set; }
         public bool highPriority { get; set; }
+        public bool hasTimeLimit { get; set; }
         public List<Note> Notes { get; set; } 
 
         //user currently assigned to the task 

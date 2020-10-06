@@ -128,7 +128,8 @@ namespace Schedular.API.Controllers
             string NowDate =  thisDay.ToString("g");
             taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
             taskSchedule.Notes[0].UserId = TokenUserId;
-            taskSchedule.userLastEditId = TokenUserId;        
+            taskSchedule.userLastEditId = TokenUserId;
+       
             
             if(taskSchedule.Start > taskSchedule.End) {
                 return BadRequest("start time is not less than end time");  
@@ -157,6 +158,7 @@ namespace Schedular.API.Controllers
             var updateTask = PutScheduleM(id, taskSchedule);
             return updateTask;  
 
+            // //permissions based API update
             // if (taskSchedule.userCurrentAssignedId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
 
             //     var updateTask = PutScheduleM(id, taskSchedule);

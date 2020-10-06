@@ -74,10 +74,12 @@ export class AddTaskComponent implements OnInit {
       taskTextArea: new FormControl(''),
       startDate: new FormControl(new Date().toISOString().slice(0, 10)),
       startHourTime: new FormControl(''),
-      startMinuteTime: new FormControl(''),
+      startMinuteTime: new FormControl('00'),
       endDate: new FormControl(new Date().toISOString().slice(0, 10)),
       endHourTime: new FormControl(''),
-      endMinuteTime: new FormControl(''),
+      endMinuteTime: new FormControl('00'),
+      hasTimeLimit: new FormControl(''),
+      highPriority: new FormControl(''),
       noteInfo: new FormControl('')
     }, );
   }
@@ -92,7 +94,7 @@ export class AddTaskComponent implements OnInit {
       }
     }
     // hour creation
-    for (let i = 0; i < 24; i++) {
+    for (let i = 1; i < 24; i++) {
       this.hourSelectors[i] = i.toString();
     }
   }
@@ -110,80 +112,89 @@ export class AddTaskComponent implements OnInit {
     this.dateError = false;
     this.nullError = false;
 
-    // check if values are filled out
-    if (this.profileForm.value.startHourTime === '' ||
-        this.profileForm.value.endHourTime === '' ||
-        this.profileForm.value.startMinuteTime === '' ||
-        this.profileForm.value.endMinuteTime === '' ||
-        this.profileForm.value.taskTextArea === '' ||
-        this.profileForm.value.userName === '' ||
-        this.profileForm.value.noteInfo === '') {
-          this.nullError = true;
-    }
-    else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
-      // console.log('start date cannot be greater than end date');
-      this.dateError = true;
-    }
-    else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
-      this.startHourInt === this.endHourInt
-      && this.startMinuteInt > this.endMinuteInt) {
-        // console.log('start time cannot be greater than end time');
+    // put date, hour and minute together to send to api
+    this.returnedStartDateAndTime =
+    this.profileForm.value.startDate.toString() + ' ' +
+    this.profileForm.value.startHourTime.toString() + ':' +
+    this.profileForm.value.startMinuteTime.toString();
+    this.returnedEndDateAndTime =
+      this.profileForm.value.endDate.toString() + ' ' +
+      this.profileForm.value.endHourTime.toString() + ':' +
+      this.profileForm.value.endMinuteTime.toString();
+
+
+
+
+    if (this.profileForm.value.hasTimeLimit === true) {
+      if (this.profileForm.value.startHourTime === '' ||
+      this.profileForm.value.endHourTime === '') {
+        // values need to be filled out
+        this.nullError = true;
+      }
+      else if (this.profileForm.value.startDate > this.profileForm.value.endDate)
+      {
+        // start date cannot be greater than end date
+        this.dateError = true;
+      }
+      else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+        this.startHourInt === this.endHourInt
+        && this.startMinuteInt > this.endMinuteInt) {
+          // start time cannot be greater than end time
+          this.timingError = true;
+      }
+      else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+        this.startHourInt > this.endHourInt) {
+        // start time cannot be greater than end time
         this.timingError = true;
+      }
+      else {
+         // put data into an array for the api
+        this.postServiceTaskSchedule = {
+          title: this.profileForm.value.taskTextArea,
+          start: this.returnedStartDateAndTime,
+          end: this.returnedEndDateAndTime,
+          userCurrentAssignedId: Number(this.profileForm.value.userName),
+          hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
+          highPriority: Boolean(this.profileForm.value.highPriority),
+          notes: [{
+            notesInfo: this.profileForm.value.noteInfo
+          }]
+        };
+        this.postData(this.postServiceTaskSchedule);
+      }
     }
-    else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
-      this.startHourInt > this.endHourInt) {
-      // console.log('start time cannot be greater than end time');
-      this.timingError = true;
+    else if (
+      this.profileForm.value.taskTextArea === '' ||
+      this.profileForm.value.userName === '' ||
+      this.profileForm.value.noteInfo === '') {
+        // values need to be filled out
+        this.nullError = true;
     }
     else {
-      // put date, hour and minute together to send to api
-      this.returnedStartDateAndTime =
-      this.profileForm.value.startDate.toString() + ' ' +
-      this.profileForm.value.startHourTime.toString() + ':' +
-      this.profileForm.value.startMinuteTime.toString();
-
-      this.returnedEndDateAndTime =
-        this.profileForm.value.endDate.toString() + ' ' +
-        this.profileForm.value.endHourTime.toString() + ':' +
-        this.profileForm.value.endMinuteTime.toString();
-
       // put data into an array for the api
       this.postServiceTaskSchedule = {
         title: this.profileForm.value.taskTextArea,
-        start: this.returnedStartDateAndTime,
-        end: this.returnedEndDateAndTime,
         userCurrentAssignedId: Number(this.profileForm.value.userName),
+        hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
+        highPriority: Boolean(this.profileForm.value.highPriority),
         notes: [{
           notesInfo: this.profileForm.value.noteInfo
         }]
       };
+      this.postData(this.postServiceTaskSchedule);
+    }
+  }
 
+  postData(data) {
       // send data to api
-      this.taskScheduleService.postTaskSchedule(this.postServiceTaskSchedule).subscribe(next => {
+      this.taskScheduleService.postTaskSchedule(data).subscribe(next => {
         console.log('success');
-        // this.router.navigate(['/CalendarView']);
-        // alert('Task has been added');
         this.dialogRef.close({event: 'Cancel'});
         }, error => {
           console.log('error, POST did not go through: ' + error);
       });
-      // this.ngOnInit();
-
-    // close dialog box after add button is clicked
-    }
-    // console.log(this.postServiceTaskSchedule);
   }
 
-  // noteCreation() {
-  //   this.postNote = {
-  //     notesInfo: this.profileForm.value.noteInfo
-  //   };
-  //   this.noteService.postNote(this.postNote).subscribe(next => {
-  //     console.log(next);
-  //     }, error => {
-  //       console.log(error);
-  //   });
-  // }
 
   closeButton() {
     this.dialogRef.close({event: 'Cancel'});

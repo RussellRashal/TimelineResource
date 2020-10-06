@@ -38,6 +38,7 @@ namespace Schedular.API.Data
             TaskScheduleDb.userLastEditId = taskSchedule.userLastEditId;
             TaskScheduleDb.highPriority = taskSchedule.highPriority;
             TaskScheduleDb.isClosed = taskSchedule.isClosed;
+            TaskScheduleDb.hasTimeLimit = taskSchedule.hasTimeLimit;
 
             _context.SaveChanges();
 
