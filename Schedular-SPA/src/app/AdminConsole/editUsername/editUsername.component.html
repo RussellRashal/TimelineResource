@@ -1,4 +1,6 @@
-<form [formGroup]="editForm" (ngSubmit)="UpdateUser()">
+<app-main-nav></app-main-nav>
+
+<form id="form" [formGroup]="editForm" (ngSubmit)="UpdateUser()">
 
   <div>
     <label>Select UserName to update</label>
@@ -28,6 +30,22 @@
 
 
 </form>
+
+
+<app-main-nav></app-main-nav>
+
+<!-- <app-sidebar></app-sidebar>
+
+
+<mat-sidenav-container>
+  <mat-sidenav>Sidenav</mat-sidenav>
+  <mat-sidenav-content>app-editUsername</mat-sidenav-content>
+  <mat-sidenav-content>app-editRole</mat-sidenav-content>
+  <mat-sidenav-content>app-register</mat-sidenav-content>
+</mat-sidenav-container>
+ -->
+
+
 
 
 

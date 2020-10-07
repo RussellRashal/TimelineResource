@@ -1,7 +1,7 @@
-<form [formGroup]="editForm" (ngSubmit)="updateRole()">
+<form id="form_Role" [formGroup]="editForm" (ngSubmit)="updateRole()">
 
 
-  
+ 
   <div>
     <label>UserName</label>
     <input type="text" formControlName="userName">
@@ -25,3 +25,5 @@
 
 
 </form>
+
+<app-main-nav></app-main-nav>

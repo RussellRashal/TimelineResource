@@ -18,6 +18,7 @@ import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginPageComponent } from './loginPage/loginPage.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
 
 
 export const appRoutes: Routes = [
@@ -51,6 +52,11 @@ export const appRoutes: Routes = [
     {
         path: 'editRole',
         component: EditRoleComponent,
+        canActivate: [RoleGuard]
+    },
+    {
+        path: 'SideNav',
+        component: MainNavComponent,
         canActivate: [RoleGuard]
     },
     {
