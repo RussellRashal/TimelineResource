@@ -23,9 +23,9 @@ export class StateStorageService {
   }
 
 
-  // staff member clicked on for updateTask component
-  setClickedOnUser(CllickedUser) {
-    this.currentClickedUser = CllickedUser;
+  // staff member clicked on for addTask component without needing to make another api call
+  setClickedOnUser(ClickedUser) {
+    this.currentClickedUser = ClickedUser;
   }
   getClickedOnUser() {
     return this.currentClickedUser;

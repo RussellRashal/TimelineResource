@@ -5,6 +5,9 @@
     <fieldset [disabled]=taskScheduleData.isClosed>
     <!-- <div *ngIf="authorised()"> to allow to disallow standard account to select -->
     <div>
+      <label>Task Id {{taskScheduleData.id}}</label>
+    </div>
+    <div>
         <label>Assigned to </label>
         <select class="ml-2" formControlName="userName">
           <option *ngFor="let userMemberModel of userMemberModels"
@@ -18,7 +21,14 @@
         <label>Title</label>
         <textarea formControlName="title"></textarea>
     </div>
-    <div class="mb-1">
+
+    <div>
+      <label class="mr-1">Add time to task</label>
+      <input type="checkbox" value="True" formControlName="hasTimeLimit">
+    </div>
+
+    <div *ngIf="this.profileForm.value.hasTimeLimit === true">
+      <div class="mb-1">
         <label>Start Date</label>
         <input type="date" formControlName="startDate" class="ml-2">
     
@@ -58,9 +68,10 @@
               [value]="minuteSelector">
               {{minuteSelector}}
             </option>
-          </select>
- 
-    </div>
+          </select> 
+      </div>
+    </div>    
+   
     <div>
       <label class="mr-1">High Priority</label>
       <input type="checkbox" value="True" formControlName="highPriority">
@@ -107,6 +118,11 @@
   </fieldset> 
   </form>  
 
+</div>
+
+<div *ngIf="!isDataAvailable">
+  <button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
+  Incorrect Task number
 </div>
 
 

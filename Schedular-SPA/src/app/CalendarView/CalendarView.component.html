@@ -2,7 +2,11 @@
     <label>
         Current Schedule displayed is {{this.selectedFullName}}
     </label>
-    <button class="float-right btn btn-primary" (click)="openDialogAddTask()">Add Task with Time</button>
+
+    <button class="float-right btn btn-primary" (click)="openDialogAddTask()">Add Task</button>
+    <button class="float-right btn btn-secondary mr-2" type="submit" (click)="searchTaskBox()">Search</button>
+    <input [formControl]="searchTask" class="float-right col-xs-2 mr-4" type="text" placeholder="Seach Task">
+    
 </div>
 
 <div *ngIf="loggedIn()">

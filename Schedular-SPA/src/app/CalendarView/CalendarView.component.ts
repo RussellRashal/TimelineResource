@@ -15,6 +15,7 @@ import { UpdateTaskComponent } from '../updateTask/updateTask.component';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { AddTaskComponent } from '../addTask/addTask.component';
 import { delay } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-calendarview',
@@ -30,6 +31,7 @@ export class CalendarViewComponent implements OnInit {
   test;
   selectedTask: any[];
   idSelected: number;
+  searchTask: FormControl;
 
   calendarOptions: CalendarOptions = {
     plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -56,6 +58,8 @@ export class CalendarViewComponent implements OnInit {
     this.stateStorageService.setClickedOnUser(this.currentUserSelected);
     this.selectedFullName = this.currentUserSelected.firstName + ' ' + this.currentUserSelected.lastName;
     this.runCalendarData(this.currentUserSelected);
+    this.searchTask = new FormControl();
+
   }
 
   runCalendarData(userclicked) {
@@ -113,6 +117,17 @@ export class CalendarViewComponent implements OnInit {
   // reload the data from update component once dialog box has been closed
   dataReload() {
     this.CalendarData(this.currentUserSelected.id);
+  }
+
+  searchTaskBox() {
+    this.stateStorageService.setTaskId(this.searchTask.value);
+    const dialogRef = this.dialog.open(UpdateTaskComponent, {
+      width: '80%',
+      height: '60%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.dataReload();
+    });
   }
 
   openDialogAddTask() {
