@@ -1,0 +1,18 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" 
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-nav-list>
+      <a class="nav-link" [routerLink]="['/editUsername']">EditUserName</a>
+      <a class="nav-link" [routerLink]="['/editRole']">Role</a>
+      <a class="nav-link" [routerLink]="['/register']">CreateUsername</a>
+      <a class="nav-link" >Password Reset</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+   
+    <!-- Add Content Here -->
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

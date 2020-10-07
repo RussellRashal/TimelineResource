@@ -61,5 +61,9 @@ export class EditUsernameComponent implements OnInit {
     const token = localStorage.removeItem('token');
     console.log('logged out');
   }
+
+  sendUserButtonClick(id) {
+    console.log('button clicked');
+  }
 }
 
