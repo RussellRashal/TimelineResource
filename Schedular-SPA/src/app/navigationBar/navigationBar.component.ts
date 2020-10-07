@@ -94,21 +94,4 @@ export class NavigationBarComponent implements OnInit {
     const username = localStorage.removeItem('user');
     const userId = localStorage.removeItem('role');
   }
-
-
-
-  openDialogUpdateTask(action) {
-    const dialogRef = this.dialog.open(UpdateTaskComponent, {
-      width: '80%',
-      height: '60%'
-    });
-  }
-
-  searchTaskM() {
-    this.stateStorageService.setTaskId(this.searchTask.value);
-    const dialogRef = this.dialog.open(UpdateTaskComponent, {
-      width: '80%',
-      height: '60%'
-    });
-  }
 }

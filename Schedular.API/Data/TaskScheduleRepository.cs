@@ -107,7 +107,7 @@ namespace Schedular.API.Data
         }
         //work out the number of hours worked
         public async Task<TimeSpan> GetHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)
-        {
+        {            
             DateTime endDateAdjust = endDate.AddDays(1);
             var taskSchedulesWorked = await _context.TaskSchedules
                 .Where(u => u.userCurrentAssignedId == id)
@@ -117,17 +117,22 @@ namespace Schedular.API.Data
             // get hours worked            
             TimeSpan HoursInTask;
             TimeSpan HoursWorked = TimeSpan.Zero;
-            int count = 0;
+            int count = 0;           
 
-            foreach(var task in taskSchedulesWorked) 
+            foreach(var task in taskSchedulesWorked)
             {
-                
-                HoursInTask = taskSchedulesWorked[count].End - taskSchedulesWorked[count].Start;
-        
-                HoursWorked = HoursWorked.Add(HoursInTask);
-                count++;
-            } 
-            return HoursWorked;    
+                if (taskSchedulesWorked[count].End.HasValue && taskSchedulesWorked[count].Start.HasValue)
+                {
+                    // allows nullable to be excluded using the .hasvalue and .value 
+                    HoursInTask = taskSchedulesWorked[count].End.Value 
+                        - taskSchedulesWorked[count].Start.Value;
+
+                    HoursWorked = HoursWorked.Add(HoursInTask);
+                    count++;
+                }
+
+            }
+            return HoursWorked;            
         }
         //get the tasks between the hours worked
         public async Task<IEnumerable<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)

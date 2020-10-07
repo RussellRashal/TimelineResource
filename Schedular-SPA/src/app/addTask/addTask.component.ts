@@ -114,9 +114,9 @@ export class AddTaskComponent implements OnInit {
 
     // put date, hour and minute together to send to api
     this.returnedStartDateAndTime =
-    this.profileForm.value.startDate.toString() + ' ' +
-    this.profileForm.value.startHourTime.toString() + ':' +
-    this.profileForm.value.startMinuteTime.toString();
+      this.profileForm.value.startDate.toString() + ' ' +
+      this.profileForm.value.startHourTime.toString() + ':' +
+      this.profileForm.value.startMinuteTime.toString();
     this.returnedEndDateAndTime =
       this.profileForm.value.endDate.toString() + ' ' +
       this.profileForm.value.endHourTime.toString() + ':' +
@@ -126,19 +126,18 @@ export class AddTaskComponent implements OnInit {
 
 
     if (this.profileForm.value.hasTimeLimit === true) {
-      if (this.profileForm.value.startHourTime === '' ||
-      this.profileForm.value.endHourTime === '') {
+      if (this.profileForm.value.startHourTime === '' || this.profileForm.value.endHourTime === '' ||
+        this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '' ||
+        this.profileForm.value.noteInfo === '') {
         // values need to be filled out
         this.nullError = true;
       }
-      else if (this.profileForm.value.startDate > this.profileForm.value.endDate)
-      {
+      else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
         // start date cannot be greater than end date
         this.dateError = true;
       }
       else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
-        this.startHourInt === this.endHourInt
-        && this.startMinuteInt > this.endMinuteInt) {
+        this.startHourInt === this.endHourInt && this.startMinuteInt > this.endMinuteInt) {
           // start time cannot be greater than end time
           this.timingError = true;
       }
@@ -163,15 +162,13 @@ export class AddTaskComponent implements OnInit {
         this.postData(this.postServiceTaskSchedule);
       }
     }
-    else if (
-      this.profileForm.value.taskTextArea === '' ||
-      this.profileForm.value.userName === '' ||
+    else if ( this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '' ||
       this.profileForm.value.noteInfo === '') {
         // values need to be filled out
         this.nullError = true;
     }
     else {
-      // put data into an array for the api
+      // post data into an array for the api without start and end time
       this.postServiceTaskSchedule = {
         title: this.profileForm.value.taskTextArea,
         userCurrentAssignedId: Number(this.profileForm.value.userName),

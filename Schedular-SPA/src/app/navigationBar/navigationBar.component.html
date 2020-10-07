@@ -22,14 +22,6 @@
       <li class="nav-item">
         <a class="nav-link" >Help</a>
       </li>
-
-      <div *ngIf="loggedIn()"class="ml-4 mb-2">
-        <input [formControl]="searchTask" class="form-control col-xs-2" 
-        type="text" placeholder="Seach Task" aria-label="username">
-      </div>
-  
-      <button class="btn btn-light ml-2" type="submit" (click)="searchTaskM()">Search</button>
-
     </ul>
 
 

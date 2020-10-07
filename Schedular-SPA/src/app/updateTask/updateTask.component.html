@@ -21,7 +21,14 @@
         <label>Title</label>
         <textarea formControlName="title"></textarea>
     </div>
-    <div class="mb-1">
+
+    <div>
+      <label class="mr-1">Add time to task</label>
+      <input type="checkbox" value="True" formControlName="hasTimeLimit">
+    </div>
+
+    <div *ngIf="this.profileForm.value.hasTimeLimit === true">
+      <div class="mb-1">
         <label>Start Date</label>
         <input type="date" formControlName="startDate" class="ml-2">
     
@@ -61,9 +68,10 @@
               [value]="minuteSelector">
               {{minuteSelector}}
             </option>
-          </select>
- 
-    </div>
+          </select> 
+      </div>
+    </div>    
+   
     <div>
       <label class="mr-1">High Priority</label>
       <input type="checkbox" value="True" formControlName="highPriority">

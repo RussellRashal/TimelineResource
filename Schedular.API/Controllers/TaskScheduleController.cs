@@ -214,7 +214,7 @@ namespace Schedular.API.Controllers
         //updating new tasks
         public ActionResult<TaskSchedule> PutScheduleM(int id, [FromBody] TaskSchedule taskSchedule) 
         {
-            if(taskSchedule.Start < taskSchedule.End) {
+            if(taskSchedule.Start < taskSchedule.End || taskSchedule.Start == null && taskSchedule.End == null) {
                 TaskSchedule taskSchedulePut = _repo.Update(id, taskSchedule);
                 return taskSchedulePut;    
             }

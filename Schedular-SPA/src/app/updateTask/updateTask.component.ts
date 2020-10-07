@@ -99,7 +99,8 @@ export class UpdateTaskComponent implements OnInit {
   }
 
 
-  initForm() {
+  initForm()
+  {
     this.profileForm = new FormGroup({
       userName: new FormControl(this.currentUserId),
       title: new FormControl(this.taskScheduleData.title),
@@ -111,6 +112,7 @@ export class UpdateTaskComponent implements OnInit {
       endMinuteTime: new FormControl(this.minuteEndTimeConvert),
       newNote: new FormControl(),
       isClosed: new FormControl(this.taskScheduleData.isClosed),
+      hasTimeLimit: new FormControl(this.taskScheduleData.hasTimeLimit),
       highPriority: new FormControl(this.taskScheduleData.highPriority)
     });
   }
@@ -129,12 +131,14 @@ export class UpdateTaskComponent implements OnInit {
     this.minuteEndTimeConvert = this.datePipe.transform(this.currentEndTimeDate, 'mm');
   }
 
-  dropDownTimeList() {
+  dropDownTimeList()
+  {
     // minute creation
     for (let i = 0; i < 60; i++) {
       if (i < 10) {
         this.minuteSelectors[i] = '0' + i.toString();
-      } else {
+      }
+      else {
         this.minuteSelectors[i] = i.toString();
       }
     }
@@ -156,66 +160,78 @@ export class UpdateTaskComponent implements OnInit {
     this.dateError = false;
     this.nullError = false;
 
-    // check if values are filled out
-    if (this.profileForm.value.startHourTime === '' ||
-    this.profileForm.value.endHourTime === '' ||
-    this.profileForm.value.startMinuteTime === '' ||
-    this.profileForm.value.endMinuteTime === '' ||
-    this.profileForm.value.title === '' ||
-    this.profileForm.value.userName === '') {
-      this.nullError = true;
-    }
-    else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
-      // console.log('start date cannot be greater than end date');
-      this.dateError = true;
-    }
-    else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
-      this.startHourInt === this.endHourInt
-      && this.startMinuteInt > this.endMinuteInt) {
-        // console.log('start time cannot be greater than end time');
+    // put date, hour and minute together to send to api
+    this.returnedStartDateAndTime =
+     this.profileForm.value.startDate.toString() + ' ' +
+     this.profileForm.value.startHourTime.toString() + ':' +
+     this.profileForm.value.startMinuteTime.toString();
+    this.returnedEndDateAndTime =
+     this.profileForm.value.endDate.toString() + ' ' +
+     this.profileForm.value.endHourTime.toString() + ':' +
+     this.profileForm.value.endMinuteTime.toString();
+
+    if (this.profileForm.value.hasTimeLimit === true) {
+      if (this.profileForm.value.startHourTime === '' || this.profileForm.value.endHourTime === '' ||
+        this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
+          // values need to be filled out
+          this.nullError = true;
+      }
+      else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
+        // start date cannot be greater than end date
+        this.dateError = true;
+      }
+      else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+        this.startHourInt === this.endHourInt && this.startMinuteInt > this.endMinuteInt) {
+          // start time cannot be greater than end time
+          this.timingError = true;
+      }
+      else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+        this.startHourInt > this.endHourInt) {
+        // start time cannot be greater than end time
         this.timingError = true;
+      }
+      else {
+        // put data into an array for the api
+        this.putServiceTaskSchedule = {
+          title: this.profileForm.value.title,
+          start: this.returnedStartDateAndTime,
+          end: this.returnedEndDateAndTime,
+          userCurrentAssignedId: Number(this.profileForm.value.userName),
+          isClosed: this.profileForm.value.isClosed,
+          hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
+          highPriority: Boolean(this.profileForm.value.highPriority)
+        };
+        this.putData(this.taskScheduleData.id, this.putServiceTaskSchedule);
+      }
     }
-    else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
-      this.startHourInt > this.endHourInt) {
-      // console.log('start time cannot be greater than end time');
-      this.timingError = true;
+    else if ( this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
+        // values need to be filled out
+        this.nullError = true;
     }
     else {
-      // put date, hour and minute together to send to api
-      this.returnedStartDateAndTime =
-        this.profileForm.value.startDate.toString() + ' ' +
-        this.profileForm.value.startHourTime.toString() + ':' +
-        this.profileForm.value.startMinuteTime.toString();
-
-      this.returnedEndDateAndTime =
-        this.profileForm.value.endDate.toString() + ' ' +
-        this.profileForm.value.endHourTime.toString() + ':' +
-        this.profileForm.value.endMinuteTime.toString();
-
-      // put data into an array for the api
-      this.putServiceTaskSchedule = {
+      // put data into an array for the api without start and end time
+      this.putServiceTaskSchedule =
+      {
         title: this.profileForm.value.title,
-        start: this.returnedStartDateAndTime,
-        end: this.returnedEndDateAndTime,
         userCurrentAssignedId: Number(this.profileForm.value.userName),
         isClosed: this.profileForm.value.isClosed,
+        hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
         highPriority: Boolean(this.profileForm.value.highPriority)
       };
-
-      // send data to api
-      this.taskScheduleService.putTaskSchedule(
-        this.taskScheduleData.id,
-        this.putServiceTaskSchedule).subscribe(next => {
-          console.log('success');
-          // this.router.navigate(['/CalendarView']);
-          // this.dialogRef.close({event: 'Cancel'}); // dialog box close
-          this.ngOnInit();
-          alert('Task has been updated');
-          this.dialogRef.close({event: 'Cancel'}); // dialog box close
-        }, error => {
-          console.log('error POST did not go through: ' + error);
-        });
+      this.putData(this.taskScheduleData.id, this.putServiceTaskSchedule);
     }
+  }
+
+  putData(id, data) {
+    // send data to api
+    this.taskScheduleService.putTaskSchedule(id, data).subscribe(next => {
+        console.log('success');
+        this.ngOnInit();
+        alert('Task has been updated');
+        this.dialogRef.close({event: 'Cancel'}); // dialog box close
+      }, error => {
+        console.log(error);
+    });
   }
 
   deleteTask() {

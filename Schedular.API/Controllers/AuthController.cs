@@ -34,8 +34,7 @@ namespace Schedular.API.Controllers
             _mapper = mapper;
             _config = config;
         }
-        //[Authorize(Policy ="AdminAccess")]
-        [AllowAnonymous]
+        [Authorize(Policy ="AdminAccess")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
