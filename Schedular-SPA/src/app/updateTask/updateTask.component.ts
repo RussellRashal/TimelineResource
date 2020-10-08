@@ -269,7 +269,6 @@ export class UpdateTaskComponent implements OnInit {
   }
 
 
-
   closeButton() {
     this.dialogRef.close({event: 'Cancel'});
   }
