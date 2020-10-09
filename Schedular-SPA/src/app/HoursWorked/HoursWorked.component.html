@@ -1,4 +1,4 @@
-<form *ngIf="loggedIn() && authorised()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
+<form *ngIf="loggedIn() && this.userAuthorised" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
   <div>
       <label>Name</label>      
       <select formControlName="userId" class="ml-2">
@@ -22,7 +22,7 @@
 
 </form>
 
-<form *ngIf="loggedIn() && !authorised()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
+<form *ngIf="loggedIn() && !this.userAuthorised" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
   <div>
     <label>{{currentUser.firstName}} 
       {{currentUser.lastName}}</label>
@@ -59,8 +59,8 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th style=" width: 5%">#</th>
-        <th style=" width: 65%">Task</th>
+        <th style=" width: 10%">task Id</th>
+        <th style=" width: 60%">Task</th>
         <th style=" width: 15%">Start Date & Time</th>
         <th style=" width: 15%">End Date & Time</th>
       </tr>
@@ -68,33 +68,24 @@
     <tbody>
       <tr *ngFor="let tasksFromHoursWorked of tasksFromHoursWorkeds; index as i">
         
-          <th>{{i + 1}}</th>
+          <th>
+            <a class="taskId" role="button" (click)="updateDialog(tasksFromHoursWorked.id)">{{tasksFromHoursWorked.id}}</a>
+          </th>
           <td>
             {{tasksFromHoursWorked.title}}
           </td>
           <td>
-            <p >Start Date = 
-              {{tasksFromHoursWorked.start.slice(8, 10)}} 
-              {{tasksFromHoursWorked.start.slice(5, 7)}} 
-              {{tasksFromHoursWorked.start.slice(0, 4)}}           
-            </p>
-            <p>
-              Start Time =        
-              {{tasksFromHoursWorked.start.slice(11, 16)}}
-            </p>  
-          </td>
+            {{tasksFromHoursWorked.start.slice(8, 10)}}/  
+            {{tasksFromHoursWorked.start.slice(5, 7)}}/
+            {{tasksFromHoursWorked.start.slice(0, 4)}}        
+            {{tasksFromHoursWorked.start.slice(11, 16)}}    
           <td>
-            <p>End Date =
-              {{tasksFromHoursWorked.end.slice(8, 10)}} 
-              {{tasksFromHoursWorked.end.slice(5, 7)}} 
-              {{tasksFromHoursWorked.end.slice(0, 4)}}           
-            </p>
-            <p>
-              End Time =        
-              {{tasksFromHoursWorked.end.slice(11, 16)}}
-          </td>      
+            {{tasksFromHoursWorked.end.slice(8, 10)}}/
+            {{tasksFromHoursWorked.end.slice(5, 7)}}/
+            {{tasksFromHoursWorked.end.slice(0, 4)}} 
+            {{tasksFromHoursWorked.end.slice(11, 16)}}
+        </td>     
         </tr>
-  
   
     </tbody>
   </table>

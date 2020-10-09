@@ -53,6 +53,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 
 
 
@@ -68,7 +69,7 @@ export function tokengetter() {
 }
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     NavigationBarComponent,
     CalendarViewComponent,
@@ -84,7 +85,8 @@ export function tokengetter() {
     NoteComponent,
     EditUsernameComponent,
     EditRoleComponent,
-    MainNavComponent
+    MainNavComponent,
+      ViewTasksComponent
    ],
   imports: [
     CommonModule,

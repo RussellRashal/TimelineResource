@@ -72,7 +72,11 @@ export class UpdateTaskComponent implements OnInit {
     this.isDataAvailable = false;
     this.taskId = this.stateStorageService.getTaskId();
     this.userMemberModels = this.stateStorageService.getUserMemberStorage();
+    this.displayTasks();
 
+  }
+
+  displayTasks() {
     this.taskScheduleService.getTaskSchedule(this.taskId).subscribe((data) => {
       this.taskScheduleDataArray = data;
       this.isDataAvailable = true;
@@ -86,7 +90,7 @@ export class UpdateTaskComponent implements OnInit {
 
       this.dropDownTimeList();
       this.initForm();
-      this.whichUser();
+      this.userLastEdit();
 
 
       console.log('success');
@@ -94,7 +98,6 @@ export class UpdateTaskComponent implements OnInit {
         console.log(error);
         this.isDataAvailable = false;
     });
-
 
   }
 
@@ -259,7 +262,7 @@ export class UpdateTaskComponent implements OnInit {
     });
   }
 
-  whichUser() {
+  userLastEdit() {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.userMemberModels.length; i++) {
       if (this.userMemberModels[i].id === this.taskScheduleData.userLastEditId) {
