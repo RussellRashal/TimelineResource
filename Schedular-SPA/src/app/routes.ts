@@ -1,3 +1,4 @@
+import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 import { EditRoleComponent } from './AdminConsole/editRole/editRole.component';
 import { EditUsernameComponent } from './AdminConsole/editUsername/editUsername.component';
 import { RegisterComponent } from './AdminConsole/register/register.component';
@@ -27,18 +28,10 @@ export const appRoutes: Routes = [
         component: CalendarViewComponent, canActivate: [AuthGuard],
         resolve: { UserMemberModel: UserLoaderResolver }
     },
-    // {
-    //     path: 'updateTask/:id',
-    //     component: UpdateTaskComponent, canActivate: [AuthGuard],
-    //     resolve: {taskSchedule: taskScheduleResolver}
-    // },
-    // {
-    //     path: 'testtask',
-    //     component: TestTaskComponent,
-    //     canActivate: [AuthGuard]
-    // },
-    // { path: 'addtask', component: AddTaskComponent},
-    // { path: 'updatetask', component: UpdateTaskComponent},
+    {
+        path: 'viewTasks',
+        component: ViewTasksComponent, canActivate: [AuthGuard]
+    },
     {
         path: 'register',
         component: RegisterComponent,

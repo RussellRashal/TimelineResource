@@ -78,17 +78,29 @@ namespace Schedular.API.Data
         
     
         //get users tasks
-        // public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int userCurrentAssignedId)
-        // {
-        //     var userTaskSchedule = await _context.TaskSchedules
-        //         .Where(u => u.userCurrentAssignedId == userCurrentAssignedId)
-        //         .ToListAsync();                                   
+        public async Task<IEnumerable<TaskSchedule>> GetOpenCloseTasksByUser(int userId, bool isClosed)
+        {
+            if(isClosed == true) {
+                var userTaskScheduleClosed = await _context.TaskSchedules
+                .Where(u => u.userCurrentAssignedId == userId)
+                .Where(c =>c.isClosed == true)
+                .ToListAsync(); 
 
-        //     return userTaskSchedule;            
-        // }
+                return userTaskScheduleClosed; 
+            }
+            else {
+                var userTaskScheduleOpen = await _context.TaskSchedules
+                .Where(u => u.userCurrentAssignedId == userId)
+                .Where(c =>c.isClosed == false)
+                .ToListAsync(); 
 
+                return userTaskScheduleOpen; 
+
+            }                             
+
+        }
         //get users with notes test 
-        public async Task<IList<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId)
+        public async Task<IEnumerable<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId)
         {
                var userTaskSchedule = await _context.TaskSchedules
                     .Include(ts => ts.Notes)
@@ -145,6 +157,9 @@ namespace Schedular.API.Data
                 
             return taskSchedulesWorked;
         }
-        
+        public Task<IEnumerable<TaskSchedule>> GetOpenCloseTasksByUser(int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

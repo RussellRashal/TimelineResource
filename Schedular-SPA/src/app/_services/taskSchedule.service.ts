@@ -26,6 +26,10 @@ export class TaskScheduleService {
     return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUser/' + id);
   }
 
+  getTaskScheduleOpenCloseByUserId(id: number, isClosed: boolean): Observable<TaskSchedule[]> {
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUserOpenCloseTasks/' + id + '/' + isClosed);
+  }
+
   putTaskSchedule(id, taskSchedule) {
     return this.http.put(this.baseUrl + '/' + id, taskSchedule);
     // return taskSchedule;

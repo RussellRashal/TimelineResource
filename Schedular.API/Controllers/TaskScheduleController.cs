@@ -60,6 +60,22 @@ namespace Schedular.API.Controllers
             }
         }
 
+        //hours worked calculation
+        //[Authorize(Policy ="AdminAccess")]
+        [HttpGet("hoursWorked/{id}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetHoursWorked(int id, DateTime startDate, DateTime endDate)
+        {            
+            if (id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+                return await GetHoursWorkedM(id, startDate, endDate);     
+            }
+            else if (User.IsInRole("Admin")) {
+                return await GetHoursWorkedM(id, startDate, endDate);
+            }
+            else {     
+                return Unauthorized();
+            }  
+            
+        }
         [HttpGet("byUser/{UserId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
         public async Task<IActionResult> GetTaskSchedulesByUser(int UserId)
@@ -80,22 +96,24 @@ namespace Schedular.API.Controllers
                 return Unauthorized();
             }             
         }
-
-        //hours worked calculation
-        //[Authorize(Policy ="AdminAccess")]
-        [HttpGet("hoursWorked/{id}/{startDate}/{endDate}")]
-        public async Task<IActionResult> GetHoursWorked(int id, DateTime startDate, DateTime endDate)
-        {            
-            if (id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
-                return await GetHoursWorkedM(id, startDate, endDate);     
+        //get either open or closed tasks
+        [HttpGet("byUserOpenCloseTasks/{userId}/{isClosed}")]
+        public async Task<IActionResult> GetOpenCloseTasksByUser(int userId, bool isClosed)
+        {
+            //is user asking for their own tasks
+            if (userId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed);
+                var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+                return Ok(taskReturn); 
             }
             else if (User.IsInRole("Admin")) {
-                return await GetHoursWorkedM(id, startDate, endDate);
+                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed);
+                var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+                return Ok(taskReturn); 
             }
             else {     
                 return Unauthorized();
             }  
-            
         }
         //get the tasks worked in the hours selected
         [HttpGet("tasksWithinHours/{id}/{startDate}/{endDate}")]
