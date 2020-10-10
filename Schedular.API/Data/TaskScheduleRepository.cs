@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
+using Schedular.API.Helpers;
 
 namespace Schedular.API.Data
 {
@@ -78,24 +79,29 @@ namespace Schedular.API.Data
         
     
         //get users tasks
-        public async Task<IEnumerable<TaskSchedule>> GetOpenCloseTasksByUser(int userId, bool isClosed)
+        public async Task<PagedList<TaskSchedule>> GetOpenCloseTasksByUser(int userId, bool isClosed, TaskParams taskParams)
         {
-            if(isClosed == true) {
-                var userTaskScheduleClosed = await _context.TaskSchedules
-                .Where(u => u.userCurrentAssignedId == userId)
-                .Where(c =>c.isClosed == true)
-                .ToListAsync(); 
+            if(isClosed == true) 
+            {
+                var query = _context.TaskSchedules
+                    .Where(u => u.userCurrentAssignedId == userId)
+                    .Where(c =>c.isClosed == true)
+                    .AsNoTracking();
 
-                return userTaskScheduleClosed; 
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
             }
-            else {
-                var userTaskScheduleOpen = await _context.TaskSchedules
-                .Where(u => u.userCurrentAssignedId == userId)
-                .Where(c =>c.isClosed == false)
-                .ToListAsync(); 
-
-                return userTaskScheduleOpen; 
-
+            else 
+            {
+                var query = _context.TaskSchedules
+                    .Where(u => u.userCurrentAssignedId == userId)
+                    .Where(c =>c.isClosed == false) 
+                    .AsNoTracking();
+                
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
             }                             
 
         }

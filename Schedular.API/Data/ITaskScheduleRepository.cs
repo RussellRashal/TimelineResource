@@ -4,6 +4,7 @@ using Schedular.API.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Schedular.API.Helpers;
 
 namespace Schedular.API.Data
 {
@@ -17,7 +18,7 @@ namespace Schedular.API.Data
       //IEnumerable loops over a collection of classes
       Task<bool> SaveAll();
       //get an individual taskSchedule if its true or false the the task is closed
-      Task<IEnumerable<TaskSchedule>> GetOpenCloseTasksByUser(int userId, bool isclosed);
+      Task<PagedList<TaskSchedule>> GetOpenCloseTasksByUser(int userId, bool isclosed, TaskParams taskParams);
 
       //get an individual taskSchedule 
       Task<IEnumerable<TaskSchedule>> GetTaskSchedulesByUser(int id);

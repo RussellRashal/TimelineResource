@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Cors;
+using Schedular.API.Helpers;
 
 namespace Schedular.API.Controllers
 {
@@ -98,17 +99,27 @@ namespace Schedular.API.Controllers
         }
         //get either open or closed tasks
         [HttpGet("byUserOpenCloseTasks/{userId}/{isClosed}")]
-        public async Task<IActionResult> GetOpenCloseTasksByUser(int userId, bool isClosed)
+        public async Task<IActionResult> GetOpenCloseTasksByUser(int userId, bool isClosed, [FromQuery]TaskParams taskParams)
         {
             //is user asking for their own tasks
             if (userId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
-                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed);
+                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed, taskParams);
                 var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+
+                //add the pagination information in the response header
+                Response.AddPagination(taskSchedule.CurrentPage, taskSchedule.PageSize,
+                    taskSchedule.TotalCount, taskSchedule.TotalPages);
+
                 return Ok(taskReturn); 
             }
             else if (User.IsInRole("Admin")) {
-                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed);
+                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed, taskParams);
                 var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+
+                //add the pagination information in the response header
+                Response.AddPagination(taskSchedule.CurrentPage, taskSchedule.PageSize,
+                    taskSchedule.TotalCount, taskSchedule.TotalPages);
+
                 return Ok(taskReturn); 
             }
             else {     
