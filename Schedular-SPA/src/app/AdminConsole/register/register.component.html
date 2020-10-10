@@ -1,4 +1,4 @@
-<form [formGroup]="BookComplete" (ngSubmit)="Register()"> 
+<form id="form_create" [formGroup]="BookComplete" (ngSubmit)="Register()"> 
 
 
   <label>First Name</label>
@@ -40,4 +40,14 @@
 
   <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
 
+      
 </form>
+
+
+  <app-main-nav></app-main-nav>
+
+
+
+
+
+

@@ -1,0 +1,58 @@
+<div *ngIf="isDataAvailable">
+  <div class="mb-4">
+    <button class="btn btn-info ml-1" (click)="openCloseTasks(false)">Open tasks</button>
+    <button class="btn btn-info ml-1" (click)="openCloseTasks(true)">closed tasks</button>
+    <button class="btn btn-info ml-1" (click)="allTasks()">All tasks</button>
+  </div>
+
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th style=" width: 10%">Task Id</th>
+          <th style=" width: 50%">Title</th>
+          <th style=" width: 15%">Start Date & Time</th>
+          <th style=" width: 15%">End Date & Time</th>
+          <th style=" width: 10%">Task status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let taskSchedule of taskScheduleData; index as i">
+          
+            <th>
+              <a class="taskId" role="button" (click)="updateDialog(taskSchedule.id)">{{taskSchedule.id}}</a>
+            </th>
+            <td>
+              {{taskSchedule.title}}
+            </td>
+              <td *ngIf="taskSchedule.start !== null">
+                  {{taskSchedule.start.slice(8, 10)}}/  
+                  {{taskSchedule.start.slice(5, 7)}}/
+                  {{taskSchedule.start.slice(0, 4)}}        
+                  {{taskSchedule.start.slice(11, 16)}}    
+              <td *ngIf="taskSchedule.end !== null">
+                  {{taskSchedule.end.slice(8, 10)}}/
+                  {{taskSchedule.end.slice(5, 7)}}/
+                  {{taskSchedule.end.slice(0, 4)}} 
+                  {{taskSchedule.end.slice(11, 16)}}
+              </td>
+              <td *ngIf="taskSchedule.start === null">
+              </td>
+              <td *ngIf="taskSchedule.end === null">
+              </td>      
+              <td>
+                <p *ngIf="taskSchedule.isClosed === false">
+                  Open
+                </p>
+                <p *ngIf="taskSchedule.isClosed === true">
+                  Closed
+                </p>
+              </td>            
+          </tr>
+    
+    
+      </tbody>
+    </table>
+  </div>
+</div>
+

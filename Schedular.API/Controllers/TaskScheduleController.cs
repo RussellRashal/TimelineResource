@@ -48,10 +48,34 @@ namespace Schedular.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTask(int id)
         {         
-            var taskschedule = await _repo.GetTask(id);
-            return Ok(taskschedule);
+            var taskschedule = await _repo.GetTask(id);            
+
+            if(taskschedule.Count != 0)
+            {
+                return Ok(taskschedule);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
+        //hours worked calculation
+        //[Authorize(Policy ="AdminAccess")]
+        [HttpGet("hoursWorked/{id}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetHoursWorked(int id, DateTime startDate, DateTime endDate)
+        {            
+            if (id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+                return await GetHoursWorkedM(id, startDate, endDate);     
+            }
+            else if (User.IsInRole("Admin")) {
+                return await GetHoursWorkedM(id, startDate, endDate);
+            }
+            else {     
+                return Unauthorized();
+            }  
+            
+        }
         [HttpGet("byUser/{UserId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
         public async Task<IActionResult> GetTaskSchedulesByUser(int UserId)
@@ -72,22 +96,24 @@ namespace Schedular.API.Controllers
                 return Unauthorized();
             }             
         }
-
-        //hours worked calculation
-        //[Authorize(Policy ="AdminAccess")]
-        [HttpGet("hoursWorked/{id}/{startDate}/{endDate}")]
-        public async Task<IActionResult> GetHoursWorked(int id, DateTime startDate, DateTime endDate)
-        {            
-            if (id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
-                return await GetHoursWorkedM(id, startDate, endDate);     
+        //get either open or closed tasks
+        [HttpGet("byUserOpenCloseTasks/{userId}/{isClosed}")]
+        public async Task<IActionResult> GetOpenCloseTasksByUser(int userId, bool isClosed)
+        {
+            //is user asking for their own tasks
+            if (userId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed);
+                var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+                return Ok(taskReturn); 
             }
             else if (User.IsInRole("Admin")) {
-                return await GetHoursWorkedM(id, startDate, endDate);
+                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed);
+                var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+                return Ok(taskReturn); 
             }
             else {     
                 return Unauthorized();
             }  
-            
         }
         //get the tasks worked in the hours selected
         [HttpGet("tasksWithinHours/{id}/{startDate}/{endDate}")]
@@ -108,8 +134,8 @@ namespace Schedular.API.Controllers
             }         
         }
         
-        [HttpPost]        
-        public async Task<IActionResult> PostSchedule(TaskSchedule taskSchedule)
+        [HttpPost("task")]        
+        public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule)
         {
             // Note sendNote;
             // sendNote.NotesInfo = taskSchedule.Notes[0].NotesInfo;
@@ -120,7 +146,8 @@ namespace Schedular.API.Controllers
             string NowDate =  thisDay.ToString("g");
             taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
             taskSchedule.Notes[0].UserId = TokenUserId;
-            taskSchedule.userLastEditId = TokenUserId;        
+            taskSchedule.userLastEditId = TokenUserId;
+       
             
             if(taskSchedule.Start > taskSchedule.End) {
                 return BadRequest("start time is not less than end time");  
@@ -149,6 +176,7 @@ namespace Schedular.API.Controllers
             var updateTask = PutScheduleM(id, taskSchedule);
             return updateTask;  
 
+            // //permissions based API update
             // if (taskSchedule.userCurrentAssignedId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
 
             //     var updateTask = PutScheduleM(id, taskSchedule);
@@ -204,7 +232,7 @@ namespace Schedular.API.Controllers
         //updating new tasks
         public ActionResult<TaskSchedule> PutScheduleM(int id, [FromBody] TaskSchedule taskSchedule) 
         {
-            if(taskSchedule.Start < taskSchedule.End) {
+            if(taskSchedule.Start < taskSchedule.End || taskSchedule.Start == null && taskSchedule.End == null) {
                 TaskSchedule taskSchedulePut = _repo.Update(id, taskSchedule);
                 return taskSchedulePut;    
             }

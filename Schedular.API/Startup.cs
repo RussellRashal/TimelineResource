@@ -96,11 +96,12 @@ namespace Schedular.API
                 opt.SerializerSettings.ReferenceLoopHandling = 
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             }); 
-            services.AddCors();  
+            
             services.AddScoped<ITaskScheduleRepository, TaskScheduleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<INotesRepository, NotesRepository>();
             services.AddControllers();
+            services.AddCors(); 
         
 
 
@@ -140,16 +141,15 @@ namespace Schedular.API
                     });
                 });
             }
-
             //app.UseHttpsRedirection();
 
-
-            app.UseRouting();
+            app.UseRouting();        
+            
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+                .WithOrigins("http://localhost:4200"));  
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 
             app.UseDefaultFiles();

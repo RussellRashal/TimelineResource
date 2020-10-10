@@ -1,8 +1,10 @@
+import { MatDialog } from '@angular/material/dialog';
 import { HoursWorkedService } from './../_services/hoursWorked.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { ActivatedRoute } from '@angular/router';
+import { UpdateTaskComponent } from '../updateTask/updateTask.component';
 
 @Component({
   selector: 'app-hours-worked',
@@ -24,44 +26,13 @@ export class HoursWorkedComponent implements OnInit {
   constructor(
     private stateStorageService: StateStorageService,
     private hoursWorkedService: HoursWorkedService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
-
-
-    // who the current user is
-    this.route.data.subscribe(data => {
-      this.currentUser = data['CurrentUser'];
-    }, error => {
-      console.log(error);
-    });
-
-    console.log('id of current user = ' + this.currentUser.id);
-
-    this.role = JSON.parse(localStorage.getItem('role'));
-    // if user is not a manager
-    if (this.role !== 'Admin') {
-      console.log('not Admin');
-      this.userAuthorised = false;
-    } // if user is a manager
-    else {
-      // list of users for the drop down
-      this.route.data.subscribe(data => {
-        this.UserMemberModels = data['UserMemberModel'];
-      }, error => {
-        console.log(error);
-      });
-      this.userAuthorised = true;
-      console.log('manager has logged in login');
-    }
-
-
-
+    this.loadUser();
     this.initialiseForm();
   }
-
-
-
 
   onSubmit() {
     this.dateError = false;
@@ -101,6 +72,43 @@ export class HoursWorkedComponent implements OnInit {
     }
   }
 
+  loadUser() {
+    // who the current user is
+    this.route.data.subscribe(data => {
+      this.currentUser = data['CurrentUser'];
+    }, error => {
+      console.log(error);
+    });
+
+    this.role = JSON.parse(localStorage.getItem('role'));
+    // if user is not a manager
+    if (this.role !== 'Admin') {
+      console.log('Standard Account');
+      this.userAuthorised = false;
+    } // if user is a manager
+    else {
+      // list of users for the drop down
+      this.route.data.subscribe(data => {
+        this.UserMemberModels = data['UserMemberModel'];
+      }, error => {
+        console.log(error);
+      });
+      this.userAuthorised = true;
+      console.log('Admin has logged in login');
+    }
+  }
+
+  updateDialog(taskId) {
+    this.stateStorageService.setTaskId(taskId);
+    const dialogRef = this.dialog.open(UpdateTaskComponent, {
+      width: '80%',
+      height: '90%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.onSubmit();
+    });
+  }
+
   initialiseForm() {
     this.profileForm = new FormGroup({
       userId: new FormControl(this.currentUser.id),
@@ -127,9 +135,4 @@ export class HoursWorkedComponent implements OnInit {
     const token = localStorage.removeItem('token');
     console.log('logged out');
   }
-
-  authorised() {
-    return this.userAuthorised;
-  }
-
 }

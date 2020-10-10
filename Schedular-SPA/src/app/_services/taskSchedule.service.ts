@@ -26,18 +26,20 @@ export class TaskScheduleService {
     return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUser/' + id);
   }
 
+  getTaskScheduleOpenCloseByUserId(id: number, isClosed: boolean): Observable<TaskSchedule[]> {
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUserOpenCloseTasks/' + id + '/' + isClosed);
+  }
+
   putTaskSchedule(id, taskSchedule) {
     return this.http.put(this.baseUrl + '/' + id, taskSchedule);
     // return taskSchedule;
   }
 
   postTaskSchedule(taskSchedule) {
-    return this.http.post(this.baseUrl, taskSchedule);
+    return this.http.post(this.baseUrl + '/task', taskSchedule);
   }
 
   deleteTaskSchedule(id) {
     return this.http.delete(this.baseUrl + '/' + id);
   }
-
-
 }

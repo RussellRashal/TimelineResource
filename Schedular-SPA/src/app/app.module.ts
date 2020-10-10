@@ -48,6 +48,12 @@ import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
 import { RegisterComponent } from './AdminConsole/register/register.component';
 import { EditUsernameComponent } from './AdminConsole/editUsername/editUsername.component';
 import { EditRoleComponent } from './AdminConsole/editRole/editRole.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 
 
 
@@ -63,7 +69,7 @@ export function tokengetter() {
 }
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     NavigationBarComponent,
     CalendarViewComponent,
@@ -78,7 +84,9 @@ export function tokengetter() {
     RegisterComponent,
     NoteComponent,
     EditUsernameComponent,
-    EditRoleComponent
+    EditRoleComponent,
+    MainNavComponent,
+      ViewTasksComponent
    ],
   imports: [
     CommonModule,
@@ -109,6 +117,10 @@ export function tokengetter() {
          blacklistedRoutes: ['localhost:5000/api/auth']
       }
    }),
+    LayoutModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatListModule,
   ],
   providers: [
     UserLoaderResolver,

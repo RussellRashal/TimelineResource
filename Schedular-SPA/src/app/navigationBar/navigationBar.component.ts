@@ -19,6 +19,7 @@ export class NavigationBarComponent implements OnInit {
   role;
   users: any[];
   userAuthorised: boolean;
+  searchTask: FormControl;
 
 
   constructor(
@@ -31,12 +32,12 @@ export class NavigationBarComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.isUserAdmin();
-    this.loadUsers();
   }
 
   login() {
     this.model.username = this.loginReactiveForm.value.username;
     this.model.password = this.loginReactiveForm.value.password;
+
 
 
     this.authService.login(this.model).subscribe(next => {
@@ -78,6 +79,9 @@ export class NavigationBarComponent implements OnInit {
       username: new FormControl(),
       password: new FormControl()
     });
+
+    this.searchTask = new FormControl();
+
   }
 
   // has the user logged in
@@ -90,14 +94,4 @@ export class NavigationBarComponent implements OnInit {
     const username = localStorage.removeItem('user');
     const userId = localStorage.removeItem('role');
   }
-
-
-
-  openDialogUpdateTask(action) {
-    const dialogRef = this.dialog.open(UpdateTaskComponent, {
-      width: '80%',
-      height: '60%'
-    });
-  }
-
 }

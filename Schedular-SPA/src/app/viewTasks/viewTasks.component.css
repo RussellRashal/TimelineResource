@@ -1,0 +1,7 @@
+.taskId {
+    color: blue;
+  }
+
+.taskId:hover {
+    color: darkblue;
+}
