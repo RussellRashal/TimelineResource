@@ -21,7 +21,7 @@ namespace Schedular.API.Data
       Task<PagedList<TaskSchedule>> GetOpenCloseTasksByUser(int userId, bool isclosed, TaskParams taskParams);
 
       //get an individual taskSchedule 
-      Task<IEnumerable<TaskSchedule>> GetTaskSchedulesByUser(int id);
+      Task<IEnumerable<TaskSchedule>> GetTaskSchedulesByUser(int id, TaskParams taskParams);
 
       Task<IList<TaskSchedule>> GetTask(int id);   
       // get all taskSchedule        

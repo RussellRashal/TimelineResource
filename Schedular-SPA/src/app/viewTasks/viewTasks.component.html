@@ -2,8 +2,11 @@
   <div class="mb-4">
     <button class="btn btn-info ml-1" (click)="openCloseTasks(false)">Open tasks</button>
     <button class="btn btn-info ml-1" (click)="openCloseTasks(true)">closed tasks</button>
-    <button class="btn btn-info ml-1" (click)="allTasks()">All tasks</button>
+    <button class="btn btn-info ml-1" (click)="allTasks()">All tasks</button>  
   </div>
+  
+  <button class="float-right btn btn-secondary mr-2" type="submit" (click)="searchTaskBox()">Search</button>
+  <input [formControl]="searchTask" class="float-right col-xs-2 mr-4" type="text" placeholder="Seach Task">
 
   <div>
     <table class="table table-striped">
@@ -61,11 +64,7 @@
       [totalItems]="pagination.totalItems"
       [itemsPerPage]="pagination.itemsPerPage"
       [(ngModel)]="pagination.currentPage"
-      (pageChanged)="pageChanged($event)"
-      previousText="&lsaquo;" 
-      nextText="&rsaquo;" 
-      firstText="&laquo;" 
-      lastText="&raquo;">      
+      (pageChanged)="pageChanged($event)">  
     </pagination>
   </div>
 

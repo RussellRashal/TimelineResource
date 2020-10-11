@@ -106,14 +106,16 @@ namespace Schedular.API.Data
 
         }
         //get users with notes test 
-        public async Task<IEnumerable<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId)
+        public async Task<IEnumerable<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId, TaskParams taskParams)
         {
-               var userTaskSchedule = await _context.TaskSchedules
+               var query = _context.TaskSchedules
                     .Include(ts => ts.Notes)
                     .Where(u => u.userCurrentAssignedId == UserCurrentAssignedId)
-                    .ToListAsync(); 
+                    .AsNoTracking();
 
-                return userTaskSchedule;         
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);         
         }
 
         //lets us know if changes have been saved on the database

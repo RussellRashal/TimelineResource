@@ -79,17 +79,17 @@ namespace Schedular.API.Controllers
         }
         [HttpGet("byUser/{UserId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
-        public async Task<IActionResult> GetTaskSchedulesByUser(int UserId)
+        public async Task<IActionResult> GetTaskSchedulesByUser(int UserId, [FromQuery]TaskParams taskParams)
         {
             var taskScheduled = await _repo.GetTask(2);
       
             if (UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
-                var taskSchedule = await _repo.GetTaskSchedulesByUser(UserId);
+                var taskSchedule = await _repo.GetTaskSchedulesByUser(UserId, taskParams);
                 var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
                 return Ok(taskReturn);
             }
             else if (User.IsInRole("Admin")) {
-                var taskSchedule = await _repo.GetTaskSchedulesByUser(UserId);
+                var taskSchedule = await _repo.GetTaskSchedulesByUser(UserId, taskParams);
                 var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
                 return Ok(taskReturn);
             }
@@ -155,16 +155,20 @@ namespace Schedular.API.Controllers
 
             DateTime thisDay = DateTime.Now;
             string NowDate =  thisDay.ToString("g");
-            taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
-            taskSchedule.Notes[0].UserId = TokenUserId;
+
             taskSchedule.userLastEditId = TokenUserId;
+
+            if(taskSchedule.Notes != null) {
+                taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
+                taskSchedule.Notes[0].UserId = TokenUserId;
+            }
        
             
             if(taskSchedule.Start > taskSchedule.End) {
                 return BadRequest("start time is not less than end time");  
             }
-            else if (taskSchedule.userCurrentAssignedId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {  
-                _repo.Add(taskSchedule);                       
+            else if (taskSchedule.userCurrentAssignedId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {   
+                _repo.Add(taskSchedule);                              
             }
             else if (User.IsInRole("Admin")) {
                 _repo.Add(taskSchedule);   

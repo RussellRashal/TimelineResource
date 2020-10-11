@@ -163,17 +163,18 @@ export class UpdateTaskComponent implements OnInit {
     this.dateError = false;
     this.nullError = false;
 
-    // put date, hour and minute together to send to api
-    this.returnedStartDateAndTime =
-     this.profileForm.value.startDate.toString() + ' ' +
-     this.profileForm.value.startHourTime.toString() + ':' +
-     this.profileForm.value.startMinuteTime.toString();
-    this.returnedEndDateAndTime =
-     this.profileForm.value.endDate.toString() + ' ' +
-     this.profileForm.value.endHourTime.toString() + ':' +
-     this.profileForm.value.endMinuteTime.toString();
-
     if (this.profileForm.value.hasTimeLimit === true) {
+
+      // put date, hour and minute together to send to api
+      this.returnedStartDateAndTime =
+        this.profileForm.value.startDate.toString() + ' ' +
+        this.profileForm.value.startHourTime.toString() + ':' +
+        this.profileForm.value.startMinuteTime.toString();
+      this.returnedEndDateAndTime =
+        this.profileForm.value.endDate.toString() + ' ' +
+        this.profileForm.value.endHourTime.toString() + ':' +
+        this.profileForm.value.endMinuteTime.toString();
+
       if (this.profileForm.value.startHourTime === '' || this.profileForm.value.endHourTime === '' ||
         this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
           // values need to be filled out

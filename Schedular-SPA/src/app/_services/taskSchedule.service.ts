@@ -26,8 +26,28 @@ export class TaskScheduleService {
     return this.http.get<TaskSchedule[]>(this.baseUrl + '/' + id);
   }
 
-  getTaskScheduleByUserId(id): Observable<TaskSchedule[]> {
+  getCalendarTaskScheduleByUserId(id): Observable<TaskSchedule[]> {
     return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUser/' + id);
+  }
+
+  getTaskScheduleByUserId(id, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUser/'
+      + id, {observe: 'response', params}).pipe(
+        map(response => {
+          this.paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return this.paginatedResult;
+        })
+      );
   }
 
   getTaskScheduleOpenCloseByUserId(id: number, isClosed: boolean, page?: number, itemsPerPage?: number) {
@@ -38,17 +58,16 @@ export class TaskScheduleService {
       params = params.append('pageSize', itemsPerPage.toString());
     }
 
-    return this.http.get<TaskSchedule[]>
-      (this.baseUrl + '/byUserOpenCloseTasks/' + id + '/'
-        + isClosed, {observe: 'response', params}).pipe(
-          map(response => {
-            this.paginatedResult.result = response.body;
-            if (response.headers.get('Pagination') !== null) {
-              this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-            }
-            return this.paginatedResult;
-          })
-        );
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUserOpenCloseTasks/' + id + '/'
+      + isClosed, {observe: 'response', params}).pipe(
+        map(response => {
+          this.paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return this.paginatedResult;
+        })
+      );
   }
 
   putTaskSchedule(id, taskSchedule) {
