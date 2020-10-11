@@ -106,12 +106,12 @@ export class ViewTasksComponent implements OnInit {
       height: '90%'
     });
     dialogRef.afterClosed().subscribe(result => {
-      // if (this.allTasksbutton === true) {
-      //   this.allTasks();
-      // }
-      // else {
-      //   this.openCloseTasks(this.openCloseValue);
-      // }
+      if (this.selectedbutton === 'All Tasks') {
+        this.allTasks();
+      }
+      else {
+        this.openCloseTasks(this.openCloseValue);
+      }
     });
   }
 
