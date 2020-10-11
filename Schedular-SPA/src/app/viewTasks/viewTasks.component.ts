@@ -25,6 +25,7 @@ export class ViewTasksComponent implements OnInit {
   currentStartTimeDate;
   currentEndTimeDate;
   currentUserId;
+  openCloseValue: boolean;
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 5;
@@ -39,6 +40,7 @@ export class ViewTasksComponent implements OnInit {
 
   ngOnInit() {
     this.isDataAvailable = false;
+    this.openCloseValue = false;
 
     // this.initialiseForm();
   }
@@ -53,8 +55,10 @@ export class ViewTasksComponent implements OnInit {
   }
 
   openCloseTasks(isClosed: boolean) {
+      this.openCloseValue = isClosed;
       this.currentUser = JSON.parse(localStorage.getItem('user'));
-      this.taskScheduleService.getTaskScheduleOpenCloseByUserId(this.currentUser.id, isClosed, this.pageNumber, this.pageSize)
+      this.taskScheduleService.getTaskScheduleOpenCloseByUserId
+        (this.currentUser.id, isClosed, this.pageNumber, this.pageSize)
       .subscribe((data) => {
         this.taskScheduleData = data.result;       // get jason data
         this.pagination = data.pagination; // get pagination data
@@ -64,6 +68,11 @@ export class ViewTasksComponent implements OnInit {
       });
   }
 
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.openCloseTasks(this.openCloseValue);
+  }
   allTasks()  {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.taskScheduleService.getTaskScheduleByUserId(this.currentUser.id).subscribe((data) => {

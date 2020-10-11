@@ -54,8 +54,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ViewTasksComponent } from './viewTasks/viewTasks.component';
-
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
@@ -109,6 +108,7 @@ export function tokengetter() {
     AppRoutingModule,
     FullCalendarModule, // register FullCalendar with you app
     ReactiveFormsModule,
+    PaginationModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     JwtModule.forRoot({
       config: {
@@ -121,6 +121,9 @@ export function tokengetter() {
     MatToolbarModule,
     MatIconModule,
     MatListModule,
+  ],
+  exports: [
+    PaginationModule
   ],
   providers: [
     UserLoaderResolver,
