@@ -45,6 +45,7 @@ export class ViewTasksComponent implements OnInit {
     this.isDataAvailable = false;
     this.openCloseValue = false;
     this.searchTask = new FormControl();
+    this.selectedbutton = 'Open Tasks';
   }
 
   openClosebutton(isClosed: boolean) {

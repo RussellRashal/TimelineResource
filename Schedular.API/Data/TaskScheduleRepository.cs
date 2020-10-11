@@ -155,15 +155,18 @@ namespace Schedular.API.Data
             return HoursWorked;            
         }
         //get the tasks between the hours worked
-        public async Task<IEnumerable<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)
+        public async Task<PagedList<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, 
+            DateTime startDate, DateTime endDate, TaskParams taskParams)
         {
             DateTime endDateAdjust = endDate.AddDays(1);
-            var taskSchedulesWorked = await _context.TaskSchedules
+            var query = _context.TaskSchedules
                 .Where(u => u.userCurrentAssignedId == id)
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
-                .ToListAsync();
-                
-            return taskSchedulesWorked;
+                .AsNoTracking();
+
+            //gets sent to the pagination methods to be paginated 
+            return await PagedList<TaskSchedule>
+                .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
         }
         public Task<IEnumerable<TaskSchedule>> GetOpenCloseTasksByUser(int userId)
         {
