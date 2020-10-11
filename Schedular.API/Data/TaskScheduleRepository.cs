@@ -106,7 +106,7 @@ namespace Schedular.API.Data
 
         }
         //get users with notes test 
-        public async Task<IEnumerable<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId, TaskParams taskParams)
+        public async Task<PagedList<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId, TaskParams taskParams)
         {
                var query = _context.TaskSchedules
                     .Include(ts => ts.Notes)

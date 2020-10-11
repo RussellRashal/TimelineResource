@@ -86,11 +86,19 @@ namespace Schedular.API.Controllers
             if (UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
                 var taskSchedule = await _repo.GetTaskSchedulesByUser(UserId, taskParams);
                 var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+
+                //add the pagination information in the response header
+                Response.AddPagination(taskSchedule.CurrentPage, taskSchedule.PageSize,
+                    taskSchedule.TotalCount, taskSchedule.TotalPages);
                 return Ok(taskReturn);
             }
             else if (User.IsInRole("Admin")) {
                 var taskSchedule = await _repo.GetTaskSchedulesByUser(UserId, taskParams);
                 var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+                
+                //add the pagination information in the response header
+                Response.AddPagination(taskSchedule.CurrentPage, taskSchedule.PageSize,
+                    taskSchedule.TotalCount, taskSchedule.TotalPages);
                 return Ok(taskReturn);
             }
             else {     

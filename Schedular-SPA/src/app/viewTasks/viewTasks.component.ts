@@ -20,7 +20,7 @@ export class ViewTasksComponent implements OnInit {
   role;
   UserMemberModels;
   isDataAvailable: boolean;
-  allTasksbutton: boolean;
+  selectedbutton;
   taskScheduleData;
   notesArray;
   currentStartTimeDate;
@@ -47,8 +47,24 @@ export class ViewTasksComponent implements OnInit {
     this.searchTask = new FormControl();
   }
 
+  openClosebutton(isClosed: boolean) {
+    if (isClosed === false) {
+      this.selectedbutton = 'Open Tasks';
+      this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+      this.openCloseTasks(isClosed);
+    } else {
+      this.selectedbutton = 'Closed Tasks';
+      this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+      this.openCloseTasks(isClosed);
+    }
+  }
+
+  allTaskButton() {
+    this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+    this.allTasks();
+  }
+
   openCloseTasks(isClosed: boolean) {
-      this.allTasksbutton = false;
       this.openCloseValue = isClosed;
       this.currentUser = JSON.parse(localStorage.getItem('user'));
       this.taskScheduleService.getTaskScheduleOpenCloseByUserId
@@ -63,11 +79,17 @@ export class ViewTasksComponent implements OnInit {
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
-    this.openCloseTasks(this.openCloseValue);
+    if (this.selectedbutton === 'Open Tasks' || this.selectedbutton === 'Closed Tasks') {
+      this.openCloseTasks(this.openCloseValue);
+    }
+    else {
+      this.allTasks();
+    }
+
   }
 
   allTasks()  {
-    this.allTasksbutton = true;
+    this.selectedbutton = 'All Tasks';
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.taskScheduleService.getTaskScheduleByUserId(this.currentUser.id, this.pageNumber, this.pageSize)
     .subscribe((data) => {
@@ -84,12 +106,12 @@ export class ViewTasksComponent implements OnInit {
       height: '90%'
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (this.allTasksbutton === true) {
-        this.allTasks();
-      }
-      else {
-        this.openCloseTasks(this.openCloseValue);
-      }
+      // if (this.allTasksbutton === true) {
+      //   this.allTasks();
+      // }
+      // else {
+      //   this.openCloseTasks(this.openCloseValue);
+      // }
     });
   }
 
