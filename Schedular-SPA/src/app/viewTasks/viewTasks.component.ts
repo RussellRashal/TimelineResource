@@ -1,3 +1,4 @@
+import { Pagination } from './../_models/pagination';
 import { TaskSchedule } from './../_models/taskSchedule';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -24,6 +25,9 @@ export class ViewTasksComponent implements OnInit {
   currentStartTimeDate;
   currentEndTimeDate;
   currentUserId;
+  pagination: Pagination;
+  pageNumber = 1;
+  pageSize = 5;
 
   constructor(
     private taskScheduleService: TaskScheduleService,
@@ -50,8 +54,11 @@ export class ViewTasksComponent implements OnInit {
 
   openCloseTasks(isClosed: boolean) {
       this.currentUser = JSON.parse(localStorage.getItem('user'));
-      this.taskScheduleService.getTaskScheduleOpenCloseByUserId(this.currentUser.id, isClosed).subscribe((data) => {
-        this.taskScheduleData = data;
+      this.taskScheduleService.getTaskScheduleOpenCloseByUserId(this.currentUser.id, isClosed, this.pageNumber, this.pageSize)
+      .subscribe((data) => {
+        this.taskScheduleData = data.result;       // get jason data
+        this.pagination = data.pagination; // get pagination data
+        console.log('below is taskscheduldata');
         console.log(this.taskScheduleData);
         this.isDataAvailable = true;
       });
@@ -61,7 +68,7 @@ export class ViewTasksComponent implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.taskScheduleService.getTaskScheduleByUserId(this.currentUser.id).subscribe((data) => {
       this.taskScheduleData = data;
-      console.log(this.taskScheduleData);
+      // console.log(this.taskScheduleData);
       this.isDataAvailable = true;
     });
   }
