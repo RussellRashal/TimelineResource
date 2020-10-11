@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { ActivatedRoute } from '@angular/router';
 import { UpdateTaskComponent } from '../updateTask/updateTask.component';
+import { Pagination } from './../_models/pagination';
 
 @Component({
   selector: 'app-hours-worked',
@@ -22,6 +23,11 @@ export class HoursWorkedComponent implements OnInit {
   dateError: boolean;
   tasksFromHoursWorkeds;
   role;
+
+  pagination: Pagination;
+  pageNumber = 1;
+  pageSize = 10;
+
 
   constructor(
     private stateStorageService: StateStorageService,
@@ -59,17 +65,28 @@ export class HoursWorkedComponent implements OnInit {
         console.log(error);
       });
 
-      // tasks to show on the bottom
-      this.hoursWorkedService.GetTasksWithinHoursWorked(
-        this.profileForm.value.userId,
-        this.profileForm.value.startDate,
-        this.profileForm.value.endDate
-      ).subscribe((data) => {
-        this.tasksFromHoursWorkeds = data;
-      }, error => {
-        console.log(error);
-      });
+      this.TasksWithinHoursAPI();
     }
+  }
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.TasksWithinHoursAPI();
+  }
+
+  TasksWithinHoursAPI() {
+    // tasks to show on the bottom
+    this.hoursWorkedService.GetTasksWithinHoursWorked(
+      this.profileForm.value.userId,
+      this.profileForm.value.startDate,
+      this.profileForm.value.endDate, 
+      this.pageNumber, this.pageSize
+    ).subscribe((data) => {
+      this.tasksFromHoursWorkeds = data.result; // get jason data
+      this.pagination = data.pagination;   // get pagination data
+    }, error => {
+      console.log(error);
+    });
   }
 
   loadUser() {

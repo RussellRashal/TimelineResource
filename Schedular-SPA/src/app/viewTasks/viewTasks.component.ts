@@ -31,7 +31,7 @@ export class ViewTasksComponent implements OnInit {
 
   pagination: Pagination;
   pageNumber = 1;
-  pageSize = 20;
+  pageSize = 10;
 
   constructor(
     private taskScheduleService: TaskScheduleService,
