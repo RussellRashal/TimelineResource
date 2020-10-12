@@ -1,8 +1,8 @@
 <div *ngIf="isDataAvailable">
   <div class="mb-4">
-    <button class="btn btn-info ml-1" (click)="openClosebutton(false)">Open tasks</button>
-    <button class="btn btn-info ml-1" (click)="openClosebutton(true)">closed tasks</button>
-    <button class="btn btn-info ml-1" (click)="allTaskButton()">All tasks</button>  
+    <button class="btn btn-info ml-1" (click)="openClosebutton(false)" [disabled]="openButtonToggle">Open tasks</button>
+    <button class="btn btn-info ml-1" (click)="openClosebutton(true)" [disabled]="closeButtonToggle">closed tasks</button>
+    <button class="btn btn-info ml-1" (click)="allTaskButton()" [disabled]="allButtonToggle">All tasks</button>  
   </div>
 
   <label>{{this.selectedbutton}}</label>

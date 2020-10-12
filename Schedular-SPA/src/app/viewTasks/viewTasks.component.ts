@@ -33,6 +33,10 @@ export class ViewTasksComponent implements OnInit {
   pageNumber = 1;
   pageSize = 10;
 
+  allButtonToggle: boolean;
+  openButtonToggle: boolean;
+  closeButtonToggle: boolean;
+
   constructor(
     private taskScheduleService: TaskScheduleService,
     private stateStorageService: StateStorageService,
@@ -49,19 +53,32 @@ export class ViewTasksComponent implements OnInit {
   }
 
   openClosebutton(isClosed: boolean) {
+    this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+
     if (isClosed === false) {
       this.selectedbutton = 'Open Tasks';
-      this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+      // button disable toggle
+      this.allButtonToggle = false;
+      this.openButtonToggle = true;
+      this.closeButtonToggle = false;
       this.openCloseTasks(isClosed);
     } else {
       this.selectedbutton = 'Closed Tasks';
-      this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+      // button disable toggle
+      this.allButtonToggle = false;
+      this.openButtonToggle = false;
+      this.closeButtonToggle = true;
       this.openCloseTasks(isClosed);
     }
   }
 
   allTaskButton() {
     this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+    // button disable toggle
+    this.allButtonToggle = true;
+    this.openButtonToggle = false;
+    this.closeButtonToggle = false;
+
     this.allTasks();
   }
 
