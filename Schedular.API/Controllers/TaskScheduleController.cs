@@ -16,6 +16,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Cors;
 using Schedular.API.Helpers;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Schedular.API.Controllers
 {
@@ -27,15 +29,17 @@ namespace Schedular.API.Controllers
     {   
         //initialise the taskschedule repository    
         private readonly ITaskScheduleRepository _repo;
-         private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
+        private IWebHostEnvironment _env;
 
         // add DTO code here 
         //contructor to use private _repo
-        public TaskScheduleController(ITaskScheduleRepository repo, IMapper mapper)
+        public TaskScheduleController(ITaskScheduleRepository repo, IMapper mapper,
+        IWebHostEnvironment env)
         {
             _mapper = mapper;
             _repo = repo;
-            // add DTO code here 
+            _env = env;
         }
 
         [Authorize(Policy ="AdminAccess")]
@@ -137,9 +141,37 @@ namespace Schedular.API.Controllers
                 return Unauthorized();
             }         
         }
-        
+        [HttpPost("test")]  
+        public IActionResult testTask(IEnumerable<IFormFile> files)
+        {
+            string Ddrive = "D:/fileUpload";
+            int i = 0;
+            foreach(var file in files)
+            {
+                string extention = Path.GetExtension(file.FileName).ToLower();
+                if(extention == ".docx" || extention == ".pdf" || extention == ".jpg" || extention == ".png" 
+                    || extention == ".xls" || extention == ".xlsx" || extention == ".ppt" || extention == ".pttx" 
+                    || extention == ".txt" || extention == ".avi" || extention == ".mp4" || extention == ".mp3")
+                {
+                    // check i has not already been taken, if it has increment to one again
+                    using(var fileStream = new FileStream(Path.Combine(Ddrive 
+                    + "/companyOne", "file" + i + extention), FileMode.Create, FileAccess.Write))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                }
+                else
+                {
+                    return BadRequest();
+                }                
+                i ++;
+            }
+            return Ok();      
+        }
+
         [HttpPost("task")]        
-        public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule)
+        public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule, IFormFile file)
         {
             int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
  
