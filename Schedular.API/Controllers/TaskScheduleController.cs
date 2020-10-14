@@ -141,8 +141,9 @@ namespace Schedular.API.Controllers
                 return Unauthorized();
             }         
         }
-        [HttpPost("test")]  
-        public IActionResult testTask(IEnumerable<IFormFile> files)
+        //uploading a file
+        [HttpPost("upload")]  
+        public IActionResult upload(IEnumerable<IFormFile> files)
         {
             string Ddrive = "D:/fileUpload";
             int i = 0;
@@ -159,7 +160,6 @@ namespace Schedular.API.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-
                 }
                 else
                 {
@@ -169,6 +169,26 @@ namespace Schedular.API.Controllers
             }
             return Ok();      
         }
+        // //downloading a file 
+        // [HttpPost("download")]
+        // public IActionResult download(string fileName)
+        // {
+        //     string Ddrive = "D:/fileUpload";
+
+        //     if (fileName == null)  
+        //         return Content("filename not present"); 
+            
+        //     var path = Path.Combine(Ddrive + "/companyOne", fileName);
+            
+        //     var memory = new MemoryStream();
+        //     using (var stream = new FileStream(path, FileMode.Open))  
+        //     {  
+        //         stream.CopyToAsync(memory);  
+        //     }  
+        //     memory.Position = 0;  
+        //     return File(memory, GetContentType(path), Path.GetFileName(path)); 
+        // }
+
 
         [HttpPost("task")]        
         public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule, IFormFile file)
