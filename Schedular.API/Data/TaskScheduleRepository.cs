@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
+using Schedular.API.Helpers;
 
 namespace Schedular.API.Data
 {
@@ -78,36 +79,43 @@ namespace Schedular.API.Data
         
     
         //get users tasks
-        public async Task<IEnumerable<TaskSchedule>> GetOpenCloseTasksByUser(int userId, bool isClosed)
+        public async Task<PagedList<TaskSchedule>> GetOpenCloseTasksByUser(int userId, bool isClosed, TaskParams taskParams)
         {
-            if(isClosed == true) {
-                var userTaskScheduleClosed = await _context.TaskSchedules
-                .Where(u => u.userCurrentAssignedId == userId)
-                .Where(c =>c.isClosed == true)
-                .ToListAsync(); 
+            if(isClosed == true) 
+            {
+                var query = _context.TaskSchedules
+                    .Where(u => u.userCurrentAssignedId == userId)
+                    .Where(c =>c.isClosed == true)
+                    .AsNoTracking();
 
-                return userTaskScheduleClosed; 
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
             }
-            else {
-                var userTaskScheduleOpen = await _context.TaskSchedules
-                .Where(u => u.userCurrentAssignedId == userId)
-                .Where(c =>c.isClosed == false)
-                .ToListAsync(); 
-
-                return userTaskScheduleOpen; 
-
+            else 
+            {
+                var query = _context.TaskSchedules
+                    .Where(u => u.userCurrentAssignedId == userId)
+                    .Where(c =>c.isClosed == false) 
+                    .AsNoTracking();
+                
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
             }                             
 
         }
         //get users with notes test 
-        public async Task<IEnumerable<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId)
+        public async Task<PagedList<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId, TaskParams taskParams)
         {
-               var userTaskSchedule = await _context.TaskSchedules
+               var query = _context.TaskSchedules
                     .Include(ts => ts.Notes)
                     .Where(u => u.userCurrentAssignedId == UserCurrentAssignedId)
-                    .ToListAsync(); 
+                    .AsNoTracking();
 
-                return userTaskSchedule;         
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);         
         }
 
         //lets us know if changes have been saved on the database
@@ -147,15 +155,18 @@ namespace Schedular.API.Data
             return HoursWorked;            
         }
         //get the tasks between the hours worked
-        public async Task<IEnumerable<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)
+        public async Task<PagedList<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, 
+            DateTime startDate, DateTime endDate, TaskParams taskParams)
         {
             DateTime endDateAdjust = endDate.AddDays(1);
-            var taskSchedulesWorked = await _context.TaskSchedules
+            var query = _context.TaskSchedules
                 .Where(u => u.userCurrentAssignedId == id)
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
-                .ToListAsync();
-                
-            return taskSchedulesWorked;
+                .AsNoTracking();
+
+            //gets sent to the pagination methods to be paginated 
+            return await PagedList<TaskSchedule>
+                .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
         }
         public Task<IEnumerable<TaskSchedule>> GetOpenCloseTasksByUser(int userId)
         {

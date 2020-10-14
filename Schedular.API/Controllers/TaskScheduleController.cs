@@ -15,6 +15,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Cors;
+using Schedular.API.Helpers;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Schedular.API.Controllers
 {
@@ -26,15 +29,17 @@ namespace Schedular.API.Controllers
     {   
         //initialise the taskschedule repository    
         private readonly ITaskScheduleRepository _repo;
-         private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
+        private IWebHostEnvironment _env;
 
         // add DTO code here 
         //contructor to use private _repo
-        public TaskScheduleController(ITaskScheduleRepository repo, IMapper mapper)
+        public TaskScheduleController(ITaskScheduleRepository repo, IMapper mapper,
+        IWebHostEnvironment env)
         {
             _mapper = mapper;
             _repo = repo;
-            // add DTO code here 
+            _env = env;
         }
 
         [Authorize(Policy ="AdminAccess")]
@@ -76,20 +81,21 @@ namespace Schedular.API.Controllers
             }  
             
         }
-        [HttpGet("byUser/{UserId}")]
+        [HttpGet("byUser/{userId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
-        public async Task<IActionResult> GetTaskSchedulesByUser(int UserId)
+        public async Task<IActionResult> GetTaskSchedulesByUser(int userId, [FromQuery]TaskParams taskParams)
         {
             var taskScheduled = await _repo.GetTask(2);
       
-            if (UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
-                var taskSchedule = await _repo.GetTaskSchedulesByUser(UserId);
+            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
+
+            if (userId == tokenUserId || User.IsInRole("Admin")) {
+                var taskSchedule = await _repo.GetTaskSchedulesByUser(userId, taskParams);
                 var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
-                return Ok(taskReturn);
-            }
-            else if (User.IsInRole("Admin")) {
-                var taskSchedule = await _repo.GetTaskSchedulesByUser(UserId);
-                var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+
+                //add the pagination information in the response header
+                Response.AddPagination(taskSchedule.CurrentPage, taskSchedule.PageSize,
+                    taskSchedule.TotalCount, taskSchedule.TotalPages);
                 return Ok(taskReturn);
             }
             else {     
@@ -98,65 +104,114 @@ namespace Schedular.API.Controllers
         }
         //get either open or closed tasks
         [HttpGet("byUserOpenCloseTasks/{userId}/{isClosed}")]
-        public async Task<IActionResult> GetOpenCloseTasksByUser(int userId, bool isClosed)
+        public async Task<IActionResult> GetOpenCloseTasksByUser(int userId, bool isClosed, [FromQuery]TaskParams taskParams)
         {
-            //is user asking for their own tasks
-            if (userId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
-                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed);
+            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
+
+            if (userId == tokenUserId || User.IsInRole("Admin")) {
+                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed, taskParams);
                 var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+
+                //add the pagination information in the response header
+                Response.AddPagination(taskSchedule.CurrentPage, taskSchedule.PageSize,
+                    taskSchedule.TotalCount, taskSchedule.TotalPages);
+
                 return Ok(taskReturn); 
-            }
-            else if (User.IsInRole("Admin")) {
-                var taskSchedule = await _repo.GetOpenCloseTasksByUser(userId, isClosed);
-                var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
-                return Ok(taskReturn); 
-            }
+            }            
             else {     
                 return Unauthorized();
             }  
         }
         //get the tasks worked in the hours selected
-        [HttpGet("tasksWithinHours/{id}/{startDate}/{endDate}")]
-        public async Task<IActionResult> GetTasksWithinHoursWorked(int id, DateTime startDate, DateTime endDate)
+        [HttpGet("tasksWithinHours/{userId}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetTasksWithinHoursWorked(int userId, DateTime startDate, DateTime endDate, [FromQuery]TaskParams taskParams)
         {
-            //var UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
+            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
 
-            if (id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
-                var tasksWorkedWithinHours = await _repo.GetTasksWithinHoursWorkedRepo(id, startDate, endDate);          
+            if (userId == tokenUserId || User.IsInRole("Admin")) {
+                var tasksWorkedWithinHours = await _repo.GetTasksWithinHoursWorkedRepo(userId, startDate, endDate, taskParams);
+                
+                 //add the pagination information in the response header
+                Response.AddPagination(tasksWorkedWithinHours.CurrentPage, tasksWorkedWithinHours.PageSize,
+                    tasksWorkedWithinHours.TotalCount, tasksWorkedWithinHours.TotalPages);  
+
                 return Ok(tasksWorkedWithinHours);      
-            }
-            else if (User.IsInRole("Admin")) {
-                var tasksWorkedWithinHours = await _repo.GetTasksWithinHoursWorkedRepo(id, startDate, endDate);          
-                return Ok(tasksWorkedWithinHours);  
             }
             else {     
                 return Unauthorized();
             }         
         }
-        
-        [HttpPost("task")]        
-        public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule)
+        //uploading a file
+        [HttpPost("upload")]  
+        public IActionResult upload(IEnumerable<IFormFile> files)
         {
-            // Note sendNote;
-            // sendNote.NotesInfo = taskSchedule.Notes[0].NotesInfo;
-            // sendNote.UserId = taskSchedule.userId;
-            int TokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            string Ddrive = "D:/fileUpload";
+            int i = 0;
+            foreach(var file in files)
+            {
+                string extention = Path.GetExtension(file.FileName).ToLower();
+                if(extention == ".docx" || extention == ".pdf" || extention == ".jpg" || extention == ".png" 
+                    || extention == ".xls" || extention == ".xlsx" || extention == ".ppt" || extention == ".pttx" 
+                    || extention == ".txt" || extention == ".avi" || extention == ".mp4" || extention == ".mp3")
+                {
+                    // check i has not already been taken, if it has increment to one again
+                    using(var fileStream = new FileStream(Path.Combine(Ddrive 
+                    + "/companyOne", "file" + i + extention), FileMode.Create, FileAccess.Write))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }                
+                i ++;
+            }
+            return Ok();      
+        }
+        // //downloading a file 
+        // [HttpPost("download")]
+        // public IActionResult download(string fileName)
+        // {
+        //     string Ddrive = "D:/fileUpload";
+
+        //     if (fileName == null)  
+        //         return Content("filename not present"); 
+            
+        //     var path = Path.Combine(Ddrive + "/companyOne", fileName);
+            
+        //     var memory = new MemoryStream();
+        //     using (var stream = new FileStream(path, FileMode.Open))  
+        //     {  
+        //         stream.CopyToAsync(memory);  
+        //     }  
+        //     memory.Position = 0;  
+        //     return File(memory, GetContentType(path), Path.GetFileName(path)); 
+        // }
+
+
+        [HttpPost("task")]        
+        public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule, IFormFile file)
+        {
+            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+ 
 
             DateTime thisDay = DateTime.Now;
             string NowDate =  thisDay.ToString("g");
-            taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
-            taskSchedule.Notes[0].UserId = TokenUserId;
-            taskSchedule.userLastEditId = TokenUserId;
+
+            taskSchedule.userLastEditId = tokenUserId;
+
+            if(taskSchedule.Notes != null) {
+                taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
+                taskSchedule.Notes[0].UserId = tokenUserId;
+            }
        
             
             if(taskSchedule.Start > taskSchedule.End) {
                 return BadRequest("start time is not less than end time");  
             }
-            else if (taskSchedule.userCurrentAssignedId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {  
-                _repo.Add(taskSchedule);                       
-            }
-            else if (User.IsInRole("Admin")) {
-                _repo.Add(taskSchedule);   
+            else if (taskSchedule.userCurrentAssignedId == tokenUserId || User.IsInRole("Admin")) {   
+                _repo.Add(taskSchedule);                              
             }
             else {     
                 return Unauthorized();
@@ -170,26 +225,11 @@ namespace Schedular.API.Controllers
         [HttpPut("{id}")]
         public ActionResult<TaskSchedule> PutSchedule(int id, [FromBody] TaskSchedule taskSchedule)
         {
-            int TokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            taskSchedule.userLastEditId = TokenUserId; 
+            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            taskSchedule.userLastEditId = tokenUserId; 
 
             var updateTask = PutScheduleM(id, taskSchedule);
-            return updateTask;  
-
-            // //permissions based API update
-            // if (taskSchedule.userCurrentAssignedId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
-
-            //     var updateTask = PutScheduleM(id, taskSchedule);
-            //     return updateTask; 
-            // }
-            // else if (User.IsInRole("Admin")) {
-            //     var updateTask = PutScheduleM(id, taskSchedule); 
-            //     return updateTask;
-            // }
-            // else {     
-            //     return Unauthorized();
-            // }     
-
+            return updateTask;   
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTaskSchedule(int id)
@@ -197,17 +237,13 @@ namespace Schedular.API.Controllers
             //get task id to see userID, check if user ID matches with the ID that is asking it to be deleted
             var taskSchedule = await _repo.GetTask(id);
             //convert using dto to view userID. needs converting from Task<IEnumerable<TaskSchedule>> to TaskSchedule
-            //var userIdOnTaskDto = _mapper.Map<getTaskScheduleDto>(taskSchedule); 
-            var userIDVlaue = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (taskSchedule[0].userCurrentAssignedId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+
+            if (taskSchedule[0].userCurrentAssignedId == tokenUserId || User.IsInRole("Admin")) {
                 _repo.Delete(id);
                  return Ok();
             }
-            else if (User.IsInRole("Admin")) {
-                _repo.Delete(id);
-                 return Ok();
-            } 
             else {
                 return BadRequest("Unauthorised");
             }           
