@@ -1,3 +1,4 @@
+import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
 import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 import { EditRoleComponent } from './AdminConsole/editRole/editRole.component';
 import { EditUsernameComponent } from './AdminConsole/editUsername/editUsername.component';
@@ -19,7 +20,6 @@ import { UpdateTaskComponent } from './updateTask/updateTask.component';
 import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginPageComponent } from './loginPage/loginPage.component';
-import { MainNavComponent } from './main-nav/main-nav.component';
 
 
 export const appRoutes: Routes = [
@@ -49,7 +49,7 @@ export const appRoutes: Routes = [
     },
     {
         path: 'SideNav',
-        component: MainNavComponent,
+        component: AdminConsoleNavComponent,
         canActivate: [RoleGuard]
     },
     {

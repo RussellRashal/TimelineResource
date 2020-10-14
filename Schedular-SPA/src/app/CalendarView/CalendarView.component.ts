@@ -66,7 +66,7 @@ export class CalendarViewComponent implements OnInit {
     this.currentUserSelected = userclicked;
     this.stateStorageService.setClickedOnUser(userclicked);
     this.selectedFullName = userclicked.firstName + ' ' + userclicked.lastName;
-    this.taskScheduleService.getTaskScheduleByUserId(userclicked.id).subscribe((data) => {
+    this.taskScheduleService.getCalendarTaskScheduleByUserId(userclicked.id).subscribe((data) => {
       this.apiEvents = data;
       this.calendar(this.apiEvents);
     }, error => {
@@ -76,7 +76,7 @@ export class CalendarViewComponent implements OnInit {
   }
 
   CalendarData(UserId) {
-    this.taskScheduleService.getTaskScheduleByUserId(UserId).subscribe((data) => {
+    this.taskScheduleService.getCalendarTaskScheduleByUserId(UserId).subscribe((data) => {
       this.apiEvents = data;
       this.calendar(this.apiEvents);
     }, error => {

@@ -1,14 +1,18 @@
+import { PaginatedResult } from './../_models/pagination';
 import { TaskSchedule } from './../_models/taskSchedule';
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskScheduleService {
   baseUrl = environment.apiUrl + 'TaskSchedule';
+  // store paginated results in
+  paginatedResult: PaginatedResult<TaskSchedule[]> = new PaginatedResult<TaskSchedule[]>();
 
 
   constructor(private http: HttpClient) { }
@@ -22,12 +26,48 @@ export class TaskScheduleService {
     return this.http.get<TaskSchedule[]>(this.baseUrl + '/' + id);
   }
 
-  getTaskScheduleByUserId(id): Observable<TaskSchedule[]> {
+  getCalendarTaskScheduleByUserId(id): Observable<TaskSchedule[]> {
     return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUser/' + id);
   }
 
-  getTaskScheduleOpenCloseByUserId(id: number, isClosed: boolean): Observable<TaskSchedule[]> {
-    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUserOpenCloseTasks/' + id + '/' + isClosed);
+  getTaskScheduleByUserId(id, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUser/'
+      + id, {observe: 'response', params}).pipe(
+        map(response => {
+          this.paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return this.paginatedResult;
+        })
+      );
+  }
+
+  getTaskScheduleOpenCloseByUserId(id: number, isClosed: boolean, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUserOpenCloseTasks/' + id + '/'
+      + isClosed, {observe: 'response', params}).pipe(
+        map(response => {
+          this.paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return this.paginatedResult;
+        })
+      );
   }
 
   putTaskSchedule(id, taskSchedule) {

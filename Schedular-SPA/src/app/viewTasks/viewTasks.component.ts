@@ -1,3 +1,4 @@
+import { Pagination } from './../_models/pagination';
 import { TaskSchedule } from './../_models/taskSchedule';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -19,11 +20,22 @@ export class ViewTasksComponent implements OnInit {
   role;
   UserMemberModels;
   isDataAvailable: boolean;
+  selectedbutton;
   taskScheduleData;
   notesArray;
   currentStartTimeDate;
   currentEndTimeDate;
   currentUserId;
+  openCloseValue: boolean;
+  searchTask: FormControl;
+
+  pagination: Pagination;
+  pageNumber = 1;
+  pageSize = 10;
+
+  allButtonToggle: boolean;
+  openButtonToggle: boolean;
+  closeButtonToggle: boolean;
 
   constructor(
     private taskScheduleService: TaskScheduleService,
@@ -35,33 +47,72 @@ export class ViewTasksComponent implements OnInit {
 
   ngOnInit() {
     this.isDataAvailable = false;
-
-    // this.initialiseForm();
+    this.openCloseValue = false;
+    this.searchTask = new FormControl();
+    this.selectedbutton = 'Open Tasks';
   }
 
-  initialiseForm() {
-    this.profileForm = new FormGroup({
-      userId: new FormControl(this.currentUser.id),
-      userCurrentAssigned: new FormControl(),
-      startDate: new FormControl(new Date().toISOString().slice(0, 10)),
-      endDate: new FormControl(new Date().toISOString().slice(0, 10))
-    });
+  openClosebutton(isClosed: boolean) {
+    this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+
+    if (isClosed === false) {
+      this.selectedbutton = 'Open Tasks';
+      // button disable toggle
+      this.allButtonToggle = false;
+      this.openButtonToggle = true;
+      this.closeButtonToggle = false;
+      this.openCloseTasks(isClosed);
+    } else {
+      this.selectedbutton = 'Closed Tasks';
+      // button disable toggle
+      this.allButtonToggle = false;
+      this.openButtonToggle = false;
+      this.closeButtonToggle = true;
+      this.openCloseTasks(isClosed);
+    }
+  }
+
+  allTaskButton() {
+    this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+    // button disable toggle
+    this.allButtonToggle = true;
+    this.openButtonToggle = false;
+    this.closeButtonToggle = false;
+
+    this.allTasks();
   }
 
   openCloseTasks(isClosed: boolean) {
+      this.openCloseValue = isClosed;
       this.currentUser = JSON.parse(localStorage.getItem('user'));
-      this.taskScheduleService.getTaskScheduleOpenCloseByUserId(this.currentUser.id, isClosed).subscribe((data) => {
-        this.taskScheduleData = data;
-        console.log(this.taskScheduleData);
+      this.taskScheduleService.getTaskScheduleOpenCloseByUserId
+        (this.currentUser.id, isClosed, this.pageNumber, this.pageSize)
+      .subscribe((data) => {
+        this.taskScheduleData = data.result; // get jason data
+        this.pagination = data.pagination;   // get pagination data
         this.isDataAvailable = true;
       });
   }
 
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    if (this.selectedbutton === 'Open Tasks' || this.selectedbutton === 'Closed Tasks') {
+      this.openCloseTasks(this.openCloseValue);
+    }
+    else {
+      this.allTasks();
+    }
+
+  }
+
   allTasks()  {
+    this.selectedbutton = 'All Tasks';
     this.currentUser = JSON.parse(localStorage.getItem('user'));
-    this.taskScheduleService.getTaskScheduleByUserId(this.currentUser.id).subscribe((data) => {
-      this.taskScheduleData = data;
-      console.log(this.taskScheduleData);
+    this.taskScheduleService.getTaskScheduleByUserId(this.currentUser.id, this.pageNumber, this.pageSize)
+    .subscribe((data) => {
+      this.taskScheduleData = data.result; // get jason data
+      this.pagination = data.pagination;   // get pagination data
       this.isDataAvailable = true;
     });
   }
@@ -73,7 +124,23 @@ export class ViewTasksComponent implements OnInit {
       height: '90%'
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.openCloseTasks(false);
+      if (this.selectedbutton === 'All Tasks') {
+        this.allTasks();
+      }
+      else {
+        this.openCloseTasks(this.openCloseValue);
+      }
+    });
+  }
+
+  searchTaskBox() {
+    this.stateStorageService.setTaskId(this.searchTask.value);
+    const dialogRef = this.dialog.open(UpdateTaskComponent, {
+      width: '80%',
+      height: '60%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+       this.openCloseTasks(this.openCloseValue);
     });
   }
 

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Schedular.API.Dtos;
 using Schedular.API.Data;
+using System.Linq;
 
 namespace Schedular.API.Controllers
 {
@@ -46,7 +47,7 @@ namespace Schedular.API.Controllers
                 var userToCreate = _mapper.Map<User>(userForRegisterDto);
                 var result = await _userManager.CreateAsync(userToCreate,
                 userForRegisterDto.Password);
-                
+                                
                 //create the role
                 var roleResult = await _userManager.AddToRoleAsync(userToCreate, userForRegisterDto.Role);
 
@@ -66,49 +67,110 @@ namespace Schedular.API.Controllers
             }          
 
         }
+
+        [Authorize(Policy ="AdminAccess")]
+        [HttpPut("adminPasswordReset")]
+        public async Task<IActionResult> AdminResetPassword(PasswordReset passwordReset)
+        {
+            try
+            {            
+                var user = await _userManager.FindByNameAsync(passwordReset.Username);
+
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, passwordReset.NewPassword);
+
+                var result = await _userManager.UpdateAsync(user);
+            
+                if(result.Succeeded)
+                {
+                    return Ok("password changed");
+                } 
+                else 
+                {
+                    return BadRequest(result.Errors);
+                }
+            }
+            catch(NullReferenceException)
+            {
+                return BadRequest();   
+            }              
+        }
+
+        [Authorize]
+        [HttpPut("standardPasswordReset")]
+        public async Task<IActionResult> StandardResetPassword(PasswordReset passwordReset)
+        {           
+            // checks if user is in database                               
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Name).Value);
+            //checks users password is correct
+            var SignInWithCurrentPassword = await _signInManager.CheckPasswordSignInAsync(user, passwordReset.CurrentPassword, false);
+            if (SignInWithCurrentPassword.Succeeded)
+            {
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, passwordReset.NewPassword);
+                var result = await _userManager.UpdateAsync(user);
+                if(result.Succeeded)
+                {
+                    return Ok("password changed");
+                } 
+                else 
+                {
+                    return BadRequest(result.Errors);
+                }      
+            }
+            return Unauthorized();                               
+        }
         //edit user's roles
         [Authorize(Policy ="AdminAccess")]
-        [HttpPut("editRoles/{userName}/{newRole}")]
-        public async Task<IActionResult> EditRoles(string userName, string newRole)
+        [HttpPut("editRoles")]
+        public async Task<IActionResult> EditRoles(EditRoles editRoles)
         {
-            if(newRole == "Standard" || newRole == "Admin")
-            {
-                // get the user first 
-                var user = await _userManager.FindByNameAsync(userName);
+            try {
+                var user = await _userManager.FindByNameAsync(editRoles.UserName);
 
-                // find out what roles the user currently belongs to 
-                var userRoles = await _userManager.GetRolesAsync(user);
+                if(editRoles.NewRole == "Standard" || editRoles.NewRole == "Admin")
+                {                
+                    // get the user first 
 
-                // remove user from old role
-                var removeUserRole = await _userManager.GetRolesAsync(user);
-                var userRoleRemoved = await _userManager.RemoveFromRolesAsync(user, removeUserRole);
+                    // find out what roles the user currently belongs to 
+                    var userRoles = await _userManager.GetRolesAsync(user);
 
-                // add user to the new roles
-                var result = await _userManager.AddToRoleAsync(user, newRole);
-                
-                if(!result.Succeeded)
-                    return BadRequest("Failed to add to roles");           
-                if(!userRoleRemoved.Succeeded)
-                    return BadRequest("failed to remove the roles");                
-                return Ok("User role has been changed");
+                    // remove user from old role
+                    var removeUserRole = await _userManager.GetRolesAsync(user);
+                    var userRoleRemoved = await _userManager.RemoveFromRolesAsync(user, removeUserRole);
+
+                    // add user to the new roles
+                    var result = await _userManager.AddToRoleAsync(user, editRoles.NewRole);
+                    
+                    if(!result.Succeeded)
+                        return BadRequest("Failed to add to roles");           
+                    if(!userRoleRemoved.Succeeded)
+                        return BadRequest("failed to remove the roles");                
+                    return Ok("User role has been changed");
+                }                
+                else
+                {
+                    return BadRequest("Incorrect role inserted");
+                }         
             }
-            else
+            catch(ArgumentNullException)
             {
-                return BadRequest("Incorrect role inserted");
-            }         
+                return BadRequest("Username does not exist");   
+            }                     
         }
+                
         //edit user's name
         [Authorize(Policy ="AdminAccess")]
-        [HttpPut("editName/{currentUserName}/{newFirstName}/{newLastName}")]
-        public async Task<IActionResult> EditRoles(string currentUserName, string newFirstName, string newLastName)
+        [HttpPut("editName")]
+        public async Task<IActionResult> EditRoles(EditNameOfUser editNameOfUser)
         {
+            try
+            {
                 // get the user first 
-                var user = await _userManager.FindByNameAsync(currentUserName);
+                var user = await _userManager.FindByNameAsync(editNameOfUser.CurrentUserName);
 
                 //set the changes
-                user.FirstName = newFirstName;
-                user.LastName = newLastName;
-                user.UserName = newFirstName + newLastName;
+                user.FirstName = editNameOfUser.NewFirstName;
+                user.LastName = editNameOfUser.NewLastName;
+                user.UserName = editNameOfUser.NewFirstName + editNameOfUser.NewLastName;
 
                 //update the changes
                 var result = await _userManager.UpdateAsync(user);
@@ -122,27 +184,42 @@ namespace Schedular.API.Controllers
                 {
                     return BadRequest(result.Errors);                
                 }         
+
+            }
+            catch(NullReferenceException)
+            {
+                return BadRequest("Username does not exist");   
+            }
+                
         }
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            // does the user exist in the database
-            var user = await _userManager.FindByNameAsync(userForLoginDto.Username);
-            // does the password match
-            var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
-            // if username and password match
-            if (result.Succeeded)
-            {   
-                var userToReturn = _mapper.Map<UserForReturnDto>(user); 
+            try 
+            {
+                // does the user exist in the database
+                var user = await _userManager.FindByNameAsync(userForLoginDto.Username);
+                // does the password match
+                var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
+                // if username and password match
+                if (result.Succeeded)
+                {   
+                    var userToReturn = _mapper.Map<UserForReturnDto>(user); 
 
-                return Ok(new
-                {
-                    token = GenerateJwtToken(user).Result,
-                    user = userToReturn,                 
-                });
+                    return Ok(new
+                    {
+                        token = GenerateJwtToken(user).Result,
+                        user = userToReturn,                 
+                    });
+                }
+                return Unauthorized(); //if username and password are incorrect return unauthorised
             }
-            return Unauthorized(); //if username and password are incorrect return unauthorised
+            catch (ArgumentNullException) 
+            {
+                return Unauthorized();
+            }
+            
         }
 
         private async Task<string> GenerateJwtToken(User user)

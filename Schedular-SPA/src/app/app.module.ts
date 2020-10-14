@@ -1,3 +1,4 @@
+import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
 import { JwtModule } from '@auth0/angular-jwt';
 // full calendar.io packages
 import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
@@ -48,14 +49,12 @@ import { taskScheduleResolver } from './_resolvers/taskSchedule.resolver';
 import { RegisterComponent } from './AdminConsole/register/register.component';
 import { EditUsernameComponent } from './AdminConsole/editUsername/editUsername.component';
 import { EditRoleComponent } from './AdminConsole/editRole/editRole.component';
-import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ViewTasksComponent } from './viewTasks/viewTasks.component';
-
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
@@ -69,7 +68,7 @@ export function tokengetter() {
 }
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     NavigationBarComponent,
     CalendarViewComponent,
@@ -85,7 +84,7 @@ export function tokengetter() {
     NoteComponent,
     EditUsernameComponent,
     EditRoleComponent,
-    MainNavComponent,
+    AdminConsoleNavComponent,
       ViewTasksComponent
    ],
   imports: [
@@ -109,6 +108,7 @@ export function tokengetter() {
     AppRoutingModule,
     FullCalendarModule, // register FullCalendar with you app
     ReactiveFormsModule,
+    PaginationModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     JwtModule.forRoot({
       config: {
@@ -121,6 +121,9 @@ export function tokengetter() {
     MatToolbarModule,
     MatIconModule,
     MatListModule,
+  ],
+  exports: [
+    PaginationModule
   ],
   providers: [
     UserLoaderResolver,
