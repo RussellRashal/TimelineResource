@@ -82,7 +82,7 @@ namespace Schedular.API.Controllers
             
                 if(result.Succeeded)
                 {
-                    return Ok("password changed");
+                    return Ok();
                 } 
                 else 
                 {

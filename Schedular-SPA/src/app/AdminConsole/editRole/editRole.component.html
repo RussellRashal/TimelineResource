@@ -3,8 +3,13 @@
 
  
   <div>
-    <label>UserName</label>
-    <input type="text" formControlName="userName">
+    <label>Username</label>
+    <select class="ml-2" formControlName="username">
+      <option *ngFor="let userMemberModel of userMemberModels"
+        [value]="userMemberModel.username"> 
+          {{userMemberModel.username}} 
+      </option>      
+   </select>
   </div>
 
 

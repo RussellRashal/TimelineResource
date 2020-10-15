@@ -14,9 +14,8 @@ export class EditUserService {
   constructor(
     private http: HttpClient) { }
 
-  editRole(userName, role) {
-      return this.http.put(this.SecondUrl + '/' + userName + '/' + role, { },
-      { responseType: 'text' });
+  editRole(userRole: any[]) {
+      return this.http.put(this.SecondUrl, userRole);
   }
 
   putEditName(currentUserName, firstName, LastName) {

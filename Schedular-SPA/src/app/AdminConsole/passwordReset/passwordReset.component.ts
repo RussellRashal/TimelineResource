@@ -16,60 +16,60 @@ export class PasswordResetComponent implements OnInit {
   ResetPass: FormGroup;
   model: any = {};
   nullError: boolean;
+  confirmError: boolean;
 
   constructor(private stateStorageService: StateStorageService, private editUserService: EditUserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.userMemberModels = this.stateStorageService.getUserMemberStorage();
-    this.CreateForm();
+    this.initForm();
   }
   updatePassword() {
-    if (this.ResetPass.valid) {
 
-      this.nullError = false;
+    this.nullError = false;
+    this.confirmError = false;
 
-      if (this.ResetPass.value.username === '' ||
-        this.ResetPass.value.newPassword === '' ||
-        this.ResetPass.value.confirmPassword === '') {
-          this.nullError = true;
+    if (this.ResetPass.value.username === '' ||
+      this.ResetPass.value.newPassword === '' ||
+      this.ResetPass.value.confirmPassword === ''){
+        this.nullError = true;
     }
-
+    else if (this.ResetPass.value.newPassword !==
+      this.ResetPass.value.confirmPassword) {
+      alert('password does not match');
+    }
+    else {
       this.model = {
-      username: this.ResetPass.value.username,
-      newPassword: this.ResetPass.value.newPassword
-    };
-
-      console.log(this.model);
+        username: this.ResetPass.value.username,
+        newPassword: this.ResetPass.value.newPassword
+      };
 
       this.editUserService.editPassword(this.model).subscribe(next => {
-        alert('update sucessful');
-    }, error => {
-        console.log(error);
-    });
+        alert('Password has been changed');
+      }, error => {
+          console.log(error);
+      });
 
       this.ResetPass.reset();
+    }
   }
-}
 
 
-    CreateForm() {
+
+  initForm() {
     this.ResetPass = new FormGroup({
       username: new FormControl(''),
-      newPassword: new FormControl('', Validators.required),
-      confirmPassword: new FormControl('', [Validators.required, this.matchValues('newPassword')])
+      newPassword: new FormControl(''),
+      confirmPassword: new FormControl('')
     });
   }
 
-    matchValues(matchTo: string): ValidatorFn{
-    return (control: AbstractControl ) => {
-      return control?.value === control?.parent?.controls[matchTo].value
-      ? null : {isMatching: true };
-    };
-
-  }
   getNullError() {
     return this.nullError;
   }
 
 }
+
+
+
 
