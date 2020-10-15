@@ -140,55 +140,7 @@ namespace Schedular.API.Controllers
             else {     
                 return Unauthorized();
             }         
-        }
-        //uploading a file
-        [HttpPost("upload")]  
-        public IActionResult upload(IEnumerable<IFormFile> files)
-        {
-            string Ddrive = "D:/fileUpload";
-            int i = 0;
-            foreach(var file in files)
-            {
-                string extention = Path.GetExtension(file.FileName).ToLower();
-                if(extention == ".docx" || extention == ".pdf" || extention == ".jpg" || extention == ".png" 
-                    || extention == ".xls" || extention == ".xlsx" || extention == ".ppt" || extention == ".pttx" 
-                    || extention == ".txt" || extention == ".avi" || extention == ".mp4" || extention == ".mp3")
-                {
-                    // check i has not already been taken, if it has increment to one again
-                    using(var fileStream = new FileStream(Path.Combine(Ddrive 
-                    + "/companyOne", "file" + i + extention), FileMode.Create, FileAccess.Write))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-                }
-                else
-                {
-                    return BadRequest();
-                }                
-                i ++;
-            }
-            return Ok();      
-        }
-        // //downloading a file 
-        // [HttpPost("download")]
-        // public IActionResult download(string fileName)
-        // {
-        //     string Ddrive = "D:/fileUpload";
-
-        //     if (fileName == null)  
-        //         return Content("filename not present"); 
-            
-        //     var path = Path.Combine(Ddrive + "/companyOne", fileName);
-            
-        //     var memory = new MemoryStream();
-        //     using (var stream = new FileStream(path, FileMode.Open))  
-        //     {  
-        //         stream.CopyToAsync(memory);  
-        //     }  
-        //     memory.Position = 0;  
-        //     return File(memory, GetContentType(path), Path.GetFileName(path)); 
-        // }
-
+        }   
 
         [HttpPost("task")]        
         public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule, IFormFile file)

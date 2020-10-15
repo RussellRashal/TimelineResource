@@ -7,20 +7,21 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class EditUserService {
-  baseUrl = environment.apiUrl + 'Auth/editName';
-  SecondUrl = environment.apiUrl + 'Auth/editRoles';
+  baseUrl = environment.apiUrl + 'Auth/';
+
 
   constructor(
     private http: HttpClient) { }
 
-  editRole(userName, role) {
-      return this.http.put(this.SecondUrl + '/' + userName + '/' + role, { },
-      { responseType: 'text' });
+  editRole(userRole) {
+      return this.http.put(this.baseUrl + 'editRoles', userRole, { responseType: 'text' });
   }
 
-  putEditName(currentUserName, firstName, LastName) {
-    return this.http.put(
-      this.baseUrl + '/' + currentUserName + '/' + firstName + '/' + LastName, '',
-      { responseType: 'text' });
+  putEditName(userEdit) {
+    return this.http.put(this.baseUrl + 'editName', userEdit, { responseType: 'text' });
+  }
+
+  editAnyPasswordAdmin(model: any) {
+      return this.http.put(this.baseUrl + 'adminPasswordReset' , model );
   }
 }

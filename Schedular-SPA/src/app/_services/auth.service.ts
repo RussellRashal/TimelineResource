@@ -32,8 +32,8 @@ export class AuthService {
         })
       );
   }
-  register(model: any): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'register', model);
+  register(model: any) {
+    return this.http.post(this.baseUrl + 'register', model, { responseType: 'text' });
   }
 
   loggedIn() {
