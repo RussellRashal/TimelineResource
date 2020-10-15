@@ -18,6 +18,7 @@ export class EditUsernameComponent implements OnInit {
   currentUserData;
   role;
   userMemberModels;
+  editUser;
 
   constructor(
     private userMemberService: UserMemberService,
@@ -33,10 +34,13 @@ export class EditUsernameComponent implements OnInit {
   }
 
   UpdateUser() {
-      this.editUserService.putEditName(
-        this.editForm.value.currentUserName,
-        this.editForm.value.firstname,
-        this.editForm.value.LastName).subscribe(next => {
+    this.editUser = {
+       CurrentUserName: this.editForm.value.currentUsername,
+       NewFirstName: this.editForm.value.firstname,
+       NewLastName: this.editForm.value.LastName
+    };
+
+    this.editUserService.putEditName(this.editUser).subscribe(next => {
         alert('update sucessful');
     }, error => {
         console.log(error);
@@ -45,7 +49,7 @@ export class EditUsernameComponent implements OnInit {
 
   CreateForm() {
     this.editForm = new FormGroup({
-      currentUserName: new FormControl(''),
+      currentUsername: new FormControl(''),
       firstname: new FormControl(''),
       LastName: new FormControl('')
     });

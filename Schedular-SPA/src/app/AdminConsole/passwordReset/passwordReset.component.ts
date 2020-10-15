@@ -44,7 +44,7 @@ export class PasswordResetComponent implements OnInit {
         newPassword: this.ResetPass.value.newPassword
       };
 
-      this.editUserService.editPassword(this.model).subscribe(next => {
+      this.editUserService.editAnyPasswordAdmin(this.model).subscribe(next => {
         alert('Password has been changed');
       }, error => {
           console.log(error);

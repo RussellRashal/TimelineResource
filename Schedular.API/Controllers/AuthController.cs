@@ -124,7 +124,7 @@ namespace Schedular.API.Controllers
         public async Task<IActionResult> EditRoles(EditRoles editRoles)
         {
             try {
-                var user = await _userManager.FindByNameAsync(editRoles.UserName);
+                var user = await _userManager.FindByNameAsync(editRoles.Username);
 
                 if(editRoles.NewRole == "Standard" || editRoles.NewRole == "Admin")
                 {                

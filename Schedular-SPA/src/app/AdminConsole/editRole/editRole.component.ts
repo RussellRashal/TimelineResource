@@ -16,7 +16,7 @@ export class EditRoleComponent implements OnInit {
   userName;
   editForm: FormGroup;
   userMemberModels;
-  userRole: any[];
+  userRole;
 
 
   constructor(
@@ -33,14 +33,15 @@ export class EditRoleComponent implements OnInit {
   }
 
   updateRole() {
-    this.userRole = [
-      this.editForm.value.username,
-      this.editForm.value.role
-    ];
+    this.userRole = {
+      Username: this.editForm.value.username,
+      NewRole: this.editForm.value.role
+    };
     this.editUserService.editRole(this.userRole).subscribe(next => {
       alert('User Role Updated');
   }, error => {
       console.log(error);
+
   });
 
 

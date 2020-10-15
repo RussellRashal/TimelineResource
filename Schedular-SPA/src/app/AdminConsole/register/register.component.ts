@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   Combine: any;
-  model: any = {};
+  model;
   BookComplete: FormGroup;
   nullError: boolean;
   role;
@@ -38,8 +38,6 @@ export class RegisterComponent implements OnInit {
 
 
   Register() {
-    if (this.BookComplete.valid) { // the if statment code clears the form Once the button
-
     this.nullError = false;
 
     // below is the code to check if all of the boxes are completed
@@ -49,43 +47,28 @@ export class RegisterComponent implements OnInit {
         this.BookComplete.value.role === '') {
           this.nullError = true;
     }
+    else {
+      this.model = {
+        Firstname: this.BookComplete.value.firstname,
+        LastName: this.BookComplete.value.lastName,
+        Password: this.BookComplete.value.Password,
+        Role: this.BookComplete.value.role
+      };
 
-    this.model.firstname = this.BookComplete.value.firstname;
-    this.model.lastName = this.BookComplete.value.lastName;
-    this.model.Password = this.BookComplete.value.Password;
-    this.model.role = this.BookComplete.value.role;
+      this.authService.register(this.model).subscribe(next => {
+        alert('Account Created');
+      }, error => {
+        console.log(error);
+      });
 
-
-
-
-
-
-
-  //  this.model.username = this.BookComplete.value.firstname + this.BookComplete.value.lastName;
-    this.model.role = this.BookComplete.value.role;
-    alert('Registration Completed');
-
-    console.log(this.model);
-
-    this.authService.register(this.model).subscribe(next => {
-      alert('Account Created');
-   }, error => {
-     console.log('error = ' + error);
-   });
-
-    this.BookComplete.reset();
+      this.BookComplete.reset();
+    }
   }
-
-  }
-
-
-
 
   alterForm() {
     this.BookComplete = new FormGroup({
       firstname: new FormControl(),
       lastName: new FormControl(),
-    //  username: new FormControl(),
       Password: new FormControl(),
       role: new FormControl()
     });
@@ -94,5 +77,6 @@ export class RegisterComponent implements OnInit {
   getNullError() {
     return this.nullError;
   }
-
 }
+
+

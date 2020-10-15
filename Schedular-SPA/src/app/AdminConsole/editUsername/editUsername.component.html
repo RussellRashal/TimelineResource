@@ -2,25 +2,23 @@
 <form id="form_username" [formGroup]="editForm" (ngSubmit)="UpdateUser()">
 
   <div>
-    <label>Select UserName to update</label>
-    <select class="ml-2" formControlName="currentUserName">
+    <label>Select Username to update</label>
+    <select class="ml-2" formControlName="currentUsername">
       <option *ngFor="let userMemberModel of userMemberModels"
         [value]="userMemberModel.username"> 
           {{userMemberModel.username}} 
       </option>      
    </select>
-
-
   </div>
 
 
   <div>
-    <label>FirstName</label>
+    <label>First Name</label>
     <input type="text" formControlName="firstname">
   </div>
 
   <div>
-    <label>LastName</label>
+    <label>Last Name</label>
     <input type="text" formControlName="LastName">
   </div>
 
@@ -32,17 +30,6 @@
 
 
 <app-adminconsole-main-nav></app-adminconsole-main-nav>
-
-<!-- <app-sidebar></app-sidebar>
-
-
-<mat-sidenav-container>
-  <mat-sidenav>Sidenav</mat-sidenav>
-  <mat-sidenav-content>app-editUsername</mat-sidenav-content>
-  <mat-sidenav-content>app-editRole</mat-sidenav-content>
-  <mat-sidenav-content>app-register</mat-sidenav-content>
-</mat-sidenav-container>
- -->
 
 
 

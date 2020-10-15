@@ -4,9 +4,9 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <mat-nav-list>
-      <a class="nav-link" [routerLink]="['/editUsername']">EditUserName</a>
-      <a class="nav-link" [routerLink]="['/editRole']">Role</a>
-      <a class="nav-link" [routerLink]="['/register']">CreateUsername</a>
+      <a class="nav-link" [routerLink]="['/editUsername']">Edit Username</a>
+      <a class="nav-link" [routerLink]="['/editRole']">Edit Role</a>
+      <a class="nav-link" [routerLink]="['/register']">Create User</a>
       <a class="nav-link" [routerLink]="['/Password']">Password Reset</a>
     </mat-nav-list>
   </mat-sidenav>
