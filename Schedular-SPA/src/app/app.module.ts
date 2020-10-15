@@ -1,3 +1,4 @@
+import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordReset.component';
 import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
 import { JwtModule } from '@auth0/angular-jwt';
 // full calendar.io packages
@@ -85,6 +86,7 @@ export function tokengetter() {
     EditUsernameComponent,
     EditRoleComponent,
     AdminConsoleNavComponent,
+    PasswordResetComponent,
       ViewTasksComponent
    ],
   imports: [

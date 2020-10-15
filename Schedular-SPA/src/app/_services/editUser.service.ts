@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 export class EditUserService {
   baseUrl = environment.apiUrl + 'Auth/editName';
   SecondUrl = environment.apiUrl + 'Auth/editRoles';
+  PasswordUrl = environment.apiUrl + 'Auth/';
 
   constructor(
     private http: HttpClient) { }
@@ -22,5 +23,9 @@ export class EditUserService {
     return this.http.put(
       this.baseUrl + '/' + currentUserName + '/' + firstName + '/' + LastName, '',
       { responseType: 'text' });
+  }
+
+  editPassword( model: any): Observable<any> {
+      return this.http.put<any>(this.PasswordUrl + 'adminPasswordReset' , model );
   }
 }
