@@ -15,8 +15,10 @@ namespace Schedular.API.Controllers
         [HttpPost("upload")]  
         public IActionResult upload(IEnumerable<IFormFile> files)
         {
-            string Ddrive = @"D:\fileUpload\" + enviroment.customerName + @"\";
-            int i = 0;
+           // string storageLocation = @"C:\storage\" + enviroment.customerName + @"\";
+            string storageLocation= "sftp://192.168.0.38/var/storage/customerOne";
+           // request.Credentials = new NetworkCredential("user", "password");
+            int i = 0;  
             foreach(var file in files)
             {
                 string extention = Path.GetExtension(file.FileName).ToLower();
@@ -25,7 +27,7 @@ namespace Schedular.API.Controllers
                     || extention == ".txt" || extention == ".avi" || extention == ".mp4" || extention == ".mp3")
                 {
                     // check i has not already been taken, if it has increment to one again
-                    using(var fileStream = new FileStream(Path.Combine(Ddrive, 
+                    using(var fileStream = new FileStream(Path.Combine(storageLocation,
                      "file" + i + extention), FileMode.Create, FileAccess.Write))
                     {
                         file.CopyTo(fileStream);
@@ -40,46 +42,46 @@ namespace Schedular.API.Controllers
             }
             return Ok();      
         }
-        //downloading a file 
-        [HttpGet("download")]
-        public async IActionResult download(string filename)
-        {
-            string test = enviroment.customerName;
-            if (filename == null)  
-                return Content("filename not present");  
+    //     //downloading a file 
+    //     [HttpGet("download")]
+    //     public async IActionResult download(string filename)
+    //     {
+    //         string test = enviroment.customerName;
+    //         if (filename == null)  
+    //             return Content("filename not present");  
 
-            string path = @"D:\fileUpload\companyOne";
+    //         string path = @"D:\fileUpload\companyOne";
             
-            var memory = new MemoryStream();            
-            using (var stream = new FileStream(path, FileMode.Open))  
-            {  
-                await stream.CopyToAsync(memory);  
-            }  
-            memory.Position = 0; 
-            return File(memory, GetContentType(path), Path.GetFileName(path)); 
-        }
-        private string GetContentType(string path)
-        {
-            var types = GetMimeTypes();
-            var ext = Path.GetExtension(path).ToLowerInvariant();
-            return types[ext];
-        }
-        private Dictionary<string, string> GetMimeTypes()
-        {
-            return new Dictionary<string, string>
-            {
-                {".txt", "text/plain"},
-                {".pdf", "application/pdf"},
-                {".doc", "application/vnd.ms-word"},
-                {".docx", "application/vnd.ms-word"},
-                {".xls", "application/vnd.ms-excel"},
-                {".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
-                {".png", "image/png"},
-                {".jpg", "image/jpeg"},
-                {".jpeg", "image/jpeg"},
-                {".gif", "image/gif"},
-                {".csv", "text/csv"}
-            };
-        }
-    }
+    //         var memory = new MemoryStream();            
+    //         using (var stream = new FileStream(path, FileMode.Open))  
+    //         {  
+    //             await stream.CopyToAsync(memory);  
+    //         }  
+    //         memory.Position = 0; 
+    //         return File(memory, GetContentType(path), Path.GetFileName(path)); 
+    //     }
+    //     private string GetContentType(string path)
+    //     {
+    //         var types = GetMimeTypes();
+    //         var ext = Path.GetExtension(path).ToLowerInvariant();
+    //         return types[ext];
+    //     }
+    //     private Dictionary<string, string> GetMimeTypes()
+    //     {
+    //         return new Dictionary<string, string>
+    //         {
+    //             {".txt", "text/plain"},
+    //             {".pdf", "application/pdf"},
+    //             {".doc", "application/vnd.ms-word"},
+    //             {".docx", "application/vnd.ms-word"},
+    //             {".xls", "application/vnd.ms-excel"},
+    //             {".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+    //             {".png", "image/png"},
+    //             {".jpg", "image/jpeg"},
+    //             {".jpeg", "image/jpeg"},
+    //             {".gif", "image/gif"},
+    //             {".csv", "text/csv"}
+    //         };
+    //     }
+     }
 }
