@@ -7,6 +7,7 @@ import { TaskScheduleService } from '../_services/taskSchedule.service';
 import { UpdateTaskComponent } from '../updateTask/updateTask.component';
 import { MatDialog } from '@angular/material/dialog';
 import { StateStorageService } from '../_services/stateStorage.service';
+import { AddTaskComponent } from '../addTask/addTask.component';
 
 @Component({
   selector: 'app-viewtasks',
@@ -92,6 +93,16 @@ export class ViewTasksComponent implements OnInit {
         this.pagination = data.pagination;   // get pagination data
         this.isDataAvailable = true;
       });
+  }
+
+  openDialogAddTask() {
+    const dialogRef = this.dialog.open(AddTaskComponent, {
+      width: '80%',
+      height: '60%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+       this.allTasks();
+    });
   }
 
 

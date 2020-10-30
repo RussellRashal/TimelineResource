@@ -1,3 +1,4 @@
+import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUserPassword.component';
 import { AttachmentComponent } from './Attachment/Attachment.component';
 import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
 import { ViewTasksComponent } from './viewTasks/viewTasks.component';
@@ -71,6 +72,10 @@ export const appRoutes: Routes = [
     {
         path: 'AttachmentComponent',
         component: AttachmentComponent
+    },
+    {
+        path: 'StandardPassword',
+        component: StandardUserPasswordComponent , canActivate: [AuthGuard]
     },
     {
         path: 'login',

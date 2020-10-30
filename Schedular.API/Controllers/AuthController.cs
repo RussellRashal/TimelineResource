@@ -115,7 +115,7 @@ namespace Schedular.API.Controllers
                     var result = await _userManager.UpdateAsync(user);
                     if(result.Succeeded)
                     {
-                        return Ok("password changed");
+                        return Ok();
                     } 
                     return BadRequest(result.Errors);                        
                 }
