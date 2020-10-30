@@ -1,3 +1,5 @@
+import { AttachmentService } from './../_services/attachment.service';
+import { AttachmentComponent } from './../Attachment/Attachment.component';
 import { Note } from './../_models/note';
 import { NoteService } from './../_services/note.service';
 import { element } from 'protractor';
@@ -9,7 +11,7 @@ import { StateStorageService } from '../_services/stateStorage.service';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { TaskScheduleService } from '../_services/taskSchedule.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-update-task',
@@ -57,14 +59,17 @@ export class UpdateTaskComponent implements OnInit {
   userNameOfLastEdit;
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
+  attachmentArray;
 
   constructor(
     private router: Router,
     private stateStorageService: StateStorageService,
     private datePipe: DatePipe,
     private taskScheduleService: TaskScheduleService,
+    private attachmentService: AttachmentService,
     private noteService: NoteService,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<UpdateTaskComponent>) {}
 
 
@@ -74,6 +79,17 @@ export class UpdateTaskComponent implements OnInit {
     this.userMemberModels = this.stateStorageService.getUserMemberStorage();
     this.displayTasks();
 
+  }
+
+  attachmentBox() {
+    const dialogRef = this.dialog.open(AttachmentComponent, {
+      width: '70%',
+      height: '80%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      // reload the filenames that have been newly attached when the attachment box is closed
+      this.displayTasks();
+    });
   }
 
   displayTasks() {
@@ -86,6 +102,8 @@ export class UpdateTaskComponent implements OnInit {
       this.currentEndTimeDate = this.taskScheduleData.end;
       this.currentUserId = this.taskScheduleData.userCurrentAssignedId;
 
+      this.stateStorageService.setAttachmentFileName(this.taskScheduleDataArray[0].attachments);
+      this.attachmentArray = this.taskScheduleDataArray[0].attachments;
       this.transformDate();
 
       this.dropDownTimeList();
@@ -223,6 +241,20 @@ export class UpdateTaskComponent implements OnInit {
         highPriority: Boolean(this.profileForm.value.highPriority)
       };
       this.putData(this.taskScheduleData.id, this.putServiceTaskSchedule);
+    }
+  }
+
+  downloadAttachment(attachment) {
+    this.attachmentService.downloadAttachment(attachment.taskScheduleId, attachment.fileName);
+  }
+
+  deleteAttachment(attachment) {
+    if (confirm('Are you sure you want to delete this attachment?')) {
+    this.attachmentService.deleteAttachment(attachment).subscribe(next => {
+      this.displayTasks();
+      }, error => {
+        console.log(error);
+    });
     }
   }
 

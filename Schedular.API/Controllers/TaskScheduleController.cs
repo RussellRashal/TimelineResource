@@ -143,7 +143,7 @@ namespace Schedular.API.Controllers
         }   
 
         [HttpPost("task")]        
-        public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule, IFormFile file)
+        public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule)
         {
             int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
  
@@ -157,7 +157,10 @@ namespace Schedular.API.Controllers
                 taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
                 taskSchedule.Notes[0].UserId = tokenUserId;
             }
-       
+
+            if(taskSchedule.Attachments != null) {
+                
+            }      
             
             if(taskSchedule.Start > taskSchedule.End) {
                 return BadRequest("start time is not less than end time");  

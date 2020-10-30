@@ -41,13 +41,21 @@ namespace Schedular.API
         {
             services.AddDbContext<DataContext>(x => x.UseMySql(Configuration
                 .GetConnectionString("DefaultConnection")));
-
+            
+            //lockout options
+            var lockoutOptions = new LockoutOptions()
+            {
+                AllowedForNewUsers = true,
+                DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10),
+                MaxFailedAccessAttempts = 5
+            };
                 
             // for role and identity authentication
             // initial creation of user in the user table in database 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
                 // password requirements
+                opt.Lockout = lockoutOptions;
                 opt.Password.RequireDigit = true;
                 opt.Password.RequiredLength = 8;
                 opt.Password.RequireNonAlphanumeric = false;
@@ -100,6 +108,7 @@ namespace Schedular.API
             services.AddScoped<ITaskScheduleRepository, TaskScheduleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<INotesRepository, NotesRepository>();
+            services.AddScoped<IAttachmentFileRepository, AttachmentFileRepository>();
             services.AddControllers();
             services.AddCors(); 
         
@@ -158,6 +167,7 @@ namespace Schedular.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("index", "Fallback");
             });
         }
     }

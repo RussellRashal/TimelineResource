@@ -29,6 +29,22 @@ namespace Schedular.API.Data
             var users = await _context.Users.ToListAsync();
             
             return users;
-        }        
+        }
+
+        //get total number of active users
+        public int GetNumberOfActiveUsers()
+        {
+            var users = _context.Users.Where(u => u.IsEnabled == true).Count();
+                        
+            return users;
+        }
+
+        //get total number of admins 
+        public int GetNumberOfAdmins()
+        {
+            var NumberOfAdmins = _context.UserRoles.Where(u => u.RoleId == 1).Count();
+              
+            return NumberOfAdmins;
+        }            
     }
 }

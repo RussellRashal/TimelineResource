@@ -9,6 +9,8 @@ namespace Schedular.API.Dtos
         public string Username { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public bool IsEnabled { get; set; }
+
  
         // [Required]
         // [StringLength(20,MinimumLength = 6, ErrorMessage = "You must specify password at least 6 characters")]

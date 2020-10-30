@@ -13,7 +13,8 @@ namespace Schedular.API.Models
         public bool isClosed { get; set; }
         public bool highPriority { get; set; }
         public bool hasTimeLimit { get; set; }
-        public List<Note> Notes { get; set; } 
+        public List<Note> Notes { get; set; }
+        public List<AttachmentFile> Attachments { get; set; }  
 
         //user currently assigned to the task 
 

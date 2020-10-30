@@ -11,7 +11,7 @@ export class StateStorageService {
   taskId: number;
   userMembers: [];
   currentClickedUser: UserMemberModel[];
-
+  attachmentFileName: [];
 
   constructor() { }
   // tasks details for updateTask component
@@ -22,6 +22,13 @@ export class StateStorageService {
     this.taskId = taskIdIn;
   }
 
+  // get attachment fileName from task
+  getAttachmentFileName() {
+    return this.attachmentFileName;
+  }
+  setAttachmentFileName(attachment) {
+    this.attachmentFileName = attachment;
+  }
 
   // staff member clicked on for addTask component without needing to make another api call
   setClickedOnUser(ClickedUser) {
