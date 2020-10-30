@@ -58,6 +58,7 @@ import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AttachmentComponent } from './Attachment/Attachment.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUserPassword.component';
 
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
@@ -87,6 +88,7 @@ export function tokengetter() {
     NoteComponent,
     EditUsernameComponent,
     EditRoleComponent,
+    StandardUserPasswordComponent,
     AdminConsoleNavComponent,
     PasswordResetComponent,
       ViewTasksComponent,
