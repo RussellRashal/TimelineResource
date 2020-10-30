@@ -43,7 +43,7 @@ namespace Schedular.API.Data
             _context.SaveChanges();        
         }
 
-        // has the data saved
+        // save changes
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;

@@ -96,12 +96,13 @@ export class NoteComponent implements OnInit {
   }
 
   deleteNote() {
-    this.noteService.deleteNote(this.note.id).subscribe(next => {
-      console.log('success');
-      this.reload.emit();
-    }, error => {
-      console.log(error);
-    });
+    if (confirm('Are you sure you want to delete this task?')) {
+      this.noteService.deleteNote(this.note.id).subscribe(next => {
+        console.log('success');
+        this.reload.emit();
+      }, error => {
+        console.log(error);
+      });
+    }
   }
-
 }

@@ -43,6 +43,7 @@ export class CalendarViewComponent implements OnInit {
     },
     dateClick: this.handleDateClick.bind(this), // bind is important!
     events: [],
+    firstDay: 1
   };
 
 
@@ -95,6 +96,7 @@ export class CalendarViewComponent implements OnInit {
       },
       // dateClick: this.handleDateClick.bind(this), // bind is important!
       events: this.apiEvents,
+      firstDay: 1,
       eventClick: (idOfClickedTask) => {
         // get id of selected task, then filter out the array to get the selected task sent to updateTask
         this.idSelected = Number(idOfClickedTask.event.id);
@@ -123,7 +125,7 @@ export class CalendarViewComponent implements OnInit {
     this.stateStorageService.setTaskId(this.searchTask.value);
     const dialogRef = this.dialog.open(UpdateTaskComponent, {
       width: '80%',
-      height: '60%'
+      height: '90%'
     });
     dialogRef.afterClosed().subscribe(result => {
       this.dataReload();

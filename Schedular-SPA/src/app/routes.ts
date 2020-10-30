@@ -1,3 +1,4 @@
+import { AttachmentComponent } from './Attachment/Attachment.component';
 import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
 import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 import { EditRoleComponent } from './AdminConsole/editRole/editRole.component';
@@ -68,11 +69,17 @@ export const appRoutes: Routes = [
         }
     },
     {
+        path: 'AttachmentComponent',
+        component: AttachmentComponent
+    },
+    {
         path: 'login',
         component: LoginPageComponent
     }
     // { path: '', redirectTo: 'login', pathMatch: 'full'}
 ];
+
+
 
 
 

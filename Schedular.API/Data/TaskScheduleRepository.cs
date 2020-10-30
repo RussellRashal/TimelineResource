@@ -40,6 +40,7 @@ namespace Schedular.API.Data
             TaskScheduleDb.highPriority = taskSchedule.highPriority;
             TaskScheduleDb.isClosed = taskSchedule.isClosed;
             TaskScheduleDb.hasTimeLimit = taskSchedule.hasTimeLimit;
+            TaskScheduleDb.Attachments = taskSchedule.Attachments;
 
             _context.SaveChanges();
 
@@ -61,6 +62,7 @@ namespace Schedular.API.Data
              var taskSchedule = await _context.TaskSchedules
                 .Where(u => u.Id == id)
                 .Include(ts => ts.Notes)
+                .Include(ts => ts.Attachments)
                 .ToListAsync();
                 
             return taskSchedule;  

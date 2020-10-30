@@ -3,6 +3,7 @@ using Schedular.API.Models;
 using Schedular.API.Dtos;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Schedular.API.Data;
 
 namespace Schedular.API.Helpers
 {
@@ -15,6 +16,7 @@ namespace Schedular.API.Helpers
             CreateMap<TaskSchedule, getTaskScheduleDto>();
             CreateMap<Task<IEnumerable<TaskSchedule>>, getTaskScheduleDto>();
             CreateMap<Note, noteDto>();
+            CreateMap<IAttachmentFileRepository, AttachmentFileRepository>();
         }
     }
 }

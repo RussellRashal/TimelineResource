@@ -13,5 +13,11 @@ namespace Schedular.API.Data
       Task<IEnumerable<User>> GetUsers();
       //get an individual task 
       Task<User> GetUser(int id); 
+
+      //get number of active users
+      int GetNumberOfActiveUsers();
+
+      //get number of admins
+      int GetNumberOfAdmins();
     }
 }

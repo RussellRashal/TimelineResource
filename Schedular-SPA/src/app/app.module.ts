@@ -56,6 +56,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { AttachmentComponent } from './Attachment/Attachment.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
@@ -87,7 +89,9 @@ export function tokengetter() {
     EditRoleComponent,
     AdminConsoleNavComponent,
     PasswordResetComponent,
-      ViewTasksComponent
+      ViewTasksComponent,
+      AttachmentComponent,
+      AttachmentComponent
    ],
   imports: [
     CommonModule,
@@ -108,6 +112,7 @@ export function tokengetter() {
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
+    FileUploadModule,
     FullCalendarModule, // register FullCalendar with you app
     ReactiveFormsModule,
     PaginationModule.forRoot(),
@@ -125,7 +130,8 @@ export function tokengetter() {
     MatListModule,
   ],
   exports: [
-    PaginationModule
+    PaginationModule,
+    FileUploadModule
   ],
   providers: [
     UserLoaderResolver,
