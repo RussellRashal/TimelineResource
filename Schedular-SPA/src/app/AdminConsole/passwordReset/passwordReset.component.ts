@@ -18,7 +18,10 @@ export class PasswordResetComponent implements OnInit {
   nullError: boolean;
   confirmError: boolean;
 
-  constructor(private stateStorageService: StateStorageService, private editUserService: EditUserService, private route: ActivatedRoute) { }
+  constructor(
+    private stateStorageService: StateStorageService,
+    private editUserService: EditUserService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.userMemberModels = this.stateStorageService.getUserMemberStorage();

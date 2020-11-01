@@ -45,6 +45,26 @@ namespace Schedular.API.Data
             var NumberOfAdmins = _context.UserRoles.Where(u => u.RoleId == 1).Count();
               
             return NumberOfAdmins;
-        }            
+        } 
+
+        //get all enabled accounts
+        public async Task<IList<User>> GetAllEnabledAccounts()
+        {
+            var users = await _context.Users
+                .Where(u => u.IsEnabled == true)
+                .ToListAsync();
+                        
+            return users;
+        }      
+
+        //get all disabled accounts
+        public async Task<IList<User>> GetAllDisabledAccounts()
+        {
+            var users = await _context.Users
+                .Where(u => u.IsEnabled == true)
+                .ToListAsync();
+                        
+            return users;
+        }     
     }
 }
