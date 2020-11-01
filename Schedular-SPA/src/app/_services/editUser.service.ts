@@ -41,4 +41,12 @@ export class EditUserService {
     return this.http.put(this.baseUrl + 'disableAccount', editUser, {responseType: 'text'});
   }
 
+  allEnabledAccounts(): Observable<any[]>  {
+    return this.http.get<any[]>(this.baseUrl + 'allEnabledAccounts');
+  }
+
+  allDisabledAccounts(): Observable<any[]>  {
+    return this.http.get<any[]>(this.baseUrl + 'allDisabledAccounts');
+  }
+
 }

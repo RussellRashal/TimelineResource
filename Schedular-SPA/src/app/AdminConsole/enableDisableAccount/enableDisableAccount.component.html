@@ -1,3 +1,51 @@
-<p>
-  enableDisableAccount works!
-</p>
+<label>Enabled Accounts</label>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th style="width: 60">Username</th>
+        <th style="width: 20">Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let enabledAccount of enabledAccounts; let i = index">
+        <td>
+          {{enabledAccounts[i].username}}
+        </td>
+        <td>
+          <button (click)="disableAccountButton(enabledAccounts[i].username)">Disable</button>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
+
+<label>disabled Accounts</label>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th style="width: 60">Username</th>
+        <th style="width: 20">Eligible Activation Date</th>
+        <th style="width: 20">Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let disabledAccount of disabledAccounts; let i = index">
+        <td>
+          {{disabledAccounts[i].username}}
+        </td>
+        <td>
+          <div class="ml-4">
+            {{disabledAccounts[i].enableAllowDate.slice(0, 10)}}
+          </div>
+        </td>
+        <td>
+          <button (click)="enableAccountButton(disabledAccounts[i].username)">Enable</button>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

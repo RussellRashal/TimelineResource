@@ -12,6 +12,9 @@ export class EnableDisableAccountComponent implements OnInit {
   userMemberModels;
   username: FormControl;
   edituser;
+  enabledAccounts;
+  disabledAccounts;
+
 
   constructor(
     private stateStorageService: StateStorageService,
@@ -19,31 +22,52 @@ export class EnableDisableAccountComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userMemberModels = this.stateStorageService.getUserMemberStorage();
-    this.username = new FormControl();
+    this.retrieveAllEnabledAccounts();
+    this.retrieveAllDisabledAccounts();
+
   }
 
-  enableAccountButton() {
-    this.edituser = {
-      CurrentUserName: this.username.value
-    };
-    this.editUserService.enableAccount(this.edituser).subscribe(resp  => {
-      this.ngOnInit();
-      alert(resp);
+  retrieveAllEnabledAccounts() {
+    this.editUserService.allEnabledAccounts().subscribe((data) => {
+      this.enabledAccounts = data;
+      // console.log(this.enabledAccounts.username);
     }, error => {
-      console.log(error);
+        console.log(error);
     });
   }
 
-  disableAccountButton() {
+  retrieveAllDisabledAccounts() {
+    this.editUserService.allDisabledAccounts().subscribe((data) => {
+      this.disabledAccounts = data;
+    }, error => {
+        console.log(error);
+    });
+  }
+
+  enableAccountButton(username) {
     this.edituser = {
-      CurrentUserName: this.username.value
+      CurrentUserName: username
     };
     this.editUserService.enableAccount(this.edituser).subscribe(resp  => {
-      this.ngOnInit();
       alert(resp);
+      this.ngOnInit();
     }, error => {
-      console.log(error);
+      alert(error.error);
     });
+  }
+
+  disableAccountButton(username) {
+    if (confirm('Are you sure you want to disable this user. If this user is disabled ' +
+      'you will not be able to activate this user for another 120 days')) {
+      this.edituser = {
+        CurrentUserName: username
+      };
+      this.editUserService.disableAccount(this.edituser).subscribe(resp  => {
+        this.ngOnInit();
+        alert(resp);
+      }, error => {
+        console.log(error);
+      });
+    }
   }
 }

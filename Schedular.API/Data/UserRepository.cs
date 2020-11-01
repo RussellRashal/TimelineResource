@@ -61,7 +61,7 @@ namespace Schedular.API.Data
         public async Task<IList<User>> GetAllDisabledAccounts()
         {
             var users = await _context.Users
-                .Where(u => u.IsEnabled == true)
+                .Where(u => u.IsEnabled == false)
                 .ToListAsync();
                         
             return users;

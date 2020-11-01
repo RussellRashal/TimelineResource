@@ -24,6 +24,7 @@ import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LoginPageComponent } from './loginPage/loginPage.component';
 import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordReset.component';
+import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccount/enableDisableAccount.component';
 
 
 export const appRoutes: Routes = [
@@ -81,6 +82,10 @@ export const appRoutes: Routes = [
     {
         path: 'UnlockAccount',
         component: UnlockAccountComponent , canActivate: [RoleGuard]
+    },
+    {
+        path: 'EnableDisableAccountComponent',
+        component: EnableDisableAccountComponent , canActivate: [RoleGuard]
     },
     {
         path: 'login',
