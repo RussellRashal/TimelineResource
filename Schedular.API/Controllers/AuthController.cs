@@ -274,7 +274,7 @@ namespace Schedular.API.Controllers
                     {
                         //enable account 
                         user.IsEnabled = true;
-                        user.EnableAllowDate = null;
+                        user.EnableAllowDate = TodaysDate;
         
                         //update the changes
                         var result = await _userManager.UpdateAsync(user);
