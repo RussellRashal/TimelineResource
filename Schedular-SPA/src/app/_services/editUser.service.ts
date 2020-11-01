@@ -21,10 +21,24 @@ export class EditUserService {
     return this.http.put(this.baseUrl + 'editName', userEdit, { responseType: 'text' });
   }
 
-  editAnyPasswordAdmin(model: any) {
-      return this.http.put(this.baseUrl + 'adminPasswordReset' , model );
+  editAnyPasswordAdmin(editUser: any) {
+      return this.http.put(this.baseUrl + 'adminPasswordReset' , editUser);
   }
-  editStandardPassword( model: any): Observable<any> {
-    return this.http.put<any>(this.baseUrl + 'standardPasswordReset', model);
+
+  editStandardPassword(editUser: any): Observable<any> {
+    return this.http.put<any>(this.baseUrl + 'standardPasswordReset', editUser);
   }
+
+  unlockAccount(editUser: any) {
+    return this.http.put(this.baseUrl + 'unlockAccount', editUser, {responseType: 'text'});
+  }
+
+  enableAccount(editUser: any) {
+    return this.http.put(this.baseUrl + 'enableAccount', editUser, {responseType: 'text'});
+  }
+
+  disableAccount(editUser: any) {
+    return this.http.put(this.baseUrl + 'disableAccount', editUser, {responseType: 'text'});
+  }
+
 }

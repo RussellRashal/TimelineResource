@@ -1,3 +1,4 @@
+import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccount/enableDisableAccount.component';
 import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordReset.component';
 import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -59,6 +60,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AttachmentComponent } from './Attachment/Attachment.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUserPassword.component';
+import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccount.component';
+import { SidebarNavigationComponent } from './sidebar-navigation/sidebar-navigation.component';
 
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
@@ -84,16 +87,19 @@ export function tokengetter() {
     HoursWorkedComponent,
     UpdateTaskComponent,
     LoginPageComponent,
+    UnlockAccountComponent,
     RegisterComponent,
     NoteComponent,
     EditUsernameComponent,
     EditRoleComponent,
+    EnableDisableAccountComponent,
     StandardUserPasswordComponent,
     AdminConsoleNavComponent,
     PasswordResetComponent,
       ViewTasksComponent,
       AttachmentComponent,
-      AttachmentComponent
+      AttachmentComponent,
+      SidebarNavigationComponent
    ],
   imports: [
     CommonModule,

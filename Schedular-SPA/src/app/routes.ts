@@ -1,3 +1,4 @@
+import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccount.component';
 import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUserPassword.component';
 import { AttachmentComponent } from './Attachment/Attachment.component';
 import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
@@ -76,6 +77,10 @@ export const appRoutes: Routes = [
     {
         path: 'StandardPassword',
         component: StandardUserPasswordComponent , canActivate: [AuthGuard]
+    },
+    {
+        path: 'UnlockAccount',
+        component: UnlockAccountComponent , canActivate: [RoleGuard]
     },
     {
         path: 'login',

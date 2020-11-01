@@ -1,0 +1,23 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" 
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+        <a class="nav-link" [routerLink]="['/CalendarView']">Home</a>
+        <a class="nav-link" [routerLink]="['/viewTasks']">viewTasks</a>
+        <a class="nav-link" [routerLink]="['/hoursworked']">HoursWorked</a>
+        <label>Admin Console</label>
+        <a class="nav-link" [routerLink]="['/editUsername']">EditUsername</a>
+        <a class="nav-link" [routerLink]="['/editRole']">editRole</a>
+        <a class="nav-link" [routerLink]="['/register']">Create account</a>
+        <a class="nav-link" [routerLink]="['/Password']">Password Reset</a>
+        <label>Help</label>
+        <a class="nav-link" [routerLink]="['/StandardPassword']">Reset Password</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
