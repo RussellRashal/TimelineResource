@@ -47,6 +47,10 @@ export class RegisterComponent implements OnInit {
         this.BookComplete.value.role === '') {
           this.nullError = true;
     }
+    else if (this.BookComplete.value.Password !==
+      this.BookComplete.value.confirmPassword) {
+      alert('Passwords do not match');
+    }
     else {
       this.model = {
         Firstname: this.BookComplete.value.firstname,
@@ -55,13 +59,13 @@ export class RegisterComponent implements OnInit {
         Role: this.BookComplete.value.role
       };
 
-      this.authService.register(this.model).subscribe(next => {
-        alert('Account Created');
+      this.authService.register(this.model).subscribe(resp => {
+        alert(resp);
+        this.BookComplete.reset();
       }, error => {
+        alert(error.error);
         console.log(error);
       });
-
-      this.BookComplete.reset();
     }
   }
 
@@ -70,6 +74,7 @@ export class RegisterComponent implements OnInit {
       firstname: new FormControl(),
       lastName: new FormControl(),
       Password: new FormControl(),
+      confirmPassword: new FormControl(''),
       role: new FormControl()
     });
   }

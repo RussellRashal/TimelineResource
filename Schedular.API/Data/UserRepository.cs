@@ -26,7 +26,9 @@ namespace Schedular.API.Data
         //get all staff from the database
         public async Task<IEnumerable<User>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users
+            .Where(u =>u.IsEnabled == true)
+            .ToListAsync();
             
             return users;
         }

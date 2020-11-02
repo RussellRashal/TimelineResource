@@ -17,7 +17,6 @@ export class EnableDisableAccountComponent implements OnInit {
 
 
   constructor(
-    private stateStorageService: StateStorageService,
     private editUserService: EditUserService
   ) { }
 
@@ -66,7 +65,7 @@ export class EnableDisableAccountComponent implements OnInit {
         this.ngOnInit();
         alert(resp);
       }, error => {
-        console.log(error);
+        alert(error.error);
       });
     }
   }

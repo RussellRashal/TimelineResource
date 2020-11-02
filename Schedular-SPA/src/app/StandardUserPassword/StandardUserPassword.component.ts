@@ -31,7 +31,7 @@ export class StandardUserPasswordComponent implements OnInit {
     }
     else if (this.ResetPass.value.newPassword !==
       this.ResetPass.value.confirmPassword) {
-      alert('password does not match');
+      alert('Passwords do not match');
     }
     else {
       this.model = {

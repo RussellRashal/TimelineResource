@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Schedular.API.Dtos;
 using Schedular.API.Data;
 using System.Linq;
+using Schedular.API.Helpers;
 
 namespace Schedular.API.Controllers
 {
@@ -25,8 +26,7 @@ namespace Schedular.API.Controllers
         private readonly IMapper _mapper;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        private readonly IUserRepository _repo;
-        int maxUsers = 5;    
+        private readonly IUserRepository _repo; 
 
         public AuthController(IConfiguration config, IMapper mapper,
         UserManager<User> userManager, SignInManager<User> signInManager, IUserRepository repo)
@@ -41,30 +41,42 @@ namespace Schedular.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            if(_repo.GetNumberOfActiveUsers() < maxUsers)
+            if(_repo.GetNumberOfActiveUsers() < enviroment.maxUsers)
             {
-                //check if role name is valid
-                if(userForRegisterDto.Role == "Standard" || userForRegisterDto.Role == "Admin")
+                if(userForRegisterDto.Password.Length >= 8 && userForRegisterDto.Password.Any(char.IsUpper) 
+                && userForRegisterDto.Password.Any(char.IsNumber))
                 {
-                    //create the user account
-                    userForRegisterDto.Username = userForRegisterDto.FirstName + userForRegisterDto.LastName;
-                    userForRegisterDto.IsEnabled = true;
-                    var userToCreate = _mapper.Map<User>(userForRegisterDto);
-                    var result = await _userManager.CreateAsync(userToCreate,
-                    userForRegisterDto.Password);
-                                    
-                    //create the role
-                    var roleResult = await _userManager.AddToRoleAsync(userToCreate, userForRegisterDto.Role);
-
-                    if(result.Succeeded)
+                    //check if role name is valid
+                    if(userForRegisterDto.Role == "Standard" || userForRegisterDto.Role == "Admin")
                     {
-                        return Ok("User Account " + userForRegisterDto.Username +  " has been created");
-                    }                  
-                    return BadRequest(result.Errors);
+                        //create the user account
+                        userForRegisterDto.Username = userForRegisterDto.FirstName + userForRegisterDto.LastName;
+                        userForRegisterDto.IsEnabled = true;
+
+                        //get todays date to fill in enableAllowDate
+                        DateTime thisDay = DateTime.Now;
+                        string NowDate =  thisDay.ToString("dd/MM/yyyy");
+                        var TodaysDate = Convert.ToDateTime(NowDate);
+                        userForRegisterDto.EnableAllowDate = TodaysDate - TimeSpan.FromDays(1);
+
+                        var userToCreate = _mapper.Map<User>(userForRegisterDto);
+                        var result = await _userManager.CreateAsync(userToCreate,
+                        userForRegisterDto.Password);
+                                        
+                        //create the role
+                        var roleResult = await _userManager.AddToRoleAsync(userToCreate, userForRegisterDto.Role);
+
+                        if(result.Succeeded)
+                        {
+                            return Ok("User Account " + userForRegisterDto.Username +  " has been created");
+                        }                  
+                        return BadRequest(result.Errors);
+                    }
+                    return BadRequest("Incorrect role added"); 
                 }
-                return BadRequest("Incorrect role added");         
+                return BadRequest("Password does not meet minimum requirements. At least 8 characters long, 1 capital and a number.");           
             }
-            return BadRequest("You have reached the maximum of " + maxUsers + 
+            return BadRequest("You have reached the maximum of " + enviroment.maxUsers + 
                 " enabled users. Please speak to the service provider to upgrade your subscription");       
         }
 
@@ -95,7 +107,7 @@ namespace Schedular.API.Controllers
                     return BadRequest();   
                 }
             } 
-            return BadRequest("Password does not meet minimum requiremnts. At least 8 characters long, 1 capital and a number.");              
+            return BadRequest("Password does not meet minimum requirements. At least 8 characters long, 1 capital and a number.");              
         }
 
         [Authorize]
@@ -121,7 +133,7 @@ namespace Schedular.API.Controllers
                 }
                 return Unauthorized();                    
             }
-            return BadRequest("Password does not meet minimum requiremnts. At least 8 characters long, 1 capital and a number.");                      
+            return BadRequest("Password does not meet minimum requirements. At least 8 characters long, 1 capital and a number.");                      
         }
         //edit user's roles
         [Authorize(Policy ="AdminAccess")]
@@ -268,7 +280,7 @@ namespace Schedular.API.Controllers
                 // get the user first 
                 var user = await _userManager.FindByNameAsync(editUser.CurrentUserName);
 
-                if(_repo.GetNumberOfActiveUsers() < maxUsers)
+                if(_repo.GetNumberOfActiveUsers() < enviroment.maxUsers)
                 {
                     if(TodaysDate >= user.EnableAllowDate)
                     {
@@ -285,10 +297,11 @@ namespace Schedular.API.Controllers
                         } 
                         return BadRequest(result.Errors);                
                             
-                    }         
-                    return BadRequest("you will need to wait until " + user.EnableAllowDate + " to enable this account");               
+                    } 
+                    string EnableAllowDateOnly =  user.EnableAllowDate.ToString("dd/MM/yyyy");    
+                    return BadRequest("you will need to wait until " + EnableAllowDateOnly + " to enable this account");               
                 }
-                return BadRequest("You cannot enable this user as you have reached the maximum of " + maxUsers + 
+                return BadRequest("You cannot enable this user as you have reached the maximum of " + enviroment.maxUsers + 
                 " enabled users. Please speak to the service provider to upgrade your subscription");                    
             }
             catch(NullReferenceException)
@@ -350,7 +363,8 @@ namespace Schedular.API.Controllers
                     }
                     return Unauthorized("This account is disabled. Please get an administrator to unlock this account.");                               
                 }                
-                return Unauthorized("This account is locked out. Please try again in 10 minutes or get an administrator to unlock your account.");              
+                return Unauthorized("This account is locked out. Please try again in 10 minutes or get an " + 
+                    "administrator to unlock your account.");              
             }
             catch (ArgumentNullException) 
             {
