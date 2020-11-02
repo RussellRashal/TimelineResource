@@ -58,7 +58,6 @@ export class CalendarViewComponent implements OnInit {
     this.currentUserSelected = JSON.parse(localStorage.getItem('user'));
     this.stateStorageService.setClickedOnUser(this.currentUserSelected);
     this.selectedFullName = this.currentUserSelected.firstName + ' ' + this.currentUserSelected.lastName;
-    this.runCalendarData(this.currentUserSelected);
     this.searchTask = new FormControl();
 
   }

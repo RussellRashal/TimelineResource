@@ -29,6 +29,7 @@ export class ViewTasksComponent implements OnInit {
   currentUserId;
   openCloseValue: boolean;
   searchTask: FormControl;
+  selectedFullName;
 
   pagination: Pagination;
   pageNumber = 1;
@@ -43,6 +44,9 @@ export class ViewTasksComponent implements OnInit {
     private stateStorageService: StateStorageService,
     private route: ActivatedRoute,
     public dialog: MatDialog) {
+      // initally load the logged in users tasks
+      this.currentUser = JSON.parse(localStorage.getItem('user'));
+      this.selectedFullName = this.currentUser.firstName + ' ' + this.currentUser.lastName;
       this.openCloseTasks(false);
     }
 
@@ -51,6 +55,16 @@ export class ViewTasksComponent implements OnInit {
     this.openCloseValue = false;
     this.searchTask = new FormControl();
     this.selectedbutton = 'Open Tasks';
+  }
+
+  changeUserTasks(CurrentUser) {
+    this.currentUser = CurrentUser;
+    this.selectedFullName = this.currentUser.firstName + ' ' + this.currentUser.lastName;
+    // button disable toggle
+    this.allButtonToggle = false;
+    this.openButtonToggle = true;
+    this.closeButtonToggle = false;
+    this.openCloseTasks(false);
   }
 
   openClosebutton(isClosed: boolean) {
@@ -85,7 +99,6 @@ export class ViewTasksComponent implements OnInit {
 
   openCloseTasks(isClosed: boolean) {
       this.openCloseValue = isClosed;
-      this.currentUser = JSON.parse(localStorage.getItem('user'));
       this.taskScheduleService.getTaskScheduleOpenCloseByUserId
         (this.currentUser.id, isClosed, this.pageNumber, this.pageSize)
       .subscribe((data) => {
@@ -119,7 +132,6 @@ export class ViewTasksComponent implements OnInit {
 
   allTasks()  {
     this.selectedbutton = 'All Tasks';
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.taskScheduleService.getTaskScheduleByUserId(this.currentUser.id, this.pageNumber, this.pageSize)
     .subscribe((data) => {
       this.taskScheduleData = data.result; // get jason data

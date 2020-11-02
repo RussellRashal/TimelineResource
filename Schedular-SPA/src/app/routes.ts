@@ -35,7 +35,8 @@ export const appRoutes: Routes = [
     },
     {
         path: 'viewTasks',
-        component: ViewTasksComponent, canActivate: [AuthGuard]
+        component: ViewTasksComponent, canActivate: [AuthGuard],
+        resolve: { UserMemberModel: UserLoaderResolver }
     },
     {
         path: 'register',
