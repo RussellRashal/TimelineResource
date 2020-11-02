@@ -19,6 +19,7 @@ namespace Schedular.API.Data
       Task<bool> SaveAll();
       //get an individual taskSchedule if its true or false the the task is closed
       Task<PagedList<TaskSchedule>> GetOpenCloseTasksByUser(int userId, bool isclosed, TaskParams taskParams);
+      Task<PagedList<TaskSchedule>> GetHighPriorityOpenCloseTasksByUser(int userId, bool isClosed, bool isHighPriority, TaskParams taskParams);
 
       //get an individual taskSchedule 
       Task<PagedList<TaskSchedule>> GetTaskSchedulesByUser(int id, TaskParams taskParams);

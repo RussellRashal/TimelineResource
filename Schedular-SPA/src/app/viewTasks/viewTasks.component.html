@@ -6,16 +6,26 @@
   </div>
   <mat-drawer-container  class="example-container">
       <mat-drawer mode="side" opened>
-          <app-sidebar (UserButtonClick)="changeUserTasks($event)"></app-sidebar>
+        <div class="mr-2">
+          <app-sidebar (UserButtonClick)="changeUserTasks($event)" ></app-sidebar>
+        </div>
       </mat-drawer>
       <mat-drawer-content>
 
             <div>
-              <div class="mb-4">
-                <button class="btn btn-info ml-1" (click)="openClosebutton(false)" [disabled]="openButtonToggle">Open tasks</button>
-                <button class="btn btn-info ml-1" (click)="openClosebutton(true)" [disabled]="closeButtonToggle">closed tasks</button>
-                <button class="btn btn-info ml-1" (click)="allTaskButton()" [disabled]="allButtonToggle">All tasks</button>  
+              <div class="mb-4">              
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                  <mat-button-toggle value="bold" (click)="openClosebutton(false)">Open tasks</mat-button-toggle>
+                  <mat-button-toggle value="italic" (click)="openClosebutton(true)">closed tasks</mat-button-toggle>
+                  <mat-button-toggle value="underline" (click)="allTaskButton()">All tasks</mat-button-toggle>
+                  <mat-button-toggle value="underline">High Open</mat-button-toggle>
+                  <mat-button-toggle value="underline">High Closed</mat-button-toggle>
+                  <mat-button-toggle value="underline">Normal Open</mat-button-toggle>
+                  <mat-button-toggle value="underline">Normal Closed</mat-button-toggle>
+                </mat-button-toggle-group>
               </div>
+
+
 
               <label>{{this.selectedbutton}}</label>
               <button class="float-right btn btn-primary" (click)="openDialogAddTask()">Add Task</button>
@@ -31,7 +41,8 @@
                       <th style=" width: 50%">Title</th>
                       <th style=" width: 15%">Start Date & Time</th>
                       <th style=" width: 15%">End Date & Time</th>
-                      <th style=" width: 10%">Task status</th>
+                      <th style=" width: 5%">Priority</th>
+                      <th style=" width: 5%">Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -43,29 +54,39 @@
                         <td>
                           {{taskSchedule.title}}
                         </td>
-                          <td *ngIf="taskSchedule.start !== null">
-                              {{taskSchedule.start.slice(8, 10)}}/  
-                              {{taskSchedule.start.slice(5, 7)}}/
-                              {{taskSchedule.start.slice(0, 4)}}        
-                              {{taskSchedule.start.slice(11, 16)}}    
-                          <td *ngIf="taskSchedule.end !== null">
-                              {{taskSchedule.end.slice(8, 10)}}/
-                              {{taskSchedule.end.slice(5, 7)}}/
-                              {{taskSchedule.end.slice(0, 4)}} 
-                              {{taskSchedule.end.slice(11, 16)}}
-                          </td>
-                          <td *ngIf="taskSchedule.start === null">
-                          </td>
-                          <td *ngIf="taskSchedule.end === null">
-                          </td>      
-                          <td>
-                            <p *ngIf="taskSchedule.isClosed === false">
-                              Open
+                        <td *ngIf="taskSchedule.start !== null">
+                            {{taskSchedule.start.slice(8, 10)}}/  
+                            {{taskSchedule.start.slice(5, 7)}}/
+                            {{taskSchedule.start.slice(0, 4)}}        
+                            {{taskSchedule.start.slice(11, 16)}}    
+                        <td *ngIf="taskSchedule.end !== null">
+                            {{taskSchedule.end.slice(8, 10)}}/
+                            {{taskSchedule.end.slice(5, 7)}}/
+                            {{taskSchedule.end.slice(0, 4)}} 
+                            {{taskSchedule.end.slice(11, 16)}}
+                        </td>
+                        <td *ngIf="taskSchedule.start === null">
+                        </td>
+                        <td *ngIf="taskSchedule.end === null">
+                        </td> 
+                        <td>
+                          <p *ngIf="taskSchedule.highPriority === false">
+                            Normal
+                          </p>
+                          <div *ngIf="taskSchedule.highPriority === true" class="bg-danger text-white">
+                            <p class="ml-2">
+                              High
                             </p>
-                            <p *ngIf="taskSchedule.isClosed === true">
-                              Closed
-                            </p>
-                          </td>            
+                          </div>                          
+                        </td>     
+                        <td>
+                          <p *ngIf="taskSchedule.isClosed === false">
+                            Open
+                          </p>
+                          <p *ngIf="taskSchedule.isClosed === true">
+                            Closed
+                          </p>
+                        </td>            
                       </tr>
                 
                 

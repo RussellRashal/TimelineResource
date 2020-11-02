@@ -28,6 +28,7 @@ import { TimePickerComponent } from './timePicker/timePicker.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 // other angular components
 import { RouterModule } from '@angular/router';
@@ -105,7 +106,7 @@ export function tokengetter() {
     CommonModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatButtonModule,
+    MatButtonToggleModule,
     FormsModule,
     CommonModule,
     BrowserAnimationsModule,

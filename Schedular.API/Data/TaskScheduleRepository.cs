@@ -105,8 +105,63 @@ namespace Schedular.API.Data
                 return await PagedList<TaskSchedule>
                     .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
             }                             
-
         }
+
+        
+        //get users tasks
+        public async Task<PagedList<TaskSchedule>> GetHighPriorityOpenCloseTasksByUser(int userId, bool isClosed, bool isHighPriority, TaskParams taskParams)
+        {
+            if(isClosed == false && isHighPriority == true) //open high priority
+            {
+                var query = _context.TaskSchedules
+                    .Where(u => u.userCurrentAssignedId == userId)
+                    .Where(c => c.isClosed == false)
+                    .Where(h => h.highPriority == true)
+                    .AsNoTracking();
+
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
+            }
+            else if(isClosed == true && isHighPriority == true) //closed high priority
+            {
+                var query = _context.TaskSchedules
+                    .Where(u => u.userCurrentAssignedId == userId)
+                    .Where(c =>c.isClosed == true)
+                    .Where(h => h.highPriority == true) 
+                    .AsNoTracking();
+                
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
+            } 
+            else if(isClosed == false && isHighPriority == false) //open normal priority
+            {
+                var query = _context.TaskSchedules
+                    .Where(u => u.userCurrentAssignedId == userId)
+                    .Where(c =>c.isClosed == false)
+                    .Where(h => h.highPriority == false) 
+                    .AsNoTracking();
+                
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
+            } 
+            else // closed normal priority 
+            {
+               var query = _context.TaskSchedules
+                    .Where(u => u.userCurrentAssignedId == userId)
+                    .Where(c =>c.isClosed == true)
+                    .Where(h => h.highPriority == false) 
+                    .AsNoTracking();
+                
+                //gets sent to the pagination methods to be paginated 
+                return await PagedList<TaskSchedule>
+                    .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
+            }                              
+        }
+
+        
         //get users with notes test 
         public async Task<PagedList<TaskSchedule>> GetTaskSchedulesByUser(int UserCurrentAssignedId, TaskParams taskParams)
         {

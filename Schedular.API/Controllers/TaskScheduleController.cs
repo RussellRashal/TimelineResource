@@ -122,6 +122,28 @@ namespace Schedular.API.Controllers
                 return Unauthorized();
             }  
         }
+
+        //get either high priority open or closed tasks
+        [HttpGet("byUserOpenCloseTasks/{userId}/{isClosed}/{isHighPriority}")]
+        public async Task<IActionResult> GetHighPriorityOpenCloseTasksByUser(int userId, bool isClosed, bool isHighPriority, [FromQuery]TaskParams taskParams)
+        {
+            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
+
+            if (userId == tokenUserId || User.IsInRole("Admin")) {
+                var taskSchedule = await _repo.GetHighPriorityOpenCloseTasksByUser(userId, isHighPriority, isClosed, taskParams);
+                var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+
+                //add the pagination information in the response header
+                Response.AddPagination(taskSchedule.CurrentPage, taskSchedule.PageSize,
+                    taskSchedule.TotalCount, taskSchedule.TotalPages);
+
+                return Ok(taskReturn); 
+            }            
+            else {     
+                return Unauthorized();
+            }  
+        }
+
         //get the tasks worked in the hours selected
         [HttpGet("tasksWithinHours/{userId}/{startDate}/{endDate}")]
         public async Task<IActionResult> GetTasksWithinHoursWorked(int userId, DateTime startDate, DateTime endDate, [FromQuery]TaskParams taskParams)

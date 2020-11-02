@@ -12,7 +12,9 @@
     <div *ngIf="loggedIn()">
         <mat-drawer-container  class="example-container">
             <mat-drawer mode="side" opened>
-                <app-sidebar (UserButtonClick)="runCalendarData($event)"></app-sidebar>
+                <div class="mr-2">
+                    <app-sidebar (UserButtonClick)="runCalendarData($event)"></app-sidebar>
+                </div>
             </mat-drawer>
             <mat-drawer-content>
                 <full-calendar [options]="calendarOptions"></full-calendar>

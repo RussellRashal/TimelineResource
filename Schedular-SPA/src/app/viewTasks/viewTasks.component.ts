@@ -35,9 +35,6 @@ export class ViewTasksComponent implements OnInit {
   pageNumber = 1;
   pageSize = 10;
 
-  allButtonToggle: boolean;
-  openButtonToggle: boolean;
-  closeButtonToggle: boolean;
 
   constructor(
     private taskScheduleService: TaskScheduleService,
@@ -60,10 +57,6 @@ export class ViewTasksComponent implements OnInit {
   changeUserTasks(CurrentUser) {
     this.currentUser = CurrentUser;
     this.selectedFullName = this.currentUser.firstName + ' ' + this.currentUser.lastName;
-    // button disable toggle
-    this.allButtonToggle = false;
-    this.openButtonToggle = true;
-    this.closeButtonToggle = false;
     this.openCloseTasks(false);
   }
 
@@ -72,28 +65,16 @@ export class ViewTasksComponent implements OnInit {
 
     if (isClosed === false) {
       this.selectedbutton = 'Open Tasks';
-      // button disable toggle
-      this.allButtonToggle = false;
-      this.openButtonToggle = true;
-      this.closeButtonToggle = false;
       this.openCloseTasks(isClosed);
     } else {
       this.selectedbutton = 'Closed Tasks';
-      // button disable toggle
-      this.allButtonToggle = false;
-      this.openButtonToggle = false;
-      this.closeButtonToggle = true;
       this.openCloseTasks(isClosed);
     }
   }
 
+
   allTaskButton() {
     this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
-    // button disable toggle
-    this.allButtonToggle = true;
-    this.openButtonToggle = false;
-    this.closeButtonToggle = false;
-
     this.allTasks();
   }
 
@@ -177,4 +158,5 @@ export class ViewTasksComponent implements OnInit {
     const token = localStorage.removeItem('token');
     console.log('logged out');
   }
+
 }
