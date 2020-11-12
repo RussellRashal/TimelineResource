@@ -182,10 +182,10 @@ export class ViewTasksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       switch (this.selectedbutton) {
         case 'Open Tasks':
-          this.openCloseTasks(true);
+          this.openCloseTasks(false);
           break;
         case 'Closed Tasks':
-          this.openCloseTasks(false);
+          this.openCloseTasks(true);
           break;
         case 'High Open Tasks':
           this.priorityOpenCloseTasks(false, true);
