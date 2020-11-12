@@ -70,6 +70,26 @@ export class TaskScheduleService {
       );
   }
 
+  GetHighPriorityOpenCloseTasksByUser(id: number, isClosed: boolean, highPriority: boolean, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUserHighOpenCloseTasks/' + id + '/'
+      + isClosed + '/' + highPriority, {observe: 'response', params}).pipe(
+        map(response => {
+          this.paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return this.paginatedResult;
+        })
+      );
+  }
+
   putTaskSchedule(id, taskSchedule) {
     return this.http.put(this.baseUrl + '/' + id, taskSchedule);
     // return taskSchedule;

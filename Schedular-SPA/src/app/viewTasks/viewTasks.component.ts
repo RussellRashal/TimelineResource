@@ -27,13 +27,12 @@ export class ViewTasksComponent implements OnInit {
   currentStartTimeDate;
   currentEndTimeDate;
   currentUserId;
-  openCloseValue: boolean;
   searchTask: FormControl;
   selectedFullName;
-
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 10;
+
 
 
   constructor(
@@ -49,37 +48,71 @@ export class ViewTasksComponent implements OnInit {
 
   ngOnInit() {
     this.isDataAvailable = false;
-    this.openCloseValue = false;
     this.searchTask = new FormControl();
     this.selectedbutton = 'Open Tasks';
   }
 
   changeUserTasks(CurrentUser) {
     this.currentUser = CurrentUser;
+    this.isDataAvailable = false;
     this.selectedFullName = this.currentUser.firstName + ' ' + this.currentUser.lastName;
+    this.openTaskButton();
+  }
+
+  openTaskButton() {
+    this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+    this.selectedbutton = 'Open Tasks';
     this.openCloseTasks(false);
   }
 
-  openClosebutton(isClosed: boolean) {
+  closeTaskButton() {
     this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
-
-    if (isClosed === false) {
-      this.selectedbutton = 'Open Tasks';
-      this.openCloseTasks(isClosed);
-    } else {
-      this.selectedbutton = 'Closed Tasks';
-      this.openCloseTasks(isClosed);
-    }
+    this.selectedbutton = 'Closed Tasks';
+    this.openCloseTasks(true);
   }
-
 
   allTaskButton() {
     this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+    this.selectedbutton = 'All Tasks';
     this.allTasks();
   }
 
+  highOpenTaskButton() {
+    this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+    this.selectedbutton = 'High Open Tasks';
+    this.priorityOpenCloseTasks(false, true);
+  }
+
+  highCloseTaskButton() {
+    this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+    this.selectedbutton = 'High Closed Tasks';
+    this.priorityOpenCloseTasks(true, true);
+  }
+
+  normalOpenTaskButton() {
+    this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+    this.selectedbutton = 'Normal Open Tasks';
+    this.priorityOpenCloseTasks(false, false);
+  }
+
+  normalCloseTaskButton() {
+    this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
+    this.selectedbutton = 'Normal Closed Tasks';
+    this.priorityOpenCloseTasks(true, false);
+  }
+
+
+  priorityOpenCloseTasks(isClosed: boolean, HighPriority: boolean) {
+    this.taskScheduleService.GetHighPriorityOpenCloseTasksByUser
+      (this.currentUser.id, isClosed, HighPriority, this.pageNumber, this.pageSize)
+    .subscribe((data) => {
+      this.taskScheduleData = data.result; // get jason data
+      this.pagination = data.pagination;   // get pagination data
+      this.isDataAvailable = true;
+    });
+  }
+
   openCloseTasks(isClosed: boolean) {
-      this.openCloseValue = isClosed;
       this.taskScheduleService.getTaskScheduleOpenCloseByUserId
         (this.currentUser.id, isClosed, this.pageNumber, this.pageSize)
       .subscribe((data) => {
@@ -87,6 +120,16 @@ export class ViewTasksComponent implements OnInit {
         this.pagination = data.pagination;   // get pagination data
         this.isDataAvailable = true;
       });
+  }
+
+  allTasks()  {
+    this.selectedbutton = 'All Tasks';
+    this.taskScheduleService.getTaskScheduleByUserId(this.currentUser.id, this.pageNumber, this.pageSize)
+    .subscribe((data) => {
+      this.taskScheduleData = data.result; // get jason data
+      this.pagination = data.pagination;   // get pagination data
+      this.isDataAvailable = true;
+    });
   }
 
   openDialogAddTask() {
@@ -102,24 +145,33 @@ export class ViewTasksComponent implements OnInit {
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
-    if (this.selectedbutton === 'Open Tasks' || this.selectedbutton === 'Closed Tasks') {
-      this.openCloseTasks(this.openCloseValue);
-    }
-    else {
-      this.allTasks();
-    }
 
+    switch (this.selectedbutton) {
+      case 'Open Tasks':
+        this.openCloseTasks(false);
+        break;
+      case 'Closed Tasks':
+        this.openCloseTasks(true);
+        break;
+      case 'High Open Tasks':
+        this.priorityOpenCloseTasks(false, true);
+        break;
+      case 'High Closed Tasks':
+        this.priorityOpenCloseTasks(true, true);
+        break;
+      case 'Normal Open Tasks':
+        this.priorityOpenCloseTasks(false, false);
+        break;
+      case 'Normal Closed Tasks':
+        this.priorityOpenCloseTasks(true, false);
+        break;
+      default:
+        this.allTasks();
+        break;
+    }
   }
 
-  allTasks()  {
-    this.selectedbutton = 'All Tasks';
-    this.taskScheduleService.getTaskScheduleByUserId(this.currentUser.id, this.pageNumber, this.pageSize)
-    .subscribe((data) => {
-      this.taskScheduleData = data.result; // get jason data
-      this.pagination = data.pagination;   // get pagination data
-      this.isDataAvailable = true;
-    });
-  }
+
 
   updateDialog(taskId) {
     this.stateStorageService.setTaskId(taskId);
@@ -128,11 +180,28 @@ export class ViewTasksComponent implements OnInit {
       height: '90%'
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (this.selectedbutton === 'All Tasks') {
-        this.allTasks();
-      }
-      else {
-        this.openCloseTasks(this.openCloseValue);
+      switch (this.selectedbutton) {
+        case 'Open Tasks':
+          this.openCloseTasks(true);
+          break;
+        case 'Closed Tasks':
+          this.openCloseTasks(false);
+          break;
+        case 'High Open Tasks':
+          this.priorityOpenCloseTasks(false, true);
+          break;
+        case 'High Closed Tasks':
+          this.priorityOpenCloseTasks(true, true);
+          break;
+        case 'Normal Open Tasks':
+          this.priorityOpenCloseTasks(false, false);
+          break;
+        case 'Normal Closed Tasks':
+          this.priorityOpenCloseTasks(true, false);
+          break;
+        default:
+          this.allTasks();
+          break;
       }
     });
   }
@@ -144,7 +213,29 @@ export class ViewTasksComponent implements OnInit {
       height: '60%'
     });
     dialogRef.afterClosed().subscribe(result => {
-       this.openCloseTasks(this.openCloseValue);
+      switch (this.selectedbutton) {
+        case 'Open Tasks':
+          this.openCloseTasks(true);
+          break;
+        case 'Closed Tasks':
+          this.openCloseTasks(false);
+          break;
+        case 'High Open Tasks':
+          this.priorityOpenCloseTasks(false, true);
+          break;
+        case 'High Closed Tasks':
+          this.priorityOpenCloseTasks(true, true);
+          break;
+        case 'Normal Open Tasks':
+          this.priorityOpenCloseTasks(false, false);
+          break;
+        case 'Normal Closed Tasks':
+          this.priorityOpenCloseTasks(true, false);
+          break;
+        default:
+          this.allTasks();
+          break;
+      }
     });
   }
 

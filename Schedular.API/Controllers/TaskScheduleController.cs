@@ -59,10 +59,8 @@ namespace Schedular.API.Controllers
             {
                 return Ok(taskschedule);
             }
-            else
-            {
-                return BadRequest();
-            }
+            return BadRequest();
+
         }
 
         //hours worked calculation
@@ -76,10 +74,7 @@ namespace Schedular.API.Controllers
             else if (User.IsInRole("Admin")) {
                 return await GetHoursWorkedM(id, startDate, endDate);
             }
-            else {     
-                return Unauthorized();
-            }  
-            
+            return Unauthorized();
         }
         [HttpGet("byUser/{userId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
@@ -98,9 +93,7 @@ namespace Schedular.API.Controllers
                     taskSchedule.TotalCount, taskSchedule.TotalPages);
                 return Ok(taskReturn);
             }
-            else {     
-                return Unauthorized();
-            }             
+            return Unauthorized();                   
         }
         //get either open or closed tasks
         [HttpGet("byUserOpenCloseTasks/{userId}/{isClosed}")]
@@ -117,20 +110,19 @@ namespace Schedular.API.Controllers
                     taskSchedule.TotalCount, taskSchedule.TotalPages);
 
                 return Ok(taskReturn); 
-            }            
-            else {     
-                return Unauthorized();
-            }  
+            }    
+            return Unauthorized();
+
         }
 
         //get either high priority open or closed tasks
-        [HttpGet("byUserOpenCloseTasks/{userId}/{isClosed}/{isHighPriority}")]
-        public async Task<IActionResult> GetHighPriorityOpenCloseTasksByUser(int userId, bool isClosed, bool isHighPriority, [FromQuery]TaskParams taskParams)
+        [HttpGet("byUserHighOpenCloseTasks/{userId}/{isClosed}/{HighPriority}")]
+        public async Task<IActionResult> GetHighPriorityOpenCloseTasksByUser(int userId, bool isClosed, bool HighPriority, [FromQuery]TaskParams taskParams)
         {
             int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
 
             if (userId == tokenUserId || User.IsInRole("Admin")) {
-                var taskSchedule = await _repo.GetHighPriorityOpenCloseTasksByUser(userId, isHighPriority, isClosed, taskParams);
+                var taskSchedule = await _repo.GetHighPriorityOpenCloseTasksByUser(userId, isClosed, HighPriority, taskParams);
                 var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
 
                 //add the pagination information in the response header
@@ -138,10 +130,8 @@ namespace Schedular.API.Controllers
                     taskSchedule.TotalCount, taskSchedule.TotalPages);
 
                 return Ok(taskReturn); 
-            }            
-            else {     
-                return Unauthorized();
-            }  
+            }    
+            return Unauthorized();  
         }
 
         //get the tasks worked in the hours selected
@@ -158,17 +148,14 @@ namespace Schedular.API.Controllers
                     tasksWorkedWithinHours.TotalCount, tasksWorkedWithinHours.TotalPages);  
 
                 return Ok(tasksWorkedWithinHours);      
-            }
-            else {     
-                return Unauthorized();
-            }         
+            }     
+            return Unauthorized();       
         }   
 
         [HttpPost("task")]        
         public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule)
         {
             int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
- 
 
             DateTime thisDay = DateTime.Now;
             string NowDate =  thisDay.ToString("g");
@@ -178,11 +165,7 @@ namespace Schedular.API.Controllers
             if(taskSchedule.Notes != null) {
                 taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
                 taskSchedule.Notes[0].UserId = tokenUserId;
-            }
-
-            if(taskSchedule.Attachments != null) {
-                
-            }      
+            }     
             
             if(taskSchedule.Start > taskSchedule.End) {
                 return BadRequest("start time is not less than end time");  
@@ -221,9 +204,8 @@ namespace Schedular.API.Controllers
                 _repo.Delete(id);
                  return Ok();
             }
-            else {
-                return BadRequest("Unauthorised");
-            }           
+            return BadRequest("Unauthorised");
+                     
         }
 
         //tasks worked within hours method 
@@ -249,9 +231,7 @@ namespace Schedular.API.Controllers
                 TaskSchedule taskSchedulePut = _repo.Update(id, taskSchedule);
                 return taskSchedulePut;    
             }
-            else {
-                return BadRequest("start time is not less than end time");  
-            }      
+            return BadRequest("start time is not less than end time");                 
         }   
     }    
 }

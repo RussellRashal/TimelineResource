@@ -109,9 +109,9 @@ namespace Schedular.API.Data
 
         
         //get users tasks
-        public async Task<PagedList<TaskSchedule>> GetHighPriorityOpenCloseTasksByUser(int userId, bool isClosed, bool isHighPriority, TaskParams taskParams)
+        public async Task<PagedList<TaskSchedule>> GetHighPriorityOpenCloseTasksByUser(int userId, bool isClosed, bool HighPriority, TaskParams taskParams)
         {
-            if(isClosed == false && isHighPriority == true) //open high priority
+            if(isClosed == false && HighPriority == true) //open high priority
             {
                 var query = _context.TaskSchedules
                     .Where(u => u.userCurrentAssignedId == userId)
@@ -123,7 +123,7 @@ namespace Schedular.API.Data
                 return await PagedList<TaskSchedule>
                     .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
             }
-            else if(isClosed == true && isHighPriority == true) //closed high priority
+            else if(isClosed == true && HighPriority == true) //closed high priority
             {
                 var query = _context.TaskSchedules
                     .Where(u => u.userCurrentAssignedId == userId)
@@ -135,7 +135,7 @@ namespace Schedular.API.Data
                 return await PagedList<TaskSchedule>
                     .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
             } 
-            else if(isClosed == false && isHighPriority == false) //open normal priority
+            else if(isClosed == false && HighPriority == false) //open normal priority
             {
                 var query = _context.TaskSchedules
                     .Where(u => u.userCurrentAssignedId == userId)
