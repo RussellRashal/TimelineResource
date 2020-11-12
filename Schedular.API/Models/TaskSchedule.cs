@@ -12,12 +12,12 @@ namespace Schedular.API.Models
         public DateTime? End { get; set; }
         public bool isClosed { get; set; }
         public bool highPriority { get; set; }
-        public bool hasTimeLimit { get; set; }
+        public bool hasTimeLimit { get; set; }       
+        public int? CustomerId { get; set; }
         public List<Note> Notes { get; set; }
         public List<AttachmentFile> Attachments { get; set; }  
 
         //user currently assigned to the task 
-
         public int userCurrentAssignedId { get; set; } 
         [ForeignKey("userCurrentAssignedId")]
         public User userCurrentAssigned { get; set; }

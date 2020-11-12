@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Schedular.API.Data;
 
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201112192538_cusotmerIDTaskScheduleTbl")]
+    partial class cusotmerIDTaskScheduleTbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,6 +242,8 @@ namespace Schedular.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("userCurrentAssignedId");
 
                     b.HasIndex("userLastEditId");
@@ -407,6 +411,10 @@ namespace Schedular.API.Migrations
 
             modelBuilder.Entity("Schedular.API.Models.TaskSchedule", b =>
                 {
+                    b.HasOne("Schedular.API.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+
                     b.HasOne("Schedular.API.Models.User", "userCurrentAssigned")
                         .WithMany()
                         .HasForeignKey("userCurrentAssignedId")

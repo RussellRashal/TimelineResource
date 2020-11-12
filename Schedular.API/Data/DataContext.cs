@@ -15,6 +15,7 @@ namespace Schedular.API.Data
         public DbSet<TaskSchedule> TaskSchedules { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
          protected override void OnModelCreating(ModelBuilder builder)
         {

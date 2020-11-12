@@ -9,7 +9,8 @@ using Schedular.API.Models;
 
 namespace Schedular.API.Controllers
 {
-    [AllowAnonymous]
+    [Authorize]
+    //[AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController] 
     public class NotesController: ControllerBase
@@ -35,8 +36,7 @@ namespace Schedular.API.Controllers
 
             if(await _repo.SaveAll())
                 return Ok();   
-            return BadRequest("Failed to save Notes");  
-
+            return BadRequest("Failed to save Notes"); 
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSchedule(int id, [FromBody] Note note)
