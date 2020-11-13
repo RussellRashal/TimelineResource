@@ -73,7 +73,17 @@
                   </option>
                 </select> 
             </div>
-          </div>    
+          </div>
+          
+          <div>
+            <label>{{customerType}}</label>
+            <select class="ml-2" formControlName="customer">
+              <option *ngFor="let customer of customers"
+                [value]="customer.id"> 
+                  {{customer.name}}
+              </option>      
+          </select>
+          </div>
 
           <div>
             <label class="mr-1">High Priority</label>

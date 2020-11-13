@@ -20,5 +20,4 @@ export class CustomerComponent implements OnInit {
       console.log(error);
     });
   }
-
 }

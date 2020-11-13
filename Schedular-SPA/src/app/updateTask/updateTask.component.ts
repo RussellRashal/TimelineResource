@@ -1,3 +1,4 @@
+import { Calendar } from '@fullcalendar/angular';
 import { AttachmentService } from './../_services/attachment.service';
 import { AttachmentComponent } from './../Attachment/Attachment.component';
 import { Note } from './../_models/note';
@@ -5,13 +6,19 @@ import { NoteService } from './../_services/note.service';
 import { element } from 'protractor';
 import { UserMemberModel } from './../_models/UserMemberModel';
 import { TaskSchedule } from '../_models/taskSchedule';
-import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { Component, OnInit, Inject, Optional, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { TaskScheduleService } from '../_services/taskSchedule.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CustomerService } from '../_services/customer.service';
+import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-update-task',
@@ -60,10 +67,13 @@ export class UpdateTaskComponent implements OnInit {
   hourSelectors: string[] = [];
   minuteSelectors: string[] = [];
   attachmentArray;
+  customers;
+  customerType: string = environment.customerType;
 
   constructor(
     private router: Router,
     private stateStorageService: StateStorageService,
+    private customerService: CustomerService,
     private datePipe: DatePipe,
     private taskScheduleService: TaskScheduleService,
     private attachmentService: AttachmentService,
@@ -77,7 +87,18 @@ export class UpdateTaskComponent implements OnInit {
     this.isDataAvailable = false;
     this.taskId = this.stateStorageService.getTaskId();
     this.userMemberModels = this.stateStorageService.getUserMemberStorage();
+
+    this.customerService.getCustomers().subscribe((data) => {
+      this.customers = data;
+      console.log(this.customers);
+    }, error => {
+      console.log(error);
+    });
+    console.log('below');
+    console.log(this.customerType);
+
     this.displayTasks();
+
 
   }
 
@@ -110,7 +131,6 @@ export class UpdateTaskComponent implements OnInit {
       this.initForm();
       this.userLastEdit();
 
-
       console.log('success');
       }, error => {
         console.log(error);
@@ -134,8 +154,11 @@ export class UpdateTaskComponent implements OnInit {
       newNote: new FormControl(),
       isClosed: new FormControl(this.taskScheduleData.isClosed),
       hasTimeLimit: new FormControl(this.taskScheduleData.hasTimeLimit),
-      highPriority: new FormControl(this.taskScheduleData.highPriority)
+      highPriority: new FormControl(this.taskScheduleData.highPriority),
+      customer: new FormControl(this.taskScheduleData.customerId)
     });
+
+
   }
 
   // convert date into a usable format for the datepicker in the template
@@ -221,7 +244,8 @@ export class UpdateTaskComponent implements OnInit {
           userCurrentAssignedId: Number(this.profileForm.value.userName),
           isClosed: this.profileForm.value.isClosed,
           hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
-          highPriority: Boolean(this.profileForm.value.highPriority)
+          highPriority: Boolean(this.profileForm.value.highPriority),
+          CustomerId: this.profileForm.value.customer
         };
         this.putData(this.taskScheduleData.id, this.putServiceTaskSchedule);
       }
@@ -238,7 +262,8 @@ export class UpdateTaskComponent implements OnInit {
         userCurrentAssignedId: Number(this.profileForm.value.userName),
         isClosed: this.profileForm.value.isClosed,
         hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
-        highPriority: Boolean(this.profileForm.value.highPriority)
+        highPriority: Boolean(this.profileForm.value.highPriority),
+        CustomerId: this.profileForm.value.customer
       };
       this.putData(this.taskScheduleData.id, this.putServiceTaskSchedule);
     }
