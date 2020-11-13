@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Schedular.API.Models;
 
 namespace Schedular.API.Data
 {
@@ -14,6 +18,23 @@ namespace Schedular.API.Data
         {
             _context.Add(entity);
         }
+
+        public async Task<IList<Customer>> GetCustomer(int id)
+        {    
+            var customer = await _context.Customers
+                .Where(u => u.Id == id)
+                .ToListAsync();
+                
+            return customer;  
+        }  
+
+        public async Task<IList<Customer>> GetCustomers()
+        {    
+            var customers = await _context.Customers
+                .ToListAsync();
+                
+            return customers;  
+        }  
 
         public async Task<bool> SaveAll()
         {

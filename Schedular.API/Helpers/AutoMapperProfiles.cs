@@ -17,6 +17,7 @@ namespace Schedular.API.Helpers
             CreateMap<Task<IEnumerable<TaskSchedule>>, getTaskScheduleDto>();
             CreateMap<Note, noteDto>();
             CreateMap<IAttachmentFileRepository, AttachmentFileRepository>();
+            CreateMap<Customer, customerDto>();
         }
     }
 }
