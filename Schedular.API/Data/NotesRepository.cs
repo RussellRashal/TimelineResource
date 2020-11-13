@@ -31,8 +31,6 @@ namespace Schedular.API.Data
 
             _context.SaveChanges();
 
-            //return NoteDb;
-
         } 
 
         // Delete data

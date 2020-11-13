@@ -63,6 +63,8 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUserPassword.component';
 import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccount.component';
 import { SidebarNavigationComponent } from './sidebar-navigation/sidebar-navigation.component';
+import { CustomerComponent } from './customer/customer.component';
+import { CustomerComponent } from './Customer/Customer.component';
 
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
@@ -76,7 +78,7 @@ export function tokengetter() {
 }
 
 @NgModule({
-  declarations: [
+  declarations: [		
     AppComponent,
     NavigationBarComponent,
     CalendarViewComponent,
@@ -100,7 +102,9 @@ export function tokengetter() {
       ViewTasksComponent,
       AttachmentComponent,
       AttachmentComponent,
-      SidebarNavigationComponent
+      SidebarNavigationComponent,
+      CustomerComponent,
+      CustomerComponent
    ],
   imports: [
     CommonModule,

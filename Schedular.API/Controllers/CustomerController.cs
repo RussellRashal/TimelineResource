@@ -58,5 +58,19 @@ namespace Schedular.API.Controllers
             return BadRequest("Failed to save Notes");  
         }
 
+        [HttpPut("{id}")]
+        public IActionResult PutCustomer(int id, [FromBody] Customer customer)
+        { 
+            _repo.Update(id, customer);
+            return Ok();  
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCustomer(int id)
+        {
+            _repo.Delete(id);
+            return Ok();
+        }
+
     }
 }

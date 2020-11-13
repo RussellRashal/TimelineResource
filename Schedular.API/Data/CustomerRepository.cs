@@ -36,6 +36,26 @@ namespace Schedular.API.Data
             return customers;  
         }  
 
+         // update customers
+        public void Update(int Id, Customer customer) 
+        {
+            var CustomersDb =  _context.Customers.SingleOrDefault(s => s.Id == Id);
+
+            CustomersDb.Name = customer.Name;
+            CustomersDb.Address = customer.Address;
+            CustomersDb.AdditionalInfo = customer.AdditionalInfo;
+
+            _context.SaveChanges();
+        } 
+
+        // Delete data
+        public void Delete(int id)
+        {
+            _context.Customers.Remove(_context.Customers
+                .FirstOrDefault(t => t.Id == id));
+            _context.SaveChanges();        
+        }
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
