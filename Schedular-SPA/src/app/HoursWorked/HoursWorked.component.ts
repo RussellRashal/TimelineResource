@@ -79,7 +79,7 @@ export class HoursWorkedComponent implements OnInit {
     this.hoursWorkedService.GetTasksWithinHoursWorked(
       this.profileForm.value.userId,
       this.profileForm.value.startDate,
-      this.profileForm.value.endDate, 
+      this.profileForm.value.endDate,
       this.pageNumber, this.pageSize
     ).subscribe((data) => {
       this.tasksFromHoursWorkeds = data.result; // get jason data

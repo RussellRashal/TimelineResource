@@ -24,6 +24,11 @@ export class CustomerService {
     return this.http.post<any>(this.baseUrl, customer);
   }
 
+  putCustomer(id, customer) {
+    return this.http.put<any>(this.baseUrl + id, customer);
+  }
 
-
+  deleteCustomer(id) {
+    return this.http.delete(this.baseUrl + id);
+  }
 }

@@ -17,12 +17,7 @@ export class AttachmentService {
     const blob = new Blob([fileName]);
     const url = this.baseUrl + 'download/' + taskId + '/' + fileName;
     window.open(url);
-
   }
-
-  // deleteAttachment(download: any) {
-  //   this.http.delete(this.baseUrl + 'delete', download);
-  // }
 
   deleteAttachment(attachment): Observable<any> {
     return this.http.post<any>(this.baseUrl + 'delete', attachment);

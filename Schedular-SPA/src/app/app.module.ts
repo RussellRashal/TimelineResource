@@ -64,7 +64,7 @@ import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUs
 import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccount.component';
 import { SidebarNavigationComponent } from './sidebar-navigation/sidebar-navigation.component';
 import { CustomerComponent } from './customer/customer.component';
-import { CustomerComponent } from './Customer/Customer.component';
+import { CustomerService } from './_services/customer.service';
 
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
@@ -78,7 +78,7 @@ export function tokengetter() {
 }
 
 @NgModule({
-  declarations: [		
+  declarations: [
     AppComponent,
     NavigationBarComponent,
     CalendarViewComponent,
@@ -89,6 +89,7 @@ export function tokengetter() {
     TimePickerComponent,
     HoursWorkedComponent,
     UpdateTaskComponent,
+    CustomerComponent,
     LoginPageComponent,
     UnlockAccountComponent,
     RegisterComponent,
@@ -99,12 +100,12 @@ export function tokengetter() {
     StandardUserPasswordComponent,
     AdminConsoleNavComponent,
     PasswordResetComponent,
-      ViewTasksComponent,
-      AttachmentComponent,
-      AttachmentComponent,
-      SidebarNavigationComponent,
-      CustomerComponent,
-      CustomerComponent
+    ViewTasksComponent,
+    AttachmentComponent,
+    AttachmentComponent,
+    SidebarNavigationComponent,
+    CustomerComponent,
+    CustomerComponent
    ],
   imports: [
     CommonModule,
