@@ -31,9 +31,9 @@ namespace Schedular.API.Controllers
         public async Task<IActionResult> GetCustomers()
         {         
             var customers = await _repo.GetCustomers();
-            var customersReturn = _mapper.Map<IEnumerable<customerDto>>(customers);
+            //var customersReturn = _mapper.Map<IEnumerable<customerDto>>(customers);
 
-            return Ok(customersReturn);
+            return Ok(customers);
         }
 
         [HttpGet("{id}")]

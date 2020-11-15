@@ -1,3 +1,4 @@
+import { CustomerComponent } from './CustomerFolder/Customer/Customer.component';
 import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccount.component';
 import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUserPassword.component';
 import { AttachmentComponent } from './Attachment/Attachment.component';
@@ -16,7 +17,6 @@ import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { LoginPageComponent } from './loginPage/loginPage.component';
 import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordReset.component';
 import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccount/enableDisableAccount.component';
-import { CustomerComponent } from './customer/customer.component';
 
 export const appRoutes: Routes = [
     {

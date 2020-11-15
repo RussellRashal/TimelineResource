@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from './../_services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sidebar-navigation',
@@ -10,6 +11,8 @@ import { AuthService } from './../_services/auth.service';
   styleUrls: ['./sidebar-navigation.component.css']
 })
 export class SidebarNavigationComponent {
+  customerType: string = environment.customerType;
+
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -21,7 +24,7 @@ export class SidebarNavigationComponent {
 
 
    // has the user logged in
-   loggedIn() {
+  loggedIn() {
     return this.authService.loggedIn();
   }
 

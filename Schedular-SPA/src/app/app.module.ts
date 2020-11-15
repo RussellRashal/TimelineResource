@@ -1,3 +1,4 @@
+import { CustomerComponent } from './CustomerFolder/Customer/Customer.component';
 import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccount/enableDisableAccount.component';
 import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordReset.component';
 import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
@@ -63,8 +64,9 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUserPassword.component';
 import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccount.component';
 import { SidebarNavigationComponent } from './sidebar-navigation/sidebar-navigation.component';
-import { CustomerComponent } from './customer/customer.component';
-import { CustomerService } from './_services/customer.service';
+import { EditCustomerComponent } from './CustomerFolder/editCustomer/editCustomer.component';
+import { AddCustomerComponent } from './CustomerFolder/AddCustomer/AddCustomer.component';
+
 
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
@@ -86,12 +88,14 @@ export function tokengetter() {
     AddTaskComponent,
     TestTaskComponent,
     SidebarComponent,
+    AddCustomerComponent,
     TimePickerComponent,
     HoursWorkedComponent,
     UpdateTaskComponent,
     CustomerComponent,
     LoginPageComponent,
     UnlockAccountComponent,
+    EditCustomerComponent,
     RegisterComponent,
     NoteComponent,
     EditUsernameComponent,

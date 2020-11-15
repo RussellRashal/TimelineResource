@@ -1,0 +1,24 @@
+<button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
+
+<form id="form_username" [formGroup]="profileForm" (ngSubmit)="addUser()">
+
+  <div>
+    <label>{{customerType}}'s Full Name</label>
+    <input type="text" class="ml-2" formControlName="customerName">
+  </div>
+
+  <div>
+    <label>{{customerType}}'s Address</label>
+    <input type="text" class="ml-2" formControlName="customerAddress">
+  </div>
+
+  <div>
+    <label>Additional information</label>
+    <textarea type="text" formControlName="customerAdditionalInfo"></textarea>
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">Add</button>
+
+
+</form>

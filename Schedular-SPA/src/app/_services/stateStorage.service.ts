@@ -9,9 +9,11 @@ import { Observable } from 'rxjs';
 })
 export class StateStorageService {
   taskId: number;
+  customerId: number;
   userMembers: [];
   currentClickedUser: UserMemberModel[];
   attachmentFileName: [];
+
 
   constructor() { }
   // tasks details for updateTask component
@@ -20,6 +22,14 @@ export class StateStorageService {
   }
   setTaskId(taskIdIn) {
     this.taskId = taskIdIn;
+  }
+
+  // customer
+  getCustomerId() {
+    return this.customerId;
+  }
+  setCustomerId(customerId) {
+    this.customerId = customerId;
   }
 
   // get attachment fileName from task

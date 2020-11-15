@@ -1,0 +1,40 @@
+<label>List of {{customerType}}s</label>
+<button (click)="addCustomer()">Add {{customerType}}</button>
+
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th style="width: 10">Name</th>
+        <th style="width: 20">Address</th>
+        <th style="width: 60">Additional Info</th>
+        <th style="width: 5">Update</th>
+        <th style="width: 5">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers; let i = index">
+        <td>
+          {{customer.name}}
+        </td>
+        <td>
+          <div class="ml-4">
+            {{customer.address}}
+          </div>
+        </td>
+        <td>
+          <div class="ml-4">
+            {{customer.additionalInfo}}
+          </div>
+        </td>
+        <td>
+          <button (click)="editCustomer(customer)">Edit</button>
+        </td>
+        <td>
+          <button (click)="deleteCustomer(customer.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
