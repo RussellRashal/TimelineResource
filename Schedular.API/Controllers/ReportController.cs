@@ -21,6 +21,21 @@ namespace Schedular.API.Controllers
         {
             _repo = repo;
         }
+
+        //Task customer by time
+        [HttpGet("TaskByCustomerTime/{customerId}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetTaskByCustomerTime(int customerId, DateTime startDate, DateTime endDate, [FromQuery]TaskParams taskParams)
+        {            
+            var customerTasks = await _repo.GetTaskByCustomerTime(customerId, startDate, endDate, taskParams);
+
+            //add the pagination information in the response header
+            Response.AddPagination(customerTasks.CurrentPage, customerTasks.PageSize,
+                customerTasks.TotalCount, customerTasks.TotalPages);  
+
+            return Ok(customerTasks);      
+        }
+        
+        [Authorize]
         //hours worked calculation
         [HttpGet("hoursWorked/{id}/{startDate}/{endDate}")]
         public async Task<IActionResult> GetHoursWorked(int id, DateTime startDate, DateTime endDate)

@@ -9,7 +9,10 @@ namespace Schedular.API.Data
     {
         Task<TimeSpan> GetHoursWorkedRepo(int id, DateTime startDate, DateTime endDate);  
         //get users hour taskSchedule
-        Task<PagedList<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, DateTime startDate, DateTime endDate, TaskParams taskParams);      
-
+        Task<PagedList<TaskSchedule>> GetTasksWithinHoursWorkedRepo(int id, DateTime startDate, 
+            DateTime endDate, TaskParams taskParams);      
+        //Task customer by time
+        Task<PagedList<TaskSchedule>> GetTaskByCustomerTime(int customerId, 
+            DateTime startDate, DateTime endDate, TaskParams taskParams);
     }
 }

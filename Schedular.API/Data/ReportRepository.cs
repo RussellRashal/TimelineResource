@@ -14,6 +14,22 @@ namespace Schedular.API.Data
         {
             _context = context;
         }
+
+        //Task customer by time
+        public async Task<PagedList<TaskSchedule>> GetTaskByCustomerTime(int customerId, 
+            DateTime startDate, DateTime endDate, TaskParams taskParams)
+        {
+            DateTime endDateAdjust = endDate.AddDays(1);
+            var query = _context.TaskSchedules
+                .Where(u => u.CustomerId == customerId)
+                .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
+                .AsNoTracking();
+
+            //gets sent to the pagination methods to be paginated 
+            return await PagedList<TaskSchedule>
+                .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
+        }
+
          //work out the number of hours worked
         public async Task<TimeSpan> GetHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)
         {            
