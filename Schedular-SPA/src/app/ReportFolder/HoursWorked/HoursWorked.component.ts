@@ -1,11 +1,11 @@
+import { HoursWorkedService } from './../../_services/hoursWorked.service';
 import { MatDialog } from '@angular/material/dialog';
-import { HoursWorkedService } from './../_services/hoursWorked.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { StateStorageService } from '../_services/stateStorage.service';
+import { StateStorageService } from './../../_services/stateStorage.service';
 import { ActivatedRoute } from '@angular/router';
-import { UpdateTaskComponent } from '../updateTask/updateTask.component';
-import { Pagination } from './../_models/pagination';
+import { UpdateTaskComponent } from './../../updateTask/updateTask.component';
+import { Pagination } from './../../_models/pagination';
 
 @Component({
   selector: 'app-hours-worked',

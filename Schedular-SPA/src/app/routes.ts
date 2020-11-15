@@ -10,13 +10,13 @@ import { RegisterComponent } from './AdminConsole/register/register.component';
 import { RoleGuard } from './_guards/role.guard';
 import { AuthGuard } from './_guards/auth.guard';
 import { stateStorageResolver } from './_resolvers/state-storage.resolver';
-import { HoursWorkedComponent } from './HoursWorked/HoursWorked.component';
 import { Routes } from '@angular/router';
 import { CalendarViewComponent } from './CalendarView/CalendarView.component';
 import { UserLoaderResolver } from './_resolvers/user-loader.resolver';
 import { LoginPageComponent } from './loginPage/loginPage.component';
 import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordReset.component';
 import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccount/enableDisableAccount.component';
+import { HoursWorkedComponent } from './ReportFolder/HoursWorked/HoursWorked.component';
 
 export const appRoutes: Routes = [
     {

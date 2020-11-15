@@ -1,3 +1,4 @@
+import { HoursWorkedComponent } from './ReportFolder/HoursWorked/HoursWorked.component';
 import { CustomerComponent } from './CustomerFolder/Customer/Customer.component';
 import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccount/enableDisableAccount.component';
 import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordReset.component';
@@ -15,7 +16,6 @@ import { TestTaskComponent } from './TestTask/TestTask.component';
 import { NavigationBarComponent } from './navigationBar/navigationBar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AddTaskComponent } from './addTask/addTask.component';
-import { HoursWorkedComponent } from './HoursWorked/HoursWorked.component';
 
 // angular material
 import {MatSelectModule} from '@angular/material/select';

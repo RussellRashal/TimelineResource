@@ -1,0 +1,71 @@
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Schedular.API.Data;
+using Schedular.API.Helpers;
+
+namespace Schedular.API.Controllers
+{
+    [Authorize(Policy ="AdminAccess")]
+    [Route("api/[controller]")]
+    [ApiController] 
+    public class ReportController : ControllerBase
+    {
+        private readonly IReportRepository _repo;
+        //private readonly IMapper _mapper;
+
+        public ReportController(IReportRepository repo)
+        {
+            _repo = repo;
+        }
+        //hours worked calculation
+        [HttpGet("hoursWorked/{id}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetHoursWorked(int id, DateTime startDate, DateTime endDate)
+        {            
+            if (id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+                return await GetHoursWorkedM(id, startDate, endDate);     
+            }
+            else if (User.IsInRole("Admin")) {
+                return await GetHoursWorkedM(id, startDate, endDate);
+            }
+            return Unauthorized();
+        }
+
+
+        //tasks worked within hours method 
+        public async Task<IActionResult> GetHoursWorkedM(int id, DateTime startDate, DateTime endDate)
+        {
+            var HoursWorked = await _repo.GetHoursWorkedRepo(id, startDate, endDate); 
+            var minutes = HoursWorked.ToString(@"mm");
+
+            var hour = Int32.Parse(HoursWorked.ToString(@"hh"));
+            var day = Int32.Parse(HoursWorked.ToString(@"dd")) * 24;
+            var fullHours = (hour + day).ToString();           
+
+            string[] fullHoursworked = {fullHours, minutes};
+
+            return Ok(fullHoursworked);
+        }
+
+        //get the tasks worked in the hours selected
+        [HttpGet("tasksWithinHours/{userId}/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetTasksWithinHoursWorked(int userId, DateTime startDate, DateTime endDate, [FromQuery]TaskParams taskParams)
+        {
+            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
+
+            if (userId == tokenUserId || User.IsInRole("Admin")) {
+                var tasksWorkedWithinHours = await _repo.GetTasksWithinHoursWorkedRepo(userId, startDate, endDate, taskParams);
+                
+                 //add the pagination information in the response header
+                Response.AddPagination(tasksWorkedWithinHours.CurrentPage, tasksWorkedWithinHours.PageSize,
+                    tasksWorkedWithinHours.TotalCount, tasksWorkedWithinHours.TotalPages);  
+
+                return Ok(tasksWorkedWithinHours);      
+            }     
+            return Unauthorized();       
+        }   
+    }
+}

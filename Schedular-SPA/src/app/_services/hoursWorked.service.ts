@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class HoursWorkedService {
-  baseUrl = environment.apiUrl + 'TaskSchedule';
+  baseUrl = environment.apiUrl + 'Report';
     // store paginated results in
     paginatedResult: PaginatedResult<TaskSchedule[]> = new PaginatedResult<TaskSchedule[]>();
 

@@ -63,19 +63,6 @@ namespace Schedular.API.Controllers
 
         }
 
-        //hours worked calculation
-        //[Authorize(Policy ="AdminAccess")]
-        [HttpGet("hoursWorked/{id}/{startDate}/{endDate}")]
-        public async Task<IActionResult> GetHoursWorked(int id, DateTime startDate, DateTime endDate)
-        {            
-            if (id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
-                return await GetHoursWorkedM(id, startDate, endDate);     
-            }
-            else if (User.IsInRole("Admin")) {
-                return await GetHoursWorkedM(id, startDate, endDate);
-            }
-            return Unauthorized();
-        }
         [HttpGet("byUser/{userId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
         public async Task<IActionResult> GetTaskSchedulesByUser(int userId, [FromQuery]TaskParams taskParams)
@@ -134,23 +121,7 @@ namespace Schedular.API.Controllers
             return Unauthorized();  
         }
 
-        //get the tasks worked in the hours selected
-        [HttpGet("tasksWithinHours/{userId}/{startDate}/{endDate}")]
-        public async Task<IActionResult> GetTasksWithinHoursWorked(int userId, DateTime startDate, DateTime endDate, [FromQuery]TaskParams taskParams)
-        {
-            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
-
-            if (userId == tokenUserId || User.IsInRole("Admin")) {
-                var tasksWorkedWithinHours = await _repo.GetTasksWithinHoursWorkedRepo(userId, startDate, endDate, taskParams);
-                
-                 //add the pagination information in the response header
-                Response.AddPagination(tasksWorkedWithinHours.CurrentPage, tasksWorkedWithinHours.PageSize,
-                    tasksWorkedWithinHours.TotalCount, tasksWorkedWithinHours.TotalPages);  
-
-                return Ok(tasksWorkedWithinHours);      
-            }     
-            return Unauthorized();       
-        }   
+      
 
         [HttpPost("task")]        
         public async Task<IActionResult> PostSchedule([FromBody] TaskSchedule taskSchedule)
@@ -206,22 +177,6 @@ namespace Schedular.API.Controllers
             }
             return BadRequest("Unauthorised");
                      
-        }
-
-        //tasks worked within hours method 
-        public async Task<IActionResult> GetHoursWorkedM(int id, DateTime startDate, DateTime endDate)
-        {
-            var HoursWorked = await _repo.GetHoursWorkedRepo(id, startDate, endDate); 
-            var minutes = HoursWorked.ToString(@"mm");
-
-            var hour = Int32.Parse(HoursWorked.ToString(@"hh"));
-            var day = Int32.Parse(HoursWorked.ToString(@"dd")) * 24;
-            var fullHours = (hour + day).ToString();           
-
-            string[] fullHoursworked = {fullHours, minutes};
-
-
-            return Ok(fullHoursworked);
         }
 
         //updating new tasks

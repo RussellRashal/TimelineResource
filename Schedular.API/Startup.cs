@@ -110,6 +110,7 @@ namespace Schedular.API
             services.AddScoped<INotesRepository, NotesRepository>();
             services.AddScoped<IAttachmentFileRepository, AttachmentFileRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
             services.AddControllers();
             services.AddCors(); 
         
