@@ -1,3 +1,4 @@
+import { CustomerTasksComponent } from './ReportFolder/CustomerTasks/CustomerTasks.component';
 import { CustomerComponent } from './CustomerFolder/Customer/Customer.component';
 import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccount.component';
 import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUserPassword.component';
@@ -82,6 +83,10 @@ export const appRoutes: Routes = [
     {
         path: 'CustomerComponent',
         component: CustomerComponent , canActivate: [RoleGuard]
+    },
+    {
+        path: 'CustomerTask',
+        component: CustomerTasksComponent , canActivate: [RoleGuard]
     },
     {
         path: 'login',

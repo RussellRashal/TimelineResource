@@ -1,9 +1,9 @@
 .mainForm {
-    width: 55%;
+    width: 65%;
     height: 5%;
     margin: auto;
     position: center;    
-    }
+}
 
 .timeText {
     color: black;
@@ -24,6 +24,3 @@
     position: center; 
     }
 
-/* table, th, td {
-    border: 1px solid black;
-  } */

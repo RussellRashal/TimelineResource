@@ -14,5 +14,8 @@ namespace Schedular.API.Data
         //Task customer by time
         Task<PagedList<TaskSchedule>> GetTaskByCustomerTime(int customerId, 
             DateTime startDate, DateTime endDate, TaskParams taskParams);
+        
+        //All Tasks by customer
+        Task<PagedList<TaskSchedule>> GetAllTaskByCustomer(int customerId, TaskParams taskParams);
     }
 }

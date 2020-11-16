@@ -66,6 +66,7 @@ import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccou
 import { SidebarNavigationComponent } from './sidebar-navigation/sidebar-navigation.component';
 import { EditCustomerComponent } from './CustomerFolder/editCustomer/editCustomer.component';
 import { AddCustomerComponent } from './CustomerFolder/AddCustomer/AddCustomer.component';
+import { CustomerTasksComponent } from './ReportFolder/CustomerTasks/CustomerTasks.component';
 
 
 // register FullCalendar plugins
@@ -109,6 +110,7 @@ export function tokengetter() {
     AttachmentComponent,
     SidebarNavigationComponent,
     CustomerComponent,
+    CustomerTasksComponent,
     CustomerComponent
    ],
   imports: [

@@ -34,6 +34,19 @@ namespace Schedular.API.Controllers
 
             return Ok(customerTasks);      
         }
+
+        //Task customer by without time
+        [HttpGet("TaskByCustomerAll/{customerId}")]
+        public async Task<IActionResult> GetTaskByCustomerAll(int customerId, [FromQuery]TaskParams taskParams)
+        {            
+            var customerTasks = await _repo.GetAllTaskByCustomer(customerId, taskParams);
+
+            //add the pagination information in the response header
+            Response.AddPagination(customerTasks.CurrentPage, customerTasks.PageSize,
+                customerTasks.TotalCount, customerTasks.TotalPages);  
+
+            return Ok(customerTasks);      
+        }
         
         [Authorize]
         //hours worked calculation

@@ -8,6 +8,7 @@ import { UpdateTaskComponent } from '../updateTask/updateTask.component';
 import { MatDialog } from '@angular/material/dialog';
 import { StateStorageService } from '../_services/stateStorage.service';
 import { AddTaskComponent } from '../addTask/addTask.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-viewtasks',
@@ -29,6 +30,10 @@ export class ViewTasksComponent implements OnInit {
   currentUserId;
   searchTask: FormControl;
   selectedFullName;
+  customerType: string = environment.customerType;
+
+
+
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 10;

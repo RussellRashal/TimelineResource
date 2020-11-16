@@ -30,6 +30,18 @@ namespace Schedular.API.Data
                 .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
         }
 
+        //All Tasks by customer
+        public async Task<PagedList<TaskSchedule>> GetAllTaskByCustomer(int customerId, TaskParams taskParams)
+        {
+            var query = _context.TaskSchedules
+                .Where(u => u.CustomerId == customerId)
+                .AsNoTracking();
+
+            //gets sent to the pagination methods to be paginated 
+            return await PagedList<TaskSchedule>
+                .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
+        }
+
          //work out the number of hours worked
         public async Task<TimeSpan> GetHoursWorkedRepo(int id, DateTime startDate, DateTime endDate)
         {            

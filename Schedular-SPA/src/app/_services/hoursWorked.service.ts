@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { PaginatedResult } from './../_models/pagination';
 import { TaskSchedule } from './../_models/taskSchedule';
 import { map } from 'rxjs/operators';
@@ -10,14 +9,14 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class HoursWorkedService {
-  baseUrl = environment.apiUrl + 'Report';
+  baseUrl = environment.apiUrl + 'Report/';
     // store paginated results in
     paginatedResult: PaginatedResult<TaskSchedule[]> = new PaginatedResult<TaskSchedule[]>();
 
   constructor(private http: HttpClient) { }
 
   GetHoursWorked(id, startDate, endDate) {
-    return this.http.get(this.baseUrl + '/hoursWorked/'
+    return this.http.get(this.baseUrl + 'hoursWorked/'
       + id + '/' + startDate + '/' + endDate);
   }
 
@@ -29,7 +28,7 @@ export class HoursWorkedService {
       params = params.append('pageSize', itemsPerPage.toString());
     }
 
-    return this.http.get<TaskSchedule[]>(this.baseUrl + '/tasksWithinHours/'
+    return this.http.get<TaskSchedule[]>(this.baseUrl + 'tasksWithinHours/'
       + id + '/' + startDate + '/' + endDate, {observe: 'response', params}).pipe(
         map(response => {
           this.paginatedResult.result = response.body;
