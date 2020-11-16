@@ -22,6 +22,32 @@ namespace Schedular.API.Controllers
             _repo = repo;
         }
 
+        //high priority tasks by time
+        [HttpGet("HighPriorityTasks/{startDate}/{endDate}")]
+        public async Task<IActionResult> GetHighPriorityTasks(DateTime startDate, DateTime endDate, [FromQuery]TaskParams taskParams)
+        {            
+            var HighPriorityTasks = await _repo.GetHighPriorityTasks(startDate, endDate, taskParams);
+
+            //add the pagination information in the response header
+            Response.AddPagination(HighPriorityTasks.CurrentPage, HighPriorityTasks.PageSize,
+                HighPriorityTasks.TotalCount, HighPriorityTasks.TotalPages);  
+
+            return Ok(HighPriorityTasks);      
+        }
+
+        //All high priority tasks 
+        [HttpGet("HighPriorityTasks")]
+        public async Task<IActionResult> GetAllHighPriorityTasks([FromQuery]TaskParams taskParams)
+        {            
+            var HighPriorityTasks = await _repo.GetAllHighPriorityTasks(taskParams);
+
+            //add the pagination information in the response header
+            Response.AddPagination(HighPriorityTasks.CurrentPage, HighPriorityTasks.PageSize,
+                HighPriorityTasks.TotalCount, HighPriorityTasks.TotalPages);  
+
+            return Ok(HighPriorityTasks);      
+        }
+
         //Task customer by time
         [HttpGet("TaskByCustomerTime/{customerId}/{startDate}/{endDate}")]
         public async Task<IActionResult> GetTaskByCustomerTime(int customerId, DateTime startDate, DateTime endDate, [FromQuery]TaskParams taskParams)

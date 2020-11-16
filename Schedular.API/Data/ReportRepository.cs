@@ -15,6 +15,33 @@ namespace Schedular.API.Data
             _context = context;
         }
 
+        //High priority tasks by time
+        public async Task<PagedList<TaskSchedule>> GetHighPriorityTasks( 
+            DateTime startDate, DateTime endDate, TaskParams taskParams)
+        {
+            DateTime endDateAdjust = endDate.AddDays(1);
+            var query = _context.TaskSchedules
+                .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
+                .Where(h =>h.highPriority == true)
+                .AsNoTracking();
+
+            //gets sent to the pagination methods to be paginated 
+            return await PagedList<TaskSchedule>
+                .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
+        }
+
+        //All High priority tasks 
+        public async Task<PagedList<TaskSchedule>> GetAllHighPriorityTasks(TaskParams taskParams)
+        {
+            var query = _context.TaskSchedules
+                .Where(h =>h.highPriority == true)
+                .AsNoTracking();
+
+            //gets sent to the pagination methods to be paginated 
+            return await PagedList<TaskSchedule>
+                .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
+        }
+
         //Task customer by time
         public async Task<PagedList<TaskSchedule>> GetTaskByCustomerTime(int customerId, 
             DateTime startDate, DateTime endDate, TaskParams taskParams)

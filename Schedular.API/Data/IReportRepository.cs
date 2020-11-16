@@ -17,5 +17,12 @@ namespace Schedular.API.Data
         
         //All Tasks by customer
         Task<PagedList<TaskSchedule>> GetAllTaskByCustomer(int customerId, TaskParams taskParams);
+
+        //High priority tasks by time
+        Task<PagedList<TaskSchedule>> GetHighPriorityTasks( 
+            DateTime startDate, DateTime endDate, TaskParams taskParams);
+
+        //All High priority tasks 
+        Task<PagedList<TaskSchedule>> GetAllHighPriorityTasks(TaskParams taskParams);
     }
 }
