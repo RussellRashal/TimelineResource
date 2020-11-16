@@ -1,0 +1,104 @@
+<form *ngIf="loggedIn() && this.userAuthorised" [formGroup]="profileForm" class="mainForm">
+  <div>
+    <label>Status</label>      
+    <select formControlName="status" class="ml-2">
+      <option [value]="false">Open</option>    
+      <option [value]="true">Close</option>    
+   </select>
+
+   <label class="ml-2">Date from</label>
+   <input class="ml-2" type="date" formControlName="startDate">
+  
+   <label class="ml-2">Date to</label>
+   <input class="ml-2" type="date" formControlName="endDate"> 
+   <button (click)="highPriorityTaskTime()" class="btn btn-primary ml-2">View</button>
+   <button (click)="allHighPriorityTask()" class="btn btn-primary ml-2">All</button>
+  </div>
+  <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
+  <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
+
+</form>
+
+
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th style=" width: 10%">Task Number</th>
+        <th style=" width: 60%">Task</th>
+        <th style=" width: 10%">Start Date & Time</th>
+        <th style=" width: 10%">End Date & Time</th>
+        <th style=" width: 5%">Priority</th>
+        <th style=" width: 5%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customerTask of customerTasksData">
+          <th *ngIf="customerTask.start === null">
+            <a class="taskId" role="button" (click)="updateDialogAll(customerTask.id)">{{customerTask.id}}</a>
+          </th>
+          <th *ngIf="customerTask.start !== null">
+            <a class="taskId" role="button" (click)="updateDialogTime(customerTask.id)">{{customerTask.id}}</a>
+          </th>
+          <td>
+            {{customerTask.title}}
+          </td>
+          <td *ngIf="customerTask.start === null">          
+          </td>
+          <td *ngIf="customerTask.end === null">            
+          </td>        
+          <td *ngIf="customerTask.start !== null">
+            {{customerTask.start.slice(8, 10)}}/  
+            {{customerTask.start.slice(5, 7)}}/
+            {{customerTask.start.slice(0, 4)}}        
+            {{customerTask.start.slice(11, 16)}}    
+          <td *ngIf="customerTask.end !== null">
+            {{customerTask.end.slice(8, 10)}}/
+            {{customerTask.end.slice(5, 7)}}/
+            {{customerTask.end.slice(0, 4)}} 
+            {{customerTask.end.slice(11, 16)}}
+        </td>
+        <td>
+          <p *ngIf="customerTask.highPriority === false">
+            Normal
+          </p>
+          <div *ngIf="customerTask.highPriority === true" class="bg-danger text-white">
+            <p class="ml-2">
+              High
+            </p>
+          </div>                          
+        </td>     
+        <td>
+          <p *ngIf="customerTask.isClosed === false">
+            Open
+          </p>
+          <p *ngIf="customerTask.isClosed === true">
+            Closed
+          </p>
+        </td>  
+      </tr>
+  
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination 
+      [boundaryLinks]="true" 
+      [totalItems]="pagination.totalItems"
+      [itemsPerPage]="pagination.itemsPerPage"
+      [(ngModel)]="pagination.currentPage"
+      (pageChanged)="pageChanged($event)">  
+    </pagination>
+  </div>
+  
+</div>
+
+
+
+
+
+
+
+
+
+

@@ -17,12 +17,13 @@ namespace Schedular.API.Data
 
         //High priority tasks by time
         public async Task<PagedList<TaskSchedule>> GetHighPriorityTasks( 
-            DateTime startDate, DateTime endDate, TaskParams taskParams)
+            DateTime startDate, DateTime endDate, bool status, TaskParams taskParams)
         {
             DateTime endDateAdjust = endDate.AddDays(1);
             var query = _context.TaskSchedules
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
                 .Where(h =>h.highPriority == true)
+                .Where(s => s.isClosed == status)
                 .AsNoTracking();
 
             //gets sent to the pagination methods to be paginated 
@@ -31,10 +32,11 @@ namespace Schedular.API.Data
         }
 
         //All High priority tasks 
-        public async Task<PagedList<TaskSchedule>> GetAllHighPriorityTasks(TaskParams taskParams)
+        public async Task<PagedList<TaskSchedule>> GetAllHighPriorityTasks(bool status, TaskParams taskParams)
         {
             var query = _context.TaskSchedules
                 .Where(h =>h.highPriority == true)
+                .Where(s => s.isClosed == status)
                 .AsNoTracking();
 
             //gets sent to the pagination methods to be paginated 

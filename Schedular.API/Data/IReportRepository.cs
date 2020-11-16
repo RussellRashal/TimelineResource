@@ -20,9 +20,9 @@ namespace Schedular.API.Data
 
         //High priority tasks by time
         Task<PagedList<TaskSchedule>> GetHighPriorityTasks( 
-            DateTime startDate, DateTime endDate, TaskParams taskParams);
+            DateTime startDate, DateTime endDate, bool status, TaskParams taskParams);
 
         //All High priority tasks 
-        Task<PagedList<TaskSchedule>> GetAllHighPriorityTasks(TaskParams taskParams);
+        Task<PagedList<TaskSchedule>> GetAllHighPriorityTasks(bool status, TaskParams taskParams);
     }
 }

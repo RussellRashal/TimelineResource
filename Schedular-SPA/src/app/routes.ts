@@ -1,3 +1,4 @@
+import { HighPriorityComponent } from './ReportFolder/HighPriority/HighPriority.component';
 import { CustomerTasksComponent } from './ReportFolder/CustomerTasks/CustomerTasks.component';
 import { CustomerComponent } from './CustomerFolder/Customer/Customer.component';
 import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccount.component';
@@ -87,6 +88,10 @@ export const appRoutes: Routes = [
     {
         path: 'CustomerTask',
         component: CustomerTasksComponent , canActivate: [RoleGuard]
+    },
+    {
+        path: 'HighPriority',
+        component: HighPriorityComponent , canActivate: [RoleGuard]
     },
     {
         path: 'login',

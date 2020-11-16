@@ -1,3 +1,4 @@
+import { HighPriorityService } from './../../_services/highPriority.service';
 import { CustomerTasksService } from './../../_services/customerTasks.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -10,11 +11,11 @@ import { CustomerService } from 'src/app/_services/customer.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-customertasks',
-  templateUrl: './customerTasks.component.html',
-  styleUrls: ['./customerTasks.component.css']
+  selector: 'app-highpriority',
+  templateUrl: './HighPriority.component.html',
+  styleUrls: ['./HighPriority.component.css']
 })
-export class CustomerTasksComponent implements OnInit {
+export class HighPriorityComponent implements OnInit {
   profileForm: FormGroup;
   hoursWorked;
   minuteWorked;
@@ -34,7 +35,7 @@ export class CustomerTasksComponent implements OnInit {
 
   constructor(
     private stateStorageService: StateStorageService,
-    private customerTasksService: CustomerTasksService,
+    private highPriorityService: HighPriorityService,
     private customerService: CustomerService,
     private route: ActivatedRoute,
     public dialog: MatDialog) { }
@@ -42,25 +43,21 @@ export class CustomerTasksComponent implements OnInit {
   ngOnInit() {
     this.loadUser();
     this.initialiseForm();
-    this.getCustomers();
   }
 
-  customerTaskTime() {
+  highPriorityTaskTime() {
     this.dateError = false;
     this.nullError = false;
 
     // validation check
-    if (this.profileForm.value.customerId === '') {
-      this.nullError = true;
-    }
-    else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
+    if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
       this.dateError = true;
     }
     else {
-      this.customerTasksService.GetCustomerTasks(
-        this.profileForm.value.customerId,
+      this.highPriorityService.GetHighPriorityTasksByTime(
         this.profileForm.value.startDate,
         this.profileForm.value.endDate,
+        this.profileForm.value.status,
         this.pageNumber,
         this.pageSize
       ).subscribe((data) => {
@@ -69,13 +66,12 @@ export class CustomerTasksComponent implements OnInit {
         }, error => {
           console.log(error);
       });
-
     }
   }
 
-  allCustomerTasks() {
-    this.customerTasksService.GetAllCustomerTasks(
-      this.profileForm.value.customerId,
+  allHighPriorityTask() {
+    this.highPriorityService.GetAllHighPriorityTasks(
+      this.profileForm.value.status,
       this.pageNumber,
       this.pageSize
     ).subscribe((data) => {
@@ -92,17 +88,9 @@ export class CustomerTasksComponent implements OnInit {
     this.pageNumber = event.page;
   }
 
-  getCustomers() {
-    this.customerService.getCustomers().subscribe((data) => {
-      this.customers = data;
-    }, error => {
-      console.log(error);
-    });
-  }
-
   initialiseForm() {
     this.profileForm = new FormGroup({
-      customerId: new FormControl(),
+      status: new FormControl(),
       startDate: new FormControl(new Date().toISOString().slice(0, 10)),
       endDate: new FormControl(new Date().toISOString().slice(0, 10))
     });
@@ -115,7 +103,7 @@ export class CustomerTasksComponent implements OnInit {
       height: '90%'
     });
     dialogRef.afterClosed().subscribe(result => {
-       this.customerTaskTime();
+       this.highPriorityTaskTime();
     });
   }
 
@@ -126,10 +114,9 @@ export class CustomerTasksComponent implements OnInit {
       height: '90%'
     });
     dialogRef.afterClosed().subscribe(result => {
-       this.allCustomerTasks();
+       this.allHighPriorityTask();
     });
   }
-
 
   loadUser() {
     this.role = JSON.parse(localStorage.getItem('role'));
@@ -144,7 +131,7 @@ export class CustomerTasksComponent implements OnInit {
     }
   }
 
-   // validation checker for template div tags
+  // validation checker for template div tags
   getDateError(){
     return this.dateError;
   }

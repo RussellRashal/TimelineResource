@@ -1,3 +1,4 @@
+import { HighPriorityComponent } from './ReportFolder/HighPriority/HighPriority.component';
 import { HoursWorkedComponent } from './ReportFolder/HoursWorked/HoursWorked.component';
 import { CustomerComponent } from './CustomerFolder/Customer/Customer.component';
 import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccount/enableDisableAccount.component';
@@ -85,6 +86,7 @@ export function tokengetter() {
     AppComponent,
     NavigationBarComponent,
     CalendarViewComponent,
+    HighPriorityComponent,
     TestTaskComponent,
     AddTaskComponent,
     TestTaskComponent,
