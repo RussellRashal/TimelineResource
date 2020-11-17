@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Schedular.API.Data;
 
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201117172326_customerTask")]
+    partial class customerTask
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,7 +222,7 @@ namespace Schedular.API.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int?>("customerId")
+                    b.Property<int?>("customerIdId")
                         .HasColumnType("int");
 
                     b.Property<bool>("hasTimeLimit")
@@ -240,7 +242,7 @@ namespace Schedular.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("customerId");
+                    b.HasIndex("customerIdId");
 
                     b.HasIndex("userCurrentAssignedId");
 
@@ -409,9 +411,9 @@ namespace Schedular.API.Migrations
 
             modelBuilder.Entity("Schedular.API.Models.TaskSchedule", b =>
                 {
-                    b.HasOne("Schedular.API.Models.Customer", "customer")
+                    b.HasOne("Schedular.API.Models.Customer", "customerId")
                         .WithMany()
-                        .HasForeignKey("customerId");
+                        .HasForeignKey("customerIdId");
 
                     b.HasOne("Schedular.API.Models.User", "userCurrentAssigned")
                         .WithMany()

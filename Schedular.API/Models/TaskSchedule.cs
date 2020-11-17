@@ -13,7 +13,8 @@ namespace Schedular.API.Models
         public bool isClosed { get; set; }
         public bool highPriority { get; set; }
         public bool hasTimeLimit { get; set; }       
-        public int? CustomerId { get; set; }
+        public Customer customer { get; set; }
+        public int? customerId { get; set; }
         public List<Note> Notes { get; set; }
         public List<AttachmentFile> Attachments { get; set; }  
 

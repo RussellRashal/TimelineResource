@@ -124,6 +124,7 @@ export class ViewTasksComponent implements OnInit {
         this.taskScheduleData = data.result; // get jason data
         this.pagination = data.pagination;   // get pagination data
         this.isDataAvailable = true;
+        console.log(this.taskScheduleData);
       });
   }
 

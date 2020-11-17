@@ -204,7 +204,21 @@ export class UpdateTaskComponent implements OnInit {
     this.dateError = false;
     this.nullError = false;
 
-    if (this.profileForm.value.hasTimeLimit === true) {
+    if (this.profileForm.value.title === '') {
+      // values need to be filled out
+      this.nullError = true;
+    }
+    else if (this.profileForm.value.hasTimeLimit === true &&
+      this.profileForm.value.startHourTime === null || this.profileForm.value.endHourTime === null ||
+      this.profileForm.value.startMinuteTime === null || this.profileForm.value.endMinuteTime === null ||
+      this.profileForm.value.startDate === null || this.profileForm.value.endDate === null ||
+      this.profileForm.value.title === '') {
+      // values need to be filled out
+      this.nullError = true;
+    }
+    else if (this.profileForm.value.hasTimeLimit === true  &&
+      this.profileForm.value.startHourTime !== '' && this.profileForm.value.endHourTime !== '' &&
+      this.profileForm.value.taskTextArea !== '' && this.profileForm.value.userName !== '') {
 
       // put date, hour and minute together to send to api
       this.returnedStartDateAndTime =
@@ -216,12 +230,7 @@ export class UpdateTaskComponent implements OnInit {
         this.profileForm.value.endHourTime.toString() + ':' +
         this.profileForm.value.endMinuteTime.toString();
 
-      if (this.profileForm.value.startHourTime === '' || this.profileForm.value.endHourTime === '' ||
-        this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
-          // values need to be filled out
-          this.nullError = true;
-      }
-      else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
+      if (this.profileForm.value.startDate > this.profileForm.value.endDate ) {
         // start date cannot be greater than end date
         this.dateError = true;
       }

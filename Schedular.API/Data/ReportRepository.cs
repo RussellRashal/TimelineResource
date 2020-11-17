@@ -24,6 +24,8 @@ namespace Schedular.API.Data
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
                 .Where(h =>h.highPriority == true)
                 .Where(s => s.isClosed == status)
+                .Include(c => c.customer)
+                .Include(u => u.userCurrentAssigned)
                 .AsNoTracking();
 
             //gets sent to the pagination methods to be paginated 
@@ -37,6 +39,8 @@ namespace Schedular.API.Data
             var query = _context.TaskSchedules
                 .Where(h =>h.highPriority == true)
                 .Where(s => s.isClosed == status)
+                .Include(c => c.customer)
+                .Include(u => u.userCurrentAssigned)
                 .AsNoTracking();
 
             //gets sent to the pagination methods to be paginated 
@@ -50,8 +54,10 @@ namespace Schedular.API.Data
         {
             DateTime endDateAdjust = endDate.AddDays(1);
             var query = _context.TaskSchedules
-                .Where(u => u.CustomerId == customerId)
+                .Where(u => u.customerId == customerId)
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
+                .Include(c => c.customer)
+                .Include(u => u.userCurrentAssigned)
                 .AsNoTracking();
 
             //gets sent to the pagination methods to be paginated 
@@ -63,7 +69,9 @@ namespace Schedular.API.Data
         public async Task<PagedList<TaskSchedule>> GetAllTaskByCustomer(int customerId, TaskParams taskParams)
         {
             var query = _context.TaskSchedules
-                .Where(u => u.CustomerId == customerId)
+                .Where(u => u.customerId == customerId)
+                .Include(c => c.customer)
+                .Include(u => u.userCurrentAssigned)
                 .AsNoTracking();
 
             //gets sent to the pagination methods to be paginated 
@@ -78,6 +86,7 @@ namespace Schedular.API.Data
             var taskSchedulesWorked = await _context.TaskSchedules
                 .Where(u => u.userCurrentAssignedId == id)
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
+                .Include(u => u.userCurrentAssigned)
                 .ToListAsync();
 
             // get hours worked            
@@ -109,6 +118,8 @@ namespace Schedular.API.Data
             var query = _context.TaskSchedules
                 .Where(u => u.userCurrentAssignedId == id)
                 .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
+                .Include(c => c.customer)
+                .Include(u => u.userCurrentAssigned)
                 .AsNoTracking();
 
             //gets sent to the pagination methods to be paginated 

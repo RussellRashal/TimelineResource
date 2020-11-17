@@ -13,6 +13,8 @@ namespace Schedular.API.Dtos
         public bool isClosed { get; set; }
         public bool highPriority { get; set; }
         public List<Note> Notes { get; set; }
+        public Customer customer { get; set; }
+
         //user currently assigned to the task   
         public int UserCurrentAssignedId { get; set; }
         //user who last edited the task
