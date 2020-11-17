@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,82 @@ namespace Schedular.API.Data
             return await PagedList<TaskSchedule>
                 .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);
         }
+
+        //get number of closed tasks by user by time
+        public userClosedTasks[] GetTasksClosedByUser(DateTime startDate, DateTime endDate)
+        {
+
+            //get users id 
+            var usernamesId = _context.Users
+                .Where(a => a.IsEnabled == true)
+                .Select(u => u.Id).ToArray();
+
+            //number of users for the userClosedTask array size
+            int numberofUsers = _context.Users
+                .Where(a => a.IsEnabled == true)
+                .Select(u => u.Id).Count();
+
+            userClosedTasks[] returnUserClosedTasks = new userClosedTasks[numberofUsers];
+            // List<userClosedTasks> returnUserClosedTasks = new List<userClosedTasks>();
+
+            int i = 0;
+            foreach(var usernameId in usernamesId)
+            {
+                DateTime endDateAdjust = endDate.AddDays(1);
+                var numberClosedTasksReturn = _context.TaskSchedules
+                    .Where(t => t.Start >= startDate && t.End <= endDateAdjust)
+                    .Where(s => s.isClosed == true)
+                    .Where(u => u.userLastEditId == usernameId)
+                    .Count();
+                var usernameReturn = _context.Users
+                    .Where(u => u.Id == usernameId)
+                    .Select(u => u.UserName)
+                    .ToList();
+
+                returnUserClosedTasks[i] = new userClosedTasks(usernameReturn[0], numberClosedTasksReturn);
+                i++;                  
+            }
+            
+            return returnUserClosedTasks;
+        }
+
+        //get number of closed tasks by user 
+        public userClosedTasks[] GetAllTasksClosedByUser()
+        {
+
+            //get users id 
+            var usernamesId = _context.Users
+                .Where(a => a.IsEnabled == true)
+                .Select(u => u.Id).ToArray();
+
+            //number of users for the userClosedTask array size
+            int numberofUsers = _context.Users
+                .Where(a => a.IsEnabled == true)
+                .Select(u => u.Id).Count();
+
+            userClosedTasks[] returnUserClosedTasks = new userClosedTasks[numberofUsers];
+            // List<userClosedTasks> returnUserClosedTasks = new List<userClosedTasks>();
+
+            int i = 0;
+            foreach(var usernameId in usernamesId)
+            {
+                var numberClosedTasksReturn = _context.TaskSchedules
+                    .Where(s => s.isClosed == true)
+                    .Where(u => u.userLastEditId == usernameId)
+                    .Count();
+                var usernameReturn = _context.Users
+                    .Where(u => u.Id == usernameId)
+                    .Select(u => u.UserName)
+                    .ToList();
+
+                returnUserClosedTasks[i] = new userClosedTasks(usernameReturn[0], numberClosedTasksReturn);
+                i++;                  
+            }
+            
+            return returnUserClosedTasks;
+        }
+
+
 
         //All High priority tasks 
         public async Task<PagedList<TaskSchedule>> GetAllHighPriorityTasks(bool status, TaskParams taskParams)

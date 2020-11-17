@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Schedular.API.Data;
 using Schedular.API.Helpers;
+using Schedular.API.Models;
 
 namespace Schedular.API.Controllers
 {
@@ -20,6 +21,24 @@ namespace Schedular.API.Controllers
         public ReportController(IReportRepository repo)
         {
             _repo = repo;
+        }
+
+        //number of closed tasks by user by time
+        [HttpGet("TasksClosedByUser/{startDate}/{endDate}")]
+        public userClosedTasks[] GetTasksClosedByUser(DateTime startDate, DateTime endDate)
+        {            
+            var TasksClosedByUser = _repo.GetTasksClosedByUser(startDate, endDate);
+
+            return TasksClosedByUser;      
+        }
+
+        //All number of closed tasks 
+        [HttpGet("TasksClosedByUser")]
+        public userClosedTasks[] GetAllTasksClosedByUser()
+        {            
+            var TasksClosedByUser = _repo.GetAllTasksClosedByUser();
+
+            return TasksClosedByUser;      
         }
 
         //high priority tasks by time

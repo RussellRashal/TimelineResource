@@ -24,5 +24,11 @@ namespace Schedular.API.Data
 
         //All High priority tasks 
         Task<PagedList<TaskSchedule>> GetAllHighPriorityTasks(bool status, TaskParams taskParams);
+
+        //get number of closed tasks by user by time
+        userClosedTasks[] GetTasksClosedByUser(DateTime startDate, DateTime endDate);
+
+        //get number of closed tasks by user 
+        userClosedTasks[] GetAllTasksClosedByUser();
     }
 }
