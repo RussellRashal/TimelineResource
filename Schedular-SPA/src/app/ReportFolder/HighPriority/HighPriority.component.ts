@@ -26,6 +26,7 @@ export class HighPriorityComponent implements OnInit {
   customerTasksData;
   role;
   customers;
+  selectedbutton;
 
   pagination: Pagination;
   pageNumber = 1;
@@ -46,6 +47,7 @@ export class HighPriorityComponent implements OnInit {
   }
 
   highPriorityTaskTime() {
+    this.selectedbutton = 'highPriorityTaskTime';
     this.dateError = false;
     this.nullError = false;
 
@@ -70,6 +72,7 @@ export class HighPriorityComponent implements OnInit {
   }
 
   allHighPriorityTask() {
+    this.selectedbutton = 'allHighPriorityTask';
     this.highPriorityService.GetAllHighPriorityTasks(
       this.profileForm.value.status,
       this.pageNumber,
@@ -86,6 +89,12 @@ export class HighPriorityComponent implements OnInit {
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
+    if (this.selectedbutton === 'highPriorityTaskTime') {
+      this.highPriorityTaskTime();
+    }
+    if (this.selectedbutton === 'allHighPriorityTask') {
+      this.allHighPriorityTask();
+    }
   }
 
   initialiseForm() {

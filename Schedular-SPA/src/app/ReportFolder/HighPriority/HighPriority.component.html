@@ -25,7 +25,9 @@
     <thead>
       <tr>
         <th style=" width: 10%">Task Number</th>
-        <th style=" width: 60%">Task</th>
+        <th style=" width: 50%">Task</th>
+        <th style=" width: 5%">{{customerType}}</th>
+        <th style=" width: 5%">Assigned</th>
         <th style=" width: 10%">Start Date & Time</th>
         <th style=" width: 10%">End Date & Time</th>
         <th style=" width: 5%">Priority</th>
@@ -43,6 +45,16 @@
           <td>
             {{customerTask.title}}
           </td>
+          <td >
+            <p *ngIf="customerTask.customer == null">
+            </p> 
+            <p *ngIf="customerTask.customer !== null">
+              {{customerTask.customer.name}}
+            </p>
+          </td>
+          <td>
+            {{customerTask.userCurrentAssigned.firstName}} {{customerTask.userCurrentAssigned.lastName}}
+          </td> 
           <td *ngIf="customerTask.start === null">          
           </td>
           <td *ngIf="customerTask.end === null">            

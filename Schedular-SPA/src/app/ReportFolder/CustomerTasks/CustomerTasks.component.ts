@@ -25,6 +25,7 @@ export class CustomerTasksComponent implements OnInit {
   customerTasksData;
   role;
   customers;
+  selectedbutton;
 
   pagination: Pagination;
   pageNumber = 1;
@@ -46,6 +47,7 @@ export class CustomerTasksComponent implements OnInit {
   }
 
   customerTaskTime() {
+    this.selectedbutton = 'customerTaskTime';
     this.dateError = false;
     this.nullError = false;
 
@@ -74,6 +76,7 @@ export class CustomerTasksComponent implements OnInit {
   }
 
   allCustomerTasks() {
+    this.selectedbutton = 'allCustomerTasks';
     this.customerTasksService.GetAllCustomerTasks(
       this.profileForm.value.customerId,
       this.pageNumber,
@@ -90,6 +93,12 @@ export class CustomerTasksComponent implements OnInit {
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
+    if (this.selectedbutton === 'customerTaskTime') {
+      this.customerTaskTime();
+    }
+    if (this.selectedbutton === 'allCustomerTasks') {
+      this.allCustomerTasks();
+    }
   }
 
   getCustomers() {

@@ -59,10 +59,14 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th style=" width: 10%">task Id</th>
-        <th style=" width: 60%">Task</th>
-        <th style=" width: 15%">Start Date & Time</th>
-        <th style=" width: 15%">End Date & Time</th>
+        <th style=" width: 10%">task Number</th>
+        <th style=" width: 50%">Task</th>
+        <th style=" width: 5%">{{customerType}}</th>
+        <th style=" width: 5%">Assigned</th>
+        <th style=" width: 10%">Start Date & Time</th>
+        <th style=" width: 10%">End Date & Time</th>
+        <th style=" width: 5%">Priority</th>
+        <th style=" width: 5%">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -74,6 +78,20 @@
           <td>
             {{tasksFromHoursWorked.title}}
           </td>
+          <td >
+            <p *ngIf="tasksFromHoursWorked.customer == null">
+            </p> 
+            <p *ngIf="tasksFromHoursWorked.customer !== null">
+              {{tasksFromHoursWorked.customer.name}}
+            </p>
+          </td>
+          <td>
+            {{tasksFromHoursWorked.userCurrentAssigned.firstName}} {{tasksFromHoursWorked.userCurrentAssigned.lastName}}
+          </td> 
+          <td *ngIf="tasksFromHoursWorked.start === null">          
+          </td>
+          <td *ngIf="tasksFromHoursWorked.end === null">            
+          </td>        
           <td>
             {{tasksFromHoursWorked.start.slice(8, 10)}}/  
             {{tasksFromHoursWorked.start.slice(5, 7)}}/
@@ -84,7 +102,25 @@
             {{tasksFromHoursWorked.end.slice(5, 7)}}/
             {{tasksFromHoursWorked.end.slice(0, 4)}} 
             {{tasksFromHoursWorked.end.slice(11, 16)}}
+        </td>
+        <td>
+          <p *ngIf="tasksFromHoursWorked.highPriority === false">
+            Normal
+          </p>
+          <div *ngIf="tasksFromHoursWorked.highPriority === true" class="bg-danger text-white">
+            <p class="ml-2">
+              High
+            </p>
+          </div>                          
         </td>     
+        <td>
+          <p *ngIf="tasksFromHoursWorked.isClosed === false">
+            Open
+          </p>
+          <p *ngIf="tasksFromHoursWorked.isClosed === true">
+            Closed
+          </p>
+        </td>                
         </tr>
   
     </tbody>

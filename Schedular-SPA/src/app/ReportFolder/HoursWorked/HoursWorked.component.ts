@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { HoursWorkedService } from './../../_services/hoursWorked.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
@@ -23,6 +24,7 @@ export class HoursWorkedComponent implements OnInit {
   dateError: boolean;
   tasksFromHoursWorkeds;
   role;
+  customerType: string = environment.customerType;
 
   pagination: Pagination;
   pageNumber = 1;

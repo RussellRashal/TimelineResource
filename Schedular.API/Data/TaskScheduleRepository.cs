@@ -176,6 +176,7 @@ namespace Schedular.API.Data
         {
                var query = _context.TaskSchedules
                     .Include(ts => ts.Notes)
+                    .Include(c => c.customer)
                     .Where(u => u.userCurrentAssignedId == UserCurrentAssignedId)
                     .AsNoTracking();
 
