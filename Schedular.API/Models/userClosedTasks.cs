@@ -6,7 +6,6 @@ namespace Schedular.API.Models
         {
                 userName = username;
                 closedTasks = closedtask;
-
         }
         public string userName { get; set; }
         public int closedTasks { get; set; }
