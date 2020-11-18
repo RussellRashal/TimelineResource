@@ -20,6 +20,7 @@ export class NavigationBarComponent implements OnInit {
   users: any[];
   userAuthorised: boolean;
   searchTask: FormControl;
+  userDisplayName;
 
 
   constructor(
@@ -38,15 +39,14 @@ export class NavigationBarComponent implements OnInit {
     this.model.username = this.loginReactiveForm.value.username;
     this.model.password = this.loginReactiveForm.value.password;
 
-
-
     this.authService.login(this.model).subscribe(next => {
       this.loadUsers();
       this.router.navigateByUrl('/CalendarView');
       this.isUserAdmin();
+      this.userDisplayName = JSON.parse (localStorage.getItem('user'));
       }, error => {
         console.log('failed to login');
-      });
+    });
   }
 
   isUserAdmin() {

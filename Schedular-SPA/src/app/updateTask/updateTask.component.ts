@@ -216,58 +216,56 @@ export class UpdateTaskComponent implements OnInit {
       // values need to be filled out
       this.nullError = true;
     }
-    else if (this.profileForm.value.hasTimeLimit === true &&
-      this.profileForm.value.startHourTime === null || this.profileForm.value.endHourTime === null ||
-      this.profileForm.value.startMinuteTime === null || this.profileForm.value.endMinuteTime === null ||
-      this.profileForm.value.startDate === null || this.profileForm.value.endDate === null ||
-      this.profileForm.value.title === '') {
-      // values need to be filled out
-      this.nullError = true;
-    }
-    else if (this.profileForm.value.hasTimeLimit === true  &&
-      this.profileForm.value.startHourTime !== '' && this.profileForm.value.endHourTime !== '' &&
-      this.profileForm.value.taskTextArea !== '' && this.profileForm.value.userName !== '') {
-
-      // put date, hour and minute together to send to api
-      this.returnedStartDateAndTime =
+    else if (this.profileForm.value.hasTimeLimit === true){
+      if (this.profileForm.value.startHourTime === null || this.profileForm.value.endHourTime === null ||
+        this.profileForm.value.startMinuteTime === null || this.profileForm.value.endMinuteTime === null ||
+        this.profileForm.value.startDate === null || this.profileForm.value.endDate === null ||
+        this.profileForm.value.title === '') {
+          // values need to be filled out
+          this.nullError = true;
+      }
+      else {
+        // put date, hour and minute together to send to api
+        this.returnedStartDateAndTime =
         this.profileForm.value.startDate.toString() + ' ' +
         this.profileForm.value.startHourTime.toString() + ':' +
         this.profileForm.value.startMinuteTime.toString();
-      this.returnedEndDateAndTime =
+        this.returnedEndDateAndTime =
         this.profileForm.value.endDate.toString() + ' ' +
         this.profileForm.value.endHourTime.toString() + ':' +
         this.profileForm.value.endMinuteTime.toString();
 
-      if (this.profileForm.value.startDate > this.profileForm.value.endDate ) {
+        if (this.profileForm.value.startDate > this.profileForm.value.endDate ) {
         // start date cannot be greater than end date
         this.dateError = true;
-      }
-      else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+        }
+        else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
         this.startHourInt === this.endHourInt && this.startMinuteInt > this.endMinuteInt) {
           // start time cannot be greater than end time
           this.timingError = true;
-      }
-      else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+        }
+        else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
         this.startHourInt > this.endHourInt) {
         // start time cannot be greater than end time
         this.timingError = true;
-      }
-      else {
-        // put data into an array for the api
-        this.putServiceTaskSchedule = {
-          title: this.profileForm.value.title,
-          start: this.returnedStartDateAndTime,
-          end: this.returnedEndDateAndTime,
-          userCurrentAssignedId: Number(this.profileForm.value.userName),
-          isClosed: this.profileForm.value.isClosed,
-          hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
-          highPriority: Boolean(this.profileForm.value.highPriority),
-          CustomerId: this.profileForm.value.customer
-        };
-        this.putData(this.taskScheduleData.id, this.putServiceTaskSchedule);
+        }
+        else {
+          // put data into an array for the api
+          this.putServiceTaskSchedule = {
+            title: this.profileForm.value.title,
+            start: this.returnedStartDateAndTime,
+            end: this.returnedEndDateAndTime,
+            userCurrentAssignedId: Number(this.profileForm.value.userName),
+            isClosed: this.profileForm.value.isClosed,
+            hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
+            highPriority: Boolean(this.profileForm.value.highPriority),
+            CustomerId: this.profileForm.value.customer
+          };
+          this.putData(this.taskScheduleData.id, this.putServiceTaskSchedule);
+        }
       }
     }
-    else if ( this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
+    else if (this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
         // values need to be filled out
         this.nullError = true;
     }

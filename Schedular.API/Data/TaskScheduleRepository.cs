@@ -79,6 +79,7 @@ namespace Schedular.API.Data
             var taskSchedule = await _context.TaskSchedules
                 .Include(ts => ts.Notes)
                 .Include(c => c.customer)
+                .OrderByDescending(x => x.taskCreatedDate)
                 .ToListAsync();             
            
            return taskSchedule;
@@ -94,6 +95,7 @@ namespace Schedular.API.Data
                     .Where(u => u.userCurrentAssignedId == userId)
                     .Where(c =>c.isClosed == true)
                     .Include(c => c.customer)
+                    .OrderByDescending(x => x.taskCreatedDate)
                     .AsNoTracking();
 
                 //gets sent to the pagination methods to be paginated 
@@ -106,6 +108,7 @@ namespace Schedular.API.Data
                     .Where(u => u.userCurrentAssignedId == userId)
                     .Where(c =>c.isClosed == false) 
                     .Include(c => c.customer)
+                    .OrderByDescending(x => x.taskCreatedDate)
                     .AsNoTracking();
                 
                 //gets sent to the pagination methods to be paginated 
@@ -125,6 +128,7 @@ namespace Schedular.API.Data
                     .Where(c => c.isClosed == false)
                     .Where(h => h.highPriority == true)
                     .Include(c => c.customer)
+                    .OrderByDescending(x => x.taskCreatedDate)
                     .AsNoTracking();
 
                 //gets sent to the pagination methods to be paginated 
@@ -138,6 +142,7 @@ namespace Schedular.API.Data
                     .Where(c =>c.isClosed == true)
                     .Where(h => h.highPriority == true) 
                     .Include(c => c.customer)
+                    .OrderByDescending(x => x.taskCreatedDate)
                     .AsNoTracking();
                 
                 //gets sent to the pagination methods to be paginated 
@@ -151,6 +156,7 @@ namespace Schedular.API.Data
                     .Where(c =>c.isClosed == false)
                     .Where(h => h.highPriority == false) 
                     .Include(c => c.customer)
+                    .OrderByDescending(x => x.taskCreatedDate)
                     .AsNoTracking();
                 
                 //gets sent to the pagination methods to be paginated 
@@ -164,6 +170,7 @@ namespace Schedular.API.Data
                     .Where(c =>c.isClosed == true)
                     .Where(h => h.highPriority == false) 
                     .Include(c => c.customer)
+                    .OrderByDescending(x => x.taskCreatedDate)
                     .AsNoTracking();
                 
                 //gets sent to the pagination methods to be paginated 
@@ -180,6 +187,7 @@ namespace Schedular.API.Data
                     .Include(ts => ts.Notes)
                     .Include(c => c.customer)
                     .Where(u => u.userCurrentAssignedId == UserCurrentAssignedId)
+                    .OrderByDescending(x => x.taskCreatedDate)
                     .AsNoTracking();
 
                 //gets sent to the pagination methods to be paginated 

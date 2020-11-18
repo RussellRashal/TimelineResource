@@ -1,5 +1,15 @@
-
 #nav {
-    z-index: 1000; 
-    
-  }
+  z-index: 1000; 
+}
+
+/* .username {
+position: relative;
+left: 87%;
+color: white ;
+} */
+
+
+.loginLogout {
+position:relative;
+left:95%;
+} 

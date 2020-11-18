@@ -62,7 +62,7 @@ namespace Schedular.API.Controllers
             return BadRequest();
 
         }
-
+        //used for ViewTasksComponent 
         [HttpGet("byUser/{userId}")]
         //public async Task<IActionResult> GetTaskSchedule(int staffId)
         public async Task<IActionResult> GetTaskSchedulesByUser(int userId, [FromQuery]TaskParams taskParams)
