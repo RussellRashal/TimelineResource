@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-number-closed-tasks-by-user',
@@ -20,15 +21,26 @@ export class NumberClosedTasksByUserComponent implements OnInit {
 
   public barChartOptions: ChartOptions = {
     responsive: true,
+     // We use these empty structures as placeholders for dynamic theming.
+     scales: { xAxes: [{}], yAxes: [{}] },
+     plugins: {
+       datalabels: {
+         anchor: 'end',
+         align: 'end',
+       }
+     }
   };
   public barChartLabels: Label[]; // = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
-  public barChartPlugins = [];
+  public barChartPlugins = [pluginDataLabels];
 
 
   public barChartData: ChartDataSets[] = [
-    { data: [], label: 'Closed Tasks'},
+    { data: [],
+      label: 'Closed Tasks',
+      backgroundColor: '#1748ff'
+    },
   ];
 
 
@@ -65,9 +77,11 @@ export class NumberClosedTasksByUserComponent implements OnInit {
           for (let i = 0; i < this.userClosed.length ; i++) {
             this.closedData.push(this.userClosed[i].closedTasks);
           }
-          console.log(this.closedData);
           this.barChartData = [
-            { data: this.closedData, label: 'Closed Tasks' },
+            { data: this.closedData,
+              label: 'Closed Tasks',
+              backgroundColor: '#1748ff'
+            },
           ];
       }, error => {
         console.log(error);
