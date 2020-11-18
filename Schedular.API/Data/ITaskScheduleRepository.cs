@@ -26,6 +26,9 @@ namespace Schedular.API.Data
 
       Task<IList<TaskSchedule>> GetTask(int id);   
       // get all taskSchedule        
-      Task<IEnumerable<TaskSchedule>> GetTasks();     
+      Task<IEnumerable<TaskSchedule>> GetTasks();  
+
+      //for calendar
+      Task<List<TaskSchedule>> GetTaskSchedulesByUserCalendar(int UserCurrentAssignedId); 
     }
 }

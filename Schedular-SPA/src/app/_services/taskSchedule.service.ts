@@ -27,7 +27,7 @@ export class TaskScheduleService {
   }
 
   getCalendarTaskScheduleByUserId(id): Observable<TaskSchedule[]> {
-    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUser/' + id);
+    return this.http.get<TaskSchedule[]>(this.baseUrl + '/byUserCalendar/' + id);
   }
 
   getTaskScheduleByUserId(id, page?: number, itemsPerPage?: number) {

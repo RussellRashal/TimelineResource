@@ -82,6 +82,23 @@ namespace Schedular.API.Controllers
             }
             return Unauthorized();                   
         }
+
+        [HttpGet("byUserCalendar/{userId}")]
+        //public async Task<IActionResult> GetTaskSchedule(int staffId)
+        public async Task<IActionResult> GetTaskSchedulesByUser(int userId)
+        {
+            var taskScheduled = await _repo.GetTask(2);
+      
+            int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
+
+            if (userId == tokenUserId || User.IsInRole("Admin")) {
+                var taskSchedule = await _repo.GetTaskSchedulesByUserCalendar(userId);
+                var taskReturn = _mapper.Map<IEnumerable<getTaskScheduleDto>>(taskSchedule);
+
+                return Ok(taskReturn);
+            }
+            return Unauthorized();                   
+        }
         //get either open or closed tasks
         [HttpGet("byUserOpenCloseTasks/{userId}/{isClosed}")]
         public async Task<IActionResult> GetOpenCloseTasksByUser(int userId, bool isClosed, [FromQuery]TaskParams taskParams)

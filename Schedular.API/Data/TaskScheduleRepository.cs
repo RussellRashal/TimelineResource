@@ -187,6 +187,20 @@ namespace Schedular.API.Data
                     .CreateAsync(query, taskParams.Pagenumber, taskParams.PageSize);         
         }
 
+         //get tasks user for calendar  
+        public async Task<List<TaskSchedule>> GetTaskSchedulesByUserCalendar(int UserCurrentAssignedId)
+        {
+            var query =  await _context.TaskSchedules
+                .Include(ts => ts.Notes)
+                .Include(c => c.customer)
+                .Where(u => u.userCurrentAssignedId == UserCurrentAssignedId)
+                .Where(a => a.isClosed == false)
+                .ToListAsync();   
+
+            return query;  
+        }
+
+
         //lets us know if changes have been saved on the database
         //if true is returned then changes have been made
         //if false is returned then no changes have been saved
