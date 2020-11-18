@@ -132,6 +132,8 @@ namespace Schedular.API.Controllers
             string NowDate =  thisDay.ToString("g");
 
             taskSchedule.userLastEditId = tokenUserId;
+            taskSchedule.taskCreatedDate = Convert.ToDateTime(NowDate);
+            taskSchedule.userLastEditDate = Convert.ToDateTime(NowDate);
 
             if(taskSchedule.Notes != null) {
                 taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
@@ -158,6 +160,10 @@ namespace Schedular.API.Controllers
         {
             int tokenUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             taskSchedule.userLastEditId = tokenUserId; 
+
+            DateTime thisDay = DateTime.Now;
+            string NowDate =  thisDay.ToString("g");
+            taskSchedule.userLastEditDate = Convert.ToDateTime(NowDate);
 
             var updateTask = PutScheduleM(id, taskSchedule);
             return updateTask;   

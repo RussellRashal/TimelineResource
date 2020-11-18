@@ -42,6 +42,7 @@ namespace Schedular.API.Data
             TaskScheduleDb.hasTimeLimit = taskSchedule.hasTimeLimit;
             TaskScheduleDb.Attachments = taskSchedule.Attachments;
             TaskScheduleDb.customerId = taskSchedule.customerId;
+            
 
             _context.SaveChanges();
 

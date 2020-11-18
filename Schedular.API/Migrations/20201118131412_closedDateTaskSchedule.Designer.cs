@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Schedular.API.Data;
 
 namespace Schedular.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201118131412_closedDateTaskSchedule")]
+    partial class closedDateTaskSchedule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,6 +222,9 @@ namespace Schedular.API.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<DateTime?>("closedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int?>("customerId")
                         .HasColumnType("int");
 
@@ -232,14 +237,8 @@ namespace Schedular.API.Migrations
                     b.Property<bool>("isClosed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("taskCreatedDate")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("userCurrentAssignedId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("userLastEditDate")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("userLastEditId")
                         .HasColumnType("int");

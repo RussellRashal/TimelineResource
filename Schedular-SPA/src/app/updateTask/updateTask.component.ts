@@ -69,6 +69,8 @@ export class UpdateTaskComponent implements OnInit {
   attachmentArray;
   customers;
   customerType: string = environment.customerType;
+  dateLastEdit;
+  timeLastEdit;
 
   constructor(
     private router: Router,
@@ -122,6 +124,8 @@ export class UpdateTaskComponent implements OnInit {
       this.currentStartTimeDate = this.taskScheduleData.start;
       this.currentEndTimeDate = this.taskScheduleData.end;
       this.currentUserId = this.taskScheduleData.userCurrentAssignedId;
+      this.dateLastEdit = this.taskScheduleData.userLastEditDate.toString().slice(0, 10);
+      this.timeLastEdit = this.taskScheduleData.userLastEditDate.toString().slice(11, 16);
 
       this.stateStorageService.setAttachmentFileName(this.taskScheduleDataArray[0].attachments);
       this.attachmentArray = this.taskScheduleDataArray[0].attachments;

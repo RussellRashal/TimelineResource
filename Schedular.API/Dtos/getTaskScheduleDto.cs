@@ -19,7 +19,11 @@ namespace Schedular.API.Dtos
         public int UserCurrentAssignedId { get; set; }
         //user who last edited the task
         public int userLastEditId { get; set; }
+        public DateTime? userLastEditDate { get; set; }
         public bool hasTimeLimit { get; set; }
+        public DateTime taskCreatedDate { get; set; }
+
+
 
     }
 }

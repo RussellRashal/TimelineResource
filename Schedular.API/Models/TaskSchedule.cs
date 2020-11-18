@@ -27,6 +27,8 @@ namespace Schedular.API.Models
         public int userLastEditId { get; set; }
         [ForeignKey("userLastEditId")]
         public User userLastEdit { get; set; }
+        public DateTime? userLastEditDate { get; set; }
+        public DateTime taskCreatedDate { get; set; }
 
     }
 }
