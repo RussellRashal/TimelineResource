@@ -12,3 +12,16 @@
   <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
 
 </form>
+
+<div style="display: block;">
+  <canvas baseChart 
+    [datasets]="barChartData"
+    [labels]="barChartLabels"
+    [options]="barChartOptions"
+    [plugins]="barChartPlugins"
+    [legend]="barChartLegend"
+    [chartType]="barChartType">
+  </canvas>
+</div>
+
+

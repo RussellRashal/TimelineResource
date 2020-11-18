@@ -69,6 +69,7 @@ import { SidebarNavigationComponent } from './sidebar-navigation/sidebar-navigat
 import { EditCustomerComponent } from './CustomerFolder/editCustomer/editCustomer.component';
 import { AddCustomerComponent } from './CustomerFolder/AddCustomer/AddCustomer.component';
 import { CustomerTasksComponent } from './ReportFolder/CustomerTasks/CustomerTasks.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 // register FullCalendar plugins
@@ -128,6 +129,7 @@ export function tokengetter() {
     HttpClientModule,
     NgbModule,
     MatSidenavModule,
+    ChartsModule,
     MatNativeDateModule,
     MatDatepickerModule,
     MatTableModule,

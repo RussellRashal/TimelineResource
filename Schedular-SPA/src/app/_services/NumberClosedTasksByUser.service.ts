@@ -1,3 +1,4 @@
+import { UserClosedTask } from './../_models/UserClosedTasks';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -11,8 +12,8 @@ export class NumberClosedTasksByUserService {
 
   constructor(private http: HttpClient) { }
 
-  GetClosedTaskbyUser(startDate, endDate): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'TasksClosedByUser/' + startDate + '/' + endDate);
+  GetClosedTaskbyUser(startDate, endDate): Observable<UserClosedTask> {
+    return this.http.get<UserClosedTask>(this.baseUrl + 'TasksClosedByUser/' + startDate + '/' + endDate);
   }
 
 }
