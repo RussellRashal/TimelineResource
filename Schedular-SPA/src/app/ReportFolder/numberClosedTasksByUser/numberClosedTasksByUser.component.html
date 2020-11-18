@@ -1,0 +1,14 @@
+<form *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
+  <div>
+   <label class="ml-2">Date from</label>
+   <input class="ml-2" type="date" formControlName="startDate">
+  
+   <label class="ml-2">Date to</label>
+   <input class="ml-2" type="date" formControlName="endDate"> 
+   <button type="submit" class="btn btn-primary ml-2">View</button>
+
+
+  </div>
+  <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
+
+</form>

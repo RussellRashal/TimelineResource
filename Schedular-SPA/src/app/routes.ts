@@ -1,3 +1,4 @@
+import { NumberClosedTasksByUserComponent } from './ReportFolder/numberClosedTasksByUser/numberClosedTasksByUser.component';
 import { HighPriorityComponent } from './ReportFolder/HighPriority/HighPriority.component';
 import { CustomerTasksComponent } from './ReportFolder/CustomerTasks/CustomerTasks.component';
 import { CustomerComponent } from './CustomerFolder/Customer/Customer.component';
@@ -92,6 +93,10 @@ export const appRoutes: Routes = [
     {
         path: 'HighPriority',
         component: HighPriorityComponent , canActivate: [RoleGuard]
+    },
+    {
+        path: 'NumberClosedTasksByUser',
+        component: NumberClosedTasksByUserComponent , canActivate: [RoleGuard]
     },
     {
         path: 'login',

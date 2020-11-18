@@ -11,7 +11,7 @@
         <a class="nav-link" [routerLink]="['/hoursworked']">HoursWorked</a>
         <a class="nav-link" [routerLink]="['/CustomerTask']">Tasks by Customer</a>
         <a class="nav-link" [routerLink]="['/HighPriority']">High Priority Tasks</a>
-
+        <a class="nav-link" [routerLink]="['/NumberClosedTasksByUser']">Closed Tasks</a>
         <label>Admin Console</label>
         <a class="nav-link" [routerLink]="['/editUsername']">EditUsername</a>
         <a class="nav-link" [routerLink]="['/editRole']">editRole</a>
@@ -24,7 +24,7 @@
     </mat-nav-list>
   </mat-sidenav>
 
-
+  
   <mat-sidenav-content class="mt-2">
     <router-outlet></router-outlet>
   </mat-sidenav-content>

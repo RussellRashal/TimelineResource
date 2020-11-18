@@ -1,3 +1,4 @@
+import { NumberClosedTasksByUserComponent } from './ReportFolder/numberClosedTasksByUser/numberClosedTasksByUser.component';
 import { HighPriorityComponent } from './ReportFolder/HighPriority/HighPriority.component';
 import { HoursWorkedComponent } from './ReportFolder/HoursWorked/HoursWorked.component';
 import { CustomerComponent } from './CustomerFolder/Customer/Customer.component';
@@ -85,6 +86,7 @@ export function tokengetter() {
   declarations: [
     AppComponent,
     NavigationBarComponent,
+    NumberClosedTasksByUserComponent,
     CalendarViewComponent,
     HighPriorityComponent,
     TestTaskComponent,
