@@ -32,15 +32,6 @@ namespace Schedular.API.Controllers
             return TasksClosedByUser;      
         }
 
-        //All number of closed tasks 
-        [HttpGet("TasksClosedByUser")]
-        public userClosedTasks[] GetAllTasksClosedByUser()
-        {            
-            var TasksClosedByUser = _repo.GetAllTasksClosedByUser();
-
-            return TasksClosedByUser;      
-        }
-
         //high priority tasks by time
         [HttpGet("HighPriorityTasks/{startDate}/{endDate}/{status}")]
         public async Task<IActionResult> GetHighPriorityTasks(DateTime startDate, DateTime endDate, 

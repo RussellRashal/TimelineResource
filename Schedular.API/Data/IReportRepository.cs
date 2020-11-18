@@ -27,8 +27,5 @@ namespace Schedular.API.Data
 
         //get number of closed tasks by user by time
         userClosedTasks[] GetTasksClosedByUser(DateTime startDate, DateTime endDate);
-
-        //get number of closed tasks by user 
-        userClosedTasks[] GetAllTasksClosedByUser();
     }
 }

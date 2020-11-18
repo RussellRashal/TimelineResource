@@ -69,7 +69,9 @@ export class UpdateTaskComponent implements OnInit {
   attachmentArray;
   customers;
   customerType: string = environment.customerType;
-  dateLastEdit;
+  yearLastEdit;
+  monthLastEdit;
+  dayLastEdit;
   timeLastEdit;
 
   constructor(
@@ -124,7 +126,9 @@ export class UpdateTaskComponent implements OnInit {
       this.currentStartTimeDate = this.taskScheduleData.start;
       this.currentEndTimeDate = this.taskScheduleData.end;
       this.currentUserId = this.taskScheduleData.userCurrentAssignedId;
-      this.dateLastEdit = this.taskScheduleData.userLastEditDate.toString().slice(0, 10);
+      this.yearLastEdit = this.taskScheduleData.userLastEditDate.toString().slice(0, 4);
+      this.monthLastEdit = this.taskScheduleData.userLastEditDate.toString().slice(5, 7);
+      this.dayLastEdit = this.taskScheduleData.userLastEditDate.toString().slice(8, 10);
       this.timeLastEdit = this.taskScheduleData.userLastEditDate.toString().slice(11, 16);
 
       this.stateStorageService.setAttachmentFileName(this.taskScheduleDataArray[0].attachments);

@@ -21,6 +21,9 @@ export class NoteComponent implements OnInit {
   currentUserIdLogged;
   sendNote: Note;
   NoteData;
+  year;
+  month;
+  day;
 
   constructor(
     private stateStorageService: StateStorageService,
@@ -45,7 +48,10 @@ export class NoteComponent implements OnInit {
     this.whichUser();
     // console.log(this.userMemberModels);
 
-    this.date = this.note.dateCreated.toString().slice(0, 10);
+    this.year = this.note.dateCreated.toString().slice(0, 4);
+    this.month = this.note.dateCreated.toString().slice(5, 7);
+    this.day = this.note.dateCreated.toString().slice(8, 10);
+
     this.time = this.note.dateCreated.toString().slice(11, 16);
 
     this.canUserUpdateAndDelete();
