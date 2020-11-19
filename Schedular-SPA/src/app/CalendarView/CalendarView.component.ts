@@ -56,10 +56,10 @@ export class CalendarViewComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserSelected = JSON.parse(localStorage.getItem('user'));
+    this.runCalendarData(this.currentUserSelected);
     this.stateStorageService.setClickedOnUser(this.currentUserSelected);
     this.selectedFullName = this.currentUserSelected.firstName + ' ' + this.currentUserSelected.lastName;
     this.searchTask = new FormControl();
-
   }
 
   runCalendarData(userclicked) {
