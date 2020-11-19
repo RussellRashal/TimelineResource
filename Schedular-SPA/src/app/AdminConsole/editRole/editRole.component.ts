@@ -41,11 +41,10 @@ export class EditRoleComponent implements OnInit {
       Username: this.editForm.value.username,
       NewRole: this.editForm.value.role
     };
-    this.editUserService.editRole(this.userRole).subscribe(next => {
-      alert('User Role Updated');
+    this.editUserService.editRole(this.userRole).subscribe(res => {
+      alert(res);
   }, error => {
-      console.log(error);
-
+      alert(error.error);
   });
 
 
