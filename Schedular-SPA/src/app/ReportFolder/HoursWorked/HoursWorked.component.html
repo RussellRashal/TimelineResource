@@ -2,9 +2,9 @@
   <div>
       <label>Name</label>      
       <select formControlName="userId" class="ml-2">
-        <option *ngFor="let UserMemberModel of UserMemberModels"
-          [value]="UserMemberModel.id"> 
-            {{UserMemberModel.firstName}} {{UserMemberModel.lastName}}
+        <option *ngFor="let userMemberModel of userMemberModels"
+          [value]="userMemberModel.id"> 
+            {{userMemberModel.firstName}} {{userMemberModel.lastName}}
         </option>      
      </select>
    <label class="ml-2">Date from</label>

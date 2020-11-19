@@ -1,101 +1,103 @@
-<button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
+<div *ngIf="isDataAvailable">
 
-<form *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
-  <div *ngIf="authorised()">
-    <h3>Add Task</h3>
-    <label>Name</label>      
-    <select class="ml-2" formControlName="userName">
-      <option *ngFor="let userMemberModel of userMemberModels"
-        [value]="userMemberModel.id"> 
-          {{userMemberModel.firstName}} {{userMemberModel.lastName}}
-      </option>      
-   </select>
-  </div> 
-  <div>
-    <label>Title</label>
-    <div>
-      <textarea formControlName="title" class="mb-1"></textarea>
-    </div>
-  </div>
+  <button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
 
-  <div>
-    <label class="mr-1">Add time to task</label>
-    <input type="checkbox" value="True" formControlName="hasTimeLimit">
-  </div>
-
-  <div *ngIf="this.profileForm.value.hasTimeLimit === true">
-    <div class="mb-1">
-
-      <label>Start Date</label>
-      <input type="date" formControlName="startDate" class="ml-1">
-  
-      <label class="ml-3">Start Time</label>
-      <select class="ml-1" formControlName="startHourTime">
-        <option *ngFor="let hourSelector of hourSelectors"
-          [value]="hourSelector">
-          {{hourSelector}}
-        </option>
-      </select>
-  
-      <label> : </label>
-  
-      <select formControlName="startMinuteTime">
-        <option *ngFor="let minuteSelector of minuteSelectors"
-          [value]="minuteSelector">
-          {{minuteSelector}}
-        </option>
-      </select>
-  
-    </div>  
-    <div class="mb-4">
-      <label>End Date</label>
-      <input type="date" formControlName="endDate" class="ml-2">
-  
-      <label class="ml-3">End Time</label>
-      <select class="ml-2" formControlName="endHourTime">
-        <option *ngFor="let hourSelector of hourSelectors"
-          [value]="hourSelector">
-          {{hourSelector}}
-        </option>
-      </select>
-  
-      <label> : </label>
-  
-      <select formControlName="endMinuteTime">
-        <option *ngFor="let minuteSelector of minuteSelectors"
-          [value]="minuteSelector">
-          {{minuteSelector}}
-        </option>
-      </select>
-  
+  <form *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
+    <div *ngIf="authorised()">
+      <h3>Add Task</h3>
+      <label>Name</label>      
+      <select class="ml-2" formControlName="userName">
+        <option *ngFor="let userMemberModel of userMemberModels"
+          [value]="userMemberModel.id"> 
+            {{userMemberModel.firstName}} {{userMemberModel.lastName}}
+        </option>      
+    </select>
     </div> 
-  </div>
-
-  <div>
-    <label class="mr-1">High Priority</label>
-    <input type="checkbox" value="True" formControlName="highPriority">
-  </div>
-
-  
-
-  <div class="mt-4">
     <div>
-      <label>New Note</label>
-      <textarea class="textareaNew" formControlName="noteInfo"></textarea>
+      <label>Title</label>
+      <div>
+        <textarea formControlName="title" class="mb-1"></textarea>
+      </div>
     </div>
-  </div>
-  
-  <button type="submit" class="btn btn-primary">Add Task</button>
 
-  <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
-  <div class="text-danger" *ngIf="getTimingError()">start time cannot be greater than end time</div>
-  <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
+    <div>
+      <label class="mr-1">Add time to task</label>
+      <input type="checkbox" value="True" formControlName="hasTimeLimit">
+    </div>
 
-  
+    <div *ngIf="this.profileForm.value.hasTimeLimit === true">
+      <div class="mb-1">
+
+        <label>Start Date</label>
+        <input type="date" formControlName="startDate" class="ml-1">
+    
+        <label class="ml-3">Start Time</label>
+        <select class="ml-1" formControlName="startHourTime">
+          <option *ngFor="let hourSelector of hourSelectors"
+            [value]="hourSelector">
+            {{hourSelector}}
+          </option>
+        </select>
+    
+        <label> : </label>
+    
+        <select formControlName="startMinuteTime">
+          <option *ngFor="let minuteSelector of minuteSelectors"
+            [value]="minuteSelector">
+            {{minuteSelector}}
+          </option>
+        </select>
+    
+      </div>  
+      <div class="mb-4">
+        <label>End Date</label>
+        <input type="date" formControlName="endDate" class="ml-2">
+    
+        <label class="ml-3">End Time</label>
+        <select class="ml-2" formControlName="endHourTime">
+          <option *ngFor="let hourSelector of hourSelectors"
+            [value]="hourSelector">
+            {{hourSelector}}
+          </option>
+        </select>
+    
+        <label> : </label>
+    
+        <select formControlName="endMinuteTime">
+          <option *ngFor="let minuteSelector of minuteSelectors"
+            [value]="minuteSelector">
+            {{minuteSelector}}
+          </option>
+        </select>
+    
+      </div> 
+    </div>
+
+    <div>
+      <label class="mr-1">High Priority</label>
+      <input type="checkbox" value="True" formControlName="highPriority">
+    </div>
+
+    
+
+    <div class="mt-4">
+      <div>
+        <label>New Note</label>
+        <textarea class="textareaNew" formControlName="noteInfo"></textarea>
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Add Task</button>
+
+    <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
+    <div class="text-danger" *ngIf="getTimingError()">start time cannot be greater than end time</div>
+    <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
+
+    
 
 
-</form>
-
+  </form>
+</div>
 
 
 

@@ -15,7 +15,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class EditUsernameComponent implements OnInit {
   editForm: FormGroup;
-  currentUserData;
   role;
   userMemberModels;
   editUser;
@@ -29,7 +28,12 @@ export class EditUsernameComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit() {
-    this.userMemberModels = this.stateStorageService.getUserMemberStorage();
+    // this.userMemberModels = this.stateStorageService.getUserMemberStorage();
+    this.route.data.subscribe(data => {
+      this.userMemberModels = data['UserMemberModel'];
+    }, error => {
+      console.log(error);
+    });
     this.CreateForm();
   }
 

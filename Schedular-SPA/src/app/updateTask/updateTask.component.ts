@@ -102,8 +102,6 @@ export class UpdateTaskComponent implements OnInit {
     console.log(this.customerType);
 
     this.displayTasks();
-
-
   }
 
   attachmentBox() {

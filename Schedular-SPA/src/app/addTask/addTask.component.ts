@@ -38,6 +38,8 @@ export class AddTaskComponent implements OnInit {
   userAuthorised: boolean;
   role;
   postNote: Note;
+  isDataAvailable: boolean;
+
 
   constructor(
     private stateStorageService: StateStorageService,
@@ -49,9 +51,11 @@ export class AddTaskComponent implements OnInit {
 
 
   ngOnInit() {
+    this.isDataAvailable = false;
+
     // get user from storageService
     // the below will put the name of the person who is logged in or had the button clicked onto the user name automatically
-    this.currentUserData = this.stateStorageService.getClickedOnUser();
+    this.currentUserData = JSON.parse(localStorage.getItem('user'));
 
     this.role = JSON.parse(localStorage.getItem('role'));
     // if user is not a manager
@@ -63,7 +67,9 @@ export class AddTaskComponent implements OnInit {
       this.userMemberModels = this.stateStorageService.getUserMemberStorage();
       this.userAuthorised = true;
     }
+    this.isDataAvailable = true;
 
+    // console.log(this.currentUserData);
     this.dropDownTimeList();
     this.initForm();
   }
