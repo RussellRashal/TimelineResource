@@ -24,7 +24,11 @@ export class PasswordResetComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.userMemberModels = this.stateStorageService.getUserMemberStorage();
+    this.route.data.subscribe(data => {
+      this.userMemberModels = data['UserMemberModel'];
+    }, error => {
+      console.log(error);
+    });
     this.initForm();
   }
   updatePassword() {

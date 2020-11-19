@@ -15,7 +15,7 @@ import { Pagination } from './../../_models/pagination';
 })
 export class HoursWorkedComponent implements OnInit {
   profileForm: FormGroup;
-  UserMemberModels;
+  userMemberModels;
   hoursWorked;
   minuteWorked;
   nullError;
@@ -92,13 +92,7 @@ export class HoursWorkedComponent implements OnInit {
   }
 
   loadUser() {
-    // who the current user is
-    this.route.data.subscribe(data => {
-      this.currentUser = data['CurrentUser'];
-    }, error => {
-      console.log(error);
-    });
-
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.role = JSON.parse(localStorage.getItem('role'));
     // if user is not a manager
     if (this.role !== 'Admin') {
@@ -108,7 +102,7 @@ export class HoursWorkedComponent implements OnInit {
     else {
       // list of users for the drop down
       this.route.data.subscribe(data => {
-        this.UserMemberModels = data['UserMemberModel'];
+        this.userMemberModels = data['UserMemberModel'];
       }, error => {
         console.log(error);
       });

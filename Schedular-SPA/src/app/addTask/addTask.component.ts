@@ -38,6 +38,8 @@ export class AddTaskComponent implements OnInit {
   userAuthorised: boolean;
   role;
   postNote: Note;
+  isDataAvailable: boolean;
+
 
   constructor(
     private stateStorageService: StateStorageService,
@@ -49,9 +51,11 @@ export class AddTaskComponent implements OnInit {
 
 
   ngOnInit() {
+    this.isDataAvailable = false;
+
     // get user from storageService
     // the below will put the name of the person who is logged in or had the button clicked onto the user name automatically
-    this.currentUserData = this.stateStorageService.getClickedOnUser();
+    this.currentUserData = JSON.parse(localStorage.getItem('user'));
 
     this.role = JSON.parse(localStorage.getItem('role'));
     // if user is not a manager
@@ -63,7 +67,9 @@ export class AddTaskComponent implements OnInit {
       this.userMemberModels = this.stateStorageService.getUserMemberStorage();
       this.userAuthorised = true;
     }
+    this.isDataAvailable = true;
 
+    // console.log(this.currentUserData);
     this.dropDownTimeList();
     this.initForm();
   }
@@ -71,7 +77,7 @@ export class AddTaskComponent implements OnInit {
   initForm() {
     this.profileForm = new FormGroup({
       userName: new FormControl(this.currentUserData.id),
-      taskTextArea: new FormControl(''),
+      title: new FormControl(''),
       startDate: new FormControl(new Date().toISOString().slice(0, 10)),
       startHourTime: new FormControl(''),
       startMinuteTime: new FormControl('00'),
@@ -125,59 +131,65 @@ export class AddTaskComponent implements OnInit {
 
 
 
-    if (this.profileForm.value.hasTimeLimit === true) {
-      if (this.profileForm.value.startHourTime === '' || this.profileForm.value.endHourTime === '' ||
-        this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
-        // values need to be filled out
-        this.nullError = true;
+    if (this.profileForm.value.title === '') {
+      // values need to be filled out
+      this.nullError = true;
+    }
+    else if (this.profileForm.value.hasTimeLimit === true){
+      if (this.profileForm.value.startHourTime === null || this.profileForm.value.endHourTime === null ||
+        this.profileForm.value.startMinuteTime === null || this.profileForm.value.endMinuteTime === null ||
+        this.profileForm.value.startDate === null || this.profileForm.value.endDate === null ||
+        this.profileForm.value.title === '') {
+          // values need to be filled out
+          this.nullError = true;
       }
-      else if (this.profileForm.value.startDate > this.profileForm.value.endDate) {
+      else {
+        // put date, hour and minute together to send to api
+        this.returnedStartDateAndTime =
+        this.profileForm.value.startDate.toString() + ' ' +
+        this.profileForm.value.startHourTime.toString() + ':' +
+        this.profileForm.value.startMinuteTime.toString();
+        this.returnedEndDateAndTime =
+        this.profileForm.value.endDate.toString() + ' ' +
+        this.profileForm.value.endHourTime.toString() + ':' +
+        this.profileForm.value.endMinuteTime.toString();
+
+        if (this.profileForm.value.startDate > this.profileForm.value.endDate ) {
         // start date cannot be greater than end date
         this.dateError = true;
-      }
-      else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+        }
+        else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
         this.startHourInt === this.endHourInt && this.startMinuteInt > this.endMinuteInt) {
           // start time cannot be greater than end time
           this.timingError = true;
-      }
-      else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
+        }
+        else if (this.profileForm.value.startDate === this.profileForm.value.endDate &&
         this.startHourInt > this.endHourInt) {
         // start time cannot be greater than end time
         this.timingError = true;
+        }
+        else {
+          // put data into an array for the api
+          this.postServiceTaskSchedule = {
+            title: this.profileForm.value.title,
+            start: this.returnedStartDateAndTime,
+            end: this.returnedEndDateAndTime,
+            userCurrentAssignedId: Number(this.profileForm.value.userName),
+            hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
+            highPriority: Boolean(this.profileForm.value.highPriority),
+            notes: [{
+              notesInfo: this.profileForm.value.noteInfo
+            }]
+          };
+          this.postData(this.postServiceTaskSchedule);
+        }
       }
-      else {
-         // put data into an array for the api
-        this.postServiceTaskSchedule = {
-          title: this.profileForm.value.taskTextArea,
-          start: this.returnedStartDateAndTime,
-          end: this.returnedEndDateAndTime,
-          userCurrentAssignedId: Number(this.profileForm.value.userName),
-          hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
-          highPriority: Boolean(this.profileForm.value.highPriority),
-          notes: [{
-            notesInfo: this.profileForm.value.noteInfo
-          }]
-        };
-        this.postData(this.postServiceTaskSchedule);
-      }
-    }
-    else if ( this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
-        this.nullError = true; // values need to be filled out
-    }
-    else if (this.profileForm.value.noteInfo === '') {
-            // post data into an array for the api without start and end time
-            this.postServiceTaskSchedule = {
-              title: this.profileForm.value.taskTextArea,
-              userCurrentAssignedId: Number(this.profileForm.value.userName),
-              hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
-              highPriority: Boolean(this.profileForm.value.highPriority)
-            };
-            this.postData(this.postServiceTaskSchedule);
     }
     else {
-      // post data into an array for the api without start and end time
-      this.postServiceTaskSchedule = {
-        title: this.profileForm.value.taskTextArea,
+      // put data into an array for the api without start and end time
+      this.postServiceTaskSchedule =
+      {
+        title: this.profileForm.value.title,
         userCurrentAssignedId: Number(this.profileForm.value.userName),
         hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
         highPriority: Boolean(this.profileForm.value.highPriority),
@@ -190,13 +202,13 @@ export class AddTaskComponent implements OnInit {
   }
 
   postData(data) {
-      // send data to api
-      this.taskScheduleService.postTaskSchedule(data).subscribe(next => {
-        console.log('success');
-        this.dialogRef.close({event: 'Cancel'});
-        }, error => {
-          console.log(error);
-      });
+    // send data to api
+    this.taskScheduleService.postTaskSchedule(data).subscribe(next => {
+      console.log('success');
+      this.dialogRef.close({event: 'Cancel'});
+      }, error => {
+        console.log(error);
+    });
   }
 
 

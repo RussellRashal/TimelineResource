@@ -40,17 +40,26 @@ export const appRoutes: Routes = [
     {
         path: 'editUsername',
         component: EditUsernameComponent,
-        canActivate: [RoleGuard]
+        canActivate: [RoleGuard],
+        resolve: {
+            UserMemberModel: UserLoaderResolver
+        }
     },
     {
         path: 'editRole',
         component: EditRoleComponent,
-        canActivate: [RoleGuard]
+        canActivate: [RoleGuard],
+        resolve: {
+            UserMemberModel: UserLoaderResolver
+        }
     },
     {
         path: 'Password',
         component: PasswordResetComponent,
-        canActivate: [RoleGuard]
+        canActivate: [RoleGuard],
+        resolve: {
+            UserMemberModel: UserLoaderResolver
+        }
     },
     {
         path: 'SideNav',

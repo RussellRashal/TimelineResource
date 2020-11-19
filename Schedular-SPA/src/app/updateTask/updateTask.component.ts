@@ -102,8 +102,6 @@ export class UpdateTaskComponent implements OnInit {
     console.log(this.customerType);
 
     this.displayTasks();
-
-
   }
 
   attachmentBox() {
@@ -264,10 +262,6 @@ export class UpdateTaskComponent implements OnInit {
           this.putData(this.taskScheduleData.id, this.putServiceTaskSchedule);
         }
       }
-    }
-    else if (this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
-        // values need to be filled out
-        this.nullError = true;
     }
     else {
       // put data into an array for the api without start and end time
