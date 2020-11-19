@@ -148,7 +148,7 @@ namespace Schedular.API.Controllers
                     // find out what roles the user currently belongs to 
                     var userRoles = await _userManager.GetRolesAsync(user);
                     //can not have less than 2 admins
-                    if(editRoles.NewRole == "Admin" || editRoles.NewRole == "Standard" && _repo.GetNumberOfAdmins() >= 3)
+                    if(editRoles.NewRole == "Admin" || editRoles.NewRole == "Standard" && _repo.GetNumberOfAdmins() >= 2)
                     {
                         // remove user from old role
                         var removeUserRole = await _userManager.GetRolesAsync(user);
