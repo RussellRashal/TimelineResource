@@ -265,10 +265,6 @@ export class UpdateTaskComponent implements OnInit {
         }
       }
     }
-    else if (this.profileForm.value.taskTextArea === '' || this.profileForm.value.userName === '') {
-        // values need to be filled out
-        this.nullError = true;
-    }
     else {
       // put data into an array for the api without start and end time
       this.putServiceTaskSchedule =
