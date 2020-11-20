@@ -52,9 +52,9 @@ export class PasswordResetComponent implements OnInit {
       };
 
       this.editUserService.editAnyPasswordAdmin(this.model).subscribe(next => {
-        alert('Password has been changed');
+        alert(next);
       }, error => {
-          console.log(error);
+        alert(error.error);
       });
 
       this.ResetPass.reset();

@@ -97,7 +97,7 @@ namespace Schedular.API.Controllers
                 
                     if(result.Succeeded)
                     {
-                        return Ok();
+                        return Ok("Password has been changed");
                     }                     
                     return BadRequest(result.Errors);
                     
@@ -131,7 +131,7 @@ namespace Schedular.API.Controllers
                     } 
                     return BadRequest(result.Errors);                        
                 }
-                return Unauthorized();                    
+                return BadRequest("Incorrect Credentials");                   
             }
             return BadRequest("Password does not meet minimum requirements. At least 8 characters long, 1 capital and a number.");                      
         }
