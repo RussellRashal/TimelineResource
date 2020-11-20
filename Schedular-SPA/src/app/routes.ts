@@ -93,7 +93,7 @@ export const appRoutes: Routes = [
     },
     {
         path: 'CustomerComponent',
-        component: CustomerComponent , canActivate: [RoleGuard]
+        component: CustomerComponent , canActivate: [AuthGuard]
     },
     {
         path: 'CustomerTask',
