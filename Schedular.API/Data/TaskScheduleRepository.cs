@@ -76,7 +76,7 @@ namespace Schedular.API.Data
                 .Include(c => c.customer)
                 .ToListAsync();
 
-                taskSchedule.ForEach(t => t.Notes = t.Notes.OrderBy(n => n.DateCreated).ToList());
+                taskSchedule.ForEach(t => t.Notes = t.Notes.OrderByDescending(n => n.DateCreated).ToList());
                 
             return taskSchedule;  
         }  
