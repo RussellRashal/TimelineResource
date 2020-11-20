@@ -39,9 +39,9 @@ export class StandardUserPasswordComponent implements OnInit {
         newPassword: this.ResetPass.value.newPassword };
 
       this.editUserService.editStandardPassword(this.model).subscribe(next => {
-        alert('Password has been changed');
+        alert(next);
       }, error => {
-          console.log(error);
+          alert(error.error);
       });
 
       this.ResetPass.reset();

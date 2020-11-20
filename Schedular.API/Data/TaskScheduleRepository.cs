@@ -62,16 +62,15 @@ namespace Schedular.API.Data
         //get individual taskschedules data
         public async Task<IList<TaskSchedule>> GetTask(int id)
         {    
-             var taskSchedule = await _context.TaskSchedules
+            var taskSchedule = await _context.TaskSchedules
                 .Where(u => u.Id == id)
-                .Include(ts => ts.Notes)
+                .Include(ts => ts.Notes.OrderByDescending(i => i.DateCreated))
                 .Include(ts => ts.Attachments)
                 .Include(c => c.customer)
                 .ToListAsync();
                 
             return taskSchedule;  
         }  
-     
 
         //get all data of taskSchedules
         public async Task<IEnumerable<TaskSchedule>> GetTasks()

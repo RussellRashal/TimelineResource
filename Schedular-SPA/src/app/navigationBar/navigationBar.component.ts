@@ -90,8 +90,8 @@ export class NavigationBarComponent implements OnInit {
   }
 
   loggedOut() {
-    const token = localStorage.removeItem('token');
-    const username = localStorage.removeItem('user');
-    const userId = localStorage.removeItem('role');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('role');
   }
 }

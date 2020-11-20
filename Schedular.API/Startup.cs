@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Schedular.API.Data;
 using Schedular.API.Helpers;
 using Schedular.API.Models;
@@ -39,10 +40,15 @@ namespace Schedular.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddDbContext<DataContext>(x => x.UseMySql(Configuration
+            //     .GetConnectionString("DefaultConnection")));
+
             services.AddDbContext<DataContext>(x => x.UseMySql(Configuration
-                .GetConnectionString("DefaultConnection")));
-            
-            //lockout options
+                .GetConnectionString("DefaultConnection"),
+                        new MySqlServerVersion(new Version(8, 0, 21)), 
+                        mySqlOptions => mySqlOptions
+                            .CharSetBehavior(CharSetBehavior.NeverAppend)));
+ 
             var lockoutOptions = new LockoutOptions()
             {
                 AllowedForNewUsers = true,
