@@ -22,7 +22,7 @@
           </div>
           <div>
               <label>Title</label>
-              <textarea formControlName="title"></textarea>
+              <textarea autosize class="my-textarea" formControlName="title"></textarea>
           </div>
 
           <div>
@@ -124,7 +124,7 @@
       
         <div>        
             <label>New Note</label>
-            <textarea class="textareaNew" formControlName="newNote"></textarea>
+            <textarea autosize class="my-textarea" formControlName="newNote"></textarea>
         </div>
         <div>
           <button type="button" class="btn btn-primary" (click)="noteCreation()" [disabled]=taskScheduleData.isClosed>Add New note</button>

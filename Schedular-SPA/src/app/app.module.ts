@@ -6,6 +6,8 @@ import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccou
 import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordReset.component';
 import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import {AutosizeModule} from 'ngx-autosize';
+
 // full calendar.io packages
 import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
@@ -127,6 +129,7 @@ export function tokengetter() {
     CommonModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    AutosizeModule,
     NgbModule,
     MatSidenavModule,
     ChartsModule,
