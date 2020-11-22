@@ -6,7 +6,7 @@
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
         <a class="nav-link" [routerLink]="['/CalendarView']">Home</a>
-        <a class="nav-link" [routerLink]="['/viewTasks']">viewTasks</a>
+        <a class="nav-link" [routerLink]="['/viewTask']">viewTasks</a>
         <label *ngIf="userAuthorised" >Reports</label>
         <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/hoursworked']">HoursWorked</a>
         <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/CustomerTask']">Tasks by {{customerType}}</a>

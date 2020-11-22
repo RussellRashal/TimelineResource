@@ -10,6 +10,8 @@ import { StateStorageService } from '../_services/stateStorage.service';
 import { AddTaskComponent } from '../addTask/addTask.component';
 import { environment } from 'src/environments/environment';
 
+
+
 @Component({
   selector: 'app-viewtasks',
   templateUrl: './viewTasks.component.html',
@@ -39,7 +41,6 @@ export class ViewTasksComponent implements OnInit {
   pageSize = 10;
 
 
-
   constructor(
     private taskScheduleService: TaskScheduleService,
     private stateStorageService: StateStorageService,
@@ -57,14 +58,15 @@ export class ViewTasksComponent implements OnInit {
     this.selectedbutton = 'Open Tasks';
   }
 
+
   changeUserTasks(CurrentUser) {
     this.currentUser = CurrentUser;
-    this.isDataAvailable = false;
     this.selectedFullName = this.currentUser.firstName + ' ' + this.currentUser.lastName;
     this.openTaskButton();
   }
 
   openTaskButton() {
+    console.log('openTaskButton()');
     this.pagination.currentPage = 1; // reset page number back to 1 when button is clicked
     this.selectedbutton = 'Open Tasks';
     this.openCloseTasks(false);
@@ -150,6 +152,7 @@ export class ViewTasksComponent implements OnInit {
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
+    console.log('pagedChanged even triggered');
 
     switch (this.selectedbutton) {
       case 'Open Tasks':
