@@ -16,7 +16,7 @@
            "type": "coreclr",
            "request": "launch",
            "preLaunchTask": "build",
-           "program": "${workspaceFolder}/Schedular.API/bin/Debug/netcoreapp3.1/Schedular.API.dll",
+           "program": "${workspaceFolder}/Schedular.API/bin/Debug/net5.0/Schedular.API.dll",
            "args": [],
            "cwd": "${workspaceFolder}/Schedular.API",
            "stopAtEntry": false,
@@ -31,5 +31,6 @@
                "/Views": "${workspaceFolder}/Schedular.API/Views"
            }
         }
+
     ]
 }

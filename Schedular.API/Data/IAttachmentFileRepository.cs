@@ -11,6 +11,7 @@ namespace Schedular.API.Data
         bool alreadyExist(string filename, int taskId);
         void Update(AttachmentFile attachmentFile); 
         Task<bool> SaveAll();
+        long getCurrentStorageUsage();
 
 
     }

@@ -36,6 +36,21 @@ namespace Schedular.API.Data
             _context.SaveChanges();               
 
         } 
+         public long getCurrentStorageUsage()
+        {
+            var StorageUsage = _context.AttachmentFiles
+                .Select(s => s.FileSize)
+                .ToArray();
+            
+            long StorageUsageSize = 0;
+
+            foreach(var fileSize in StorageUsage)
+            {  
+                StorageUsageSize = fileSize +  StorageUsageSize;
+            }
+
+            return StorageUsageSize;
+        }
 
         public void Delete(int id)
         {

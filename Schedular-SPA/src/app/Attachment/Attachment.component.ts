@@ -70,6 +70,15 @@ export class AttachmentComponent implements OnInit {
         alert('File has been successully uploaded');
       }
     };
+
+    this.uploader.onErrorItem = (response) => {
+      if (response) {
+        alert('Please check you have uploaded a file less than 25MB' +
+        ' and of the correct file type. If the problem persists then you may have reached your storage limitation. ' +
+        'Please contact the software manufacturer.');
+      }
+    };
+
   }
 
   closeButton() {
