@@ -54,7 +54,10 @@ namespace Schedular.API.Data
         {
             var users = await _context.Users
                 .Where(u => u.IsEnabled == true)
+                .Include(r => r.UserRoles)
                 .ToListAsync();
+
+            //users.ForEach(t => t.UserRoles = t.UserRoles.Select(n => n.RoleId).ToArray());
                         
             return users;
         }      

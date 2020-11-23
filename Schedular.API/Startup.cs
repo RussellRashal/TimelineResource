@@ -30,7 +30,7 @@ namespace Schedular.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+      public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -175,7 +175,7 @@ namespace Schedular.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToController("index", "Fallback");
+                //endpoints.MapFallbackToController("index", "Fallback");
             });
         }
     }
