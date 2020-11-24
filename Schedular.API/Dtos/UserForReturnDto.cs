@@ -13,7 +13,7 @@ namespace Schedular.API.Dtos
         public string LastName { get; set; }
         public DateTime? EnableAllowDate { get; set; }
         public virtual ICollection<UserRole> UserRoles {get; set;}
-        // public int roleId { get; set; }
+        public int roleId { get; set; }
 
     }
 }

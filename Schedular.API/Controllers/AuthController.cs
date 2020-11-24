@@ -315,10 +315,9 @@ namespace Schedular.API.Controllers
         public async Task<IActionResult> allEnabledAccounts()
         {
             var users = await _repo.GetAllEnabledAccounts();
-            var userToReturn = _mapper.Map<IList<UserForReturnDto>>(users); 
 
             //return users;
-            return Ok(userToReturn);
+            return Ok(users);
         }
 
         [Authorize(Policy ="AdminAccess")]
@@ -326,10 +325,10 @@ namespace Schedular.API.Controllers
         public async Task<IActionResult> allDisabledAccounts()
         {
             var users = await _repo.GetAllDisabledAccounts();
-            var userToReturn = _mapper.Map<IList<UserForReturnDto>>(users); 
+            // var userToReturn = _mapper.Map<IList<UserForReturnDto>>(users); 
 
             //return users;
-            return Ok(userToReturn);
+            return Ok(users);
         }
 
 

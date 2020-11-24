@@ -50,24 +50,42 @@ namespace Schedular.API.Data
         } 
 
         //get all enabled accounts
-        public async Task<IList<User>> GetAllEnabledAccounts()
+        public async Task<IList<userWithRole>> GetAllEnabledAccounts()
         {
             var users = await _context.Users
                 .Where(u => u.IsEnabled == true)
                 .Include(r => r.UserRoles)
+                .ThenInclude(r => r.Role)
+                .SelectMany(c => c.UserRoles.Select(d => new userWithRole()
+                {
+                    FirstName = d.User.FirstName,
+                    LastName = d.User.LastName,
+                    IsEnabled = d.User.IsEnabled,
+                    EnableAllowDate = d.User.EnableAllowDate,
+                    RoleName = d.Role.Name
+                }))
                 .ToListAsync();
-
-            //users.ForEach(t => t.UserRoles = t.UserRoles.Select(n => n.RoleId).ToArray());
                         
             return users;
         }      
 
         //get all disabled accounts
-        public async Task<IList<User>> GetAllDisabledAccounts()
+        public async Task<IList<userWithRole>> GetAllDisabledAccounts()
         {
             var users = await _context.Users
                 .Where(u => u.IsEnabled == false)
+                .Include(r => r.UserRoles)
+                .ThenInclude(r => r.Role)
+                .SelectMany(c => c.UserRoles.Select(d => new userWithRole()
+                {
+                    FirstName = d.User.FirstName,
+                    LastName = d.User.LastName,
+                    IsEnabled = d.User.IsEnabled,
+                    EnableAllowDate = d.User.EnableAllowDate,
+                    RoleName = d.Role.Name
+                }))
                 .ToListAsync();
+                        
                         
             return users;
         }     
