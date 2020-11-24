@@ -17,11 +17,14 @@
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
     </form>
 
-    <!-- <div *ngIf="loggedIn()" class="username">
+    <div *ngIf="loggedIn()" class="username">
       {{userDisplayName.username}}
-    </div> -->
+    </div>
+
+
 
     <div class="loginLogout">
+    
       <button *ngIf="loggedIn()" class="btn btn-outline-success float-right" 
       type="submit" (click)="loggedOut()" [routerLink]="['/login']">Log Out</button>
     </div>

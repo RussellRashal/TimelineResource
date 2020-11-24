@@ -61,7 +61,6 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AttachmentComponent } from './Attachment/Attachment.component';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -72,6 +71,7 @@ import { EditCustomerComponent } from './CustomerFolder/editCustomer/editCustome
 import { AddCustomerComponent } from './CustomerFolder/AddCustomer/AddCustomer.component';
 import { CustomerTasksComponent } from './ReportFolder/CustomerTasks/CustomerTasks.component';
 import { ChartsModule } from 'ng2-charts';
+import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 
 
 // register FullCalendar plugins
@@ -100,6 +100,7 @@ export function tokengetter() {
     TimePickerComponent,
     HoursWorkedComponent,
     UpdateTaskComponent,
+    ViewTasksComponent,
     CustomerComponent,
     LoginPageComponent,
     UnlockAccountComponent,
@@ -112,7 +113,6 @@ export function tokengetter() {
     StandardUserPasswordComponent,
     AdminConsoleNavComponent,
     PasswordResetComponent,
-    ViewTasksComponent,
     AttachmentComponent,
     AttachmentComponent,
     SidebarNavigationComponent,

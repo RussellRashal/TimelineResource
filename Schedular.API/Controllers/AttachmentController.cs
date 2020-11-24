@@ -39,70 +39,74 @@ namespace Schedular.API.Controllers
             long fileLength = (file.Length / 1024) + 1; //find file size in kb
             long maxSize = 30000;
 
-            if(string.IsNullOrEmpty(extension) || permittedExtensions.Contains(extension) && fileLength < maxSize)
+            if(_repo.getCurrentStorageUsage() < enviroment.maxStorage)
             {
-                var credentials = new BasicAWSCredentials(enviroment.awsAccessKeyId, 
-                enviroment.awsSecretAccessKey);
-                var config = new AmazonS3Config 
+                if(string.IsNullOrEmpty(extension) || permittedExtensions.Contains(extension) && fileLength < maxSize)
                 {
-                    RegionEndpoint = Amazon.RegionEndpoint.EUWest2
-                };
-                using var client = new AmazonS3Client(credentials, config);             
-
-                try
-                {
-                    await using var newMemoryStream = new MemoryStream();
-
-                    file.CopyTo(newMemoryStream);
-
-                    var uploadRequest = new TransferUtilityUploadRequest
+                    var credentials = new BasicAWSCredentials(enviroment.awsAccessKeyId, 
+                    enviroment.awsSecretAccessKey);
+                    var config = new AmazonS3Config 
                     {
-                        InputStream = newMemoryStream,
-                        Key = taskId + "/" + file.FileName,
-                        BucketName = enviroment.bucketName,
-                        CannedACL = S3CannedACL.PublicRead
+                        RegionEndpoint = Amazon.RegionEndpoint.EUWest2
                     };
+                    using var client = new AmazonS3Client(credentials, config);             
 
-                    var fileTransferUtility = new TransferUtility(client);
-                    await fileTransferUtility.UploadAsync(uploadRequest);
-
-                        //put the file sent in, into an attachmentFile object to be saved on the database
-                        AttachmentFile newAttachment = new AttachmentFile();
-                        newAttachment.FileName = file.FileName;
-                        newAttachment.TaskScheduleId = taskId;
-                        newAttachment.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                        newAttachment.FileSize = fileLength; 
-
-                        DateTime thisDay = DateTime.Now;
-                        string NowDate =  thisDay.ToString("g");
-                        newAttachment.DateCreated = Convert.ToDateTime(NowDate);
-
-                    //check if attachment is already in database
-                    if(!_repo.alreadyExist(file.FileName, taskId))
-                    {               
-                        _repo.Add(newAttachment);
-                        if(await _repo.SaveAll())
-                            return Ok();   
-                        return BadRequest();  
-                    }
-                    else
+                    try
                     {
-                        _repo.Update(newAttachment);        
-                        return Ok();   
-           
-                    }                                        
+                        await using var newMemoryStream = new MemoryStream();
+
+                        file.CopyTo(newMemoryStream);
+
+                        var uploadRequest = new TransferUtilityUploadRequest
+                        {
+                            InputStream = newMemoryStream,
+                            Key = taskId + "/" + file.FileName,
+                            BucketName = enviroment.bucketName,
+                            CannedACL = S3CannedACL.PublicRead
+                        };
+
+                        var fileTransferUtility = new TransferUtility(client);
+                        await fileTransferUtility.UploadAsync(uploadRequest);
+
+                            //put the file sent in, into an attachmentFile object to be saved on the database
+                            AttachmentFile newAttachment = new AttachmentFile();
+                            newAttachment.FileName = file.FileName;
+                            newAttachment.TaskScheduleId = taskId;
+                            newAttachment.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                            newAttachment.FileSize = fileLength; 
+
+                            DateTime thisDay = DateTime.Now;
+                            string NowDate =  thisDay.ToString("g");
+                            newAttachment.DateCreated = Convert.ToDateTime(NowDate);
+
+                        //check if attachment is already in database
+                        if(!_repo.alreadyExist(file.FileName, taskId))
+                        {               
+                            _repo.Add(newAttachment);
+                            if(await _repo.SaveAll())
+                                return Ok();   
+                            return BadRequest();  
+                        }
+                        else
+                        {
+                            _repo.Update(newAttachment);        
+                            return Ok();   
+            
+                        }                                        
+                    }
+                    catch (AmazonS3Exception e)
+                    {
+                        // If bucket or object does not exist
+                        Console.WriteLine("Error encountered ***. Message:'{0}' when reading object", e.Message);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Unknown encountered on server. Message:'{0}' when reading object", e.Message);
+                    }
                 }
-                catch (AmazonS3Exception e)
-                {
-                    // If bucket or object does not exist
-                    Console.WriteLine("Error encountered ***. Message:'{0}' when reading object", e.Message);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Unknown encountered on server. Message:'{0}' when reading object", e.Message);
-                }
+                return BadRequest("Bad file");
             }
-            return BadRequest("Bad file");
+            return BadRequest("Storage limiation reached. Please contact the software manufacturer");
         }
 
         [HttpGet("download/{taskId}/{fileName}")]  

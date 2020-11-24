@@ -1,7 +1,12 @@
 <div *ngIf="loggedIn() && isDataAvailable">
   <div class="mb-2">
+    <div class="centerText">
+      <h1>
+          View Task
+      </h1>
+  </div>
     <label>
-        Current Schedule displayed is {{this.selectedFullName}}
+        Current tasks shown is {{this.selectedFullName}}
     </label>
   </div>
   <mat-drawer-container  class="example-container">
@@ -13,22 +18,20 @@
       <mat-drawer-content>
 
             <div>
-              <div class="mb-4">              
-                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                  <mat-button-toggle value="OpenTask" (click)="openTaskButton()">Open tasks</mat-button-toggle>
-                  <mat-button-toggle value="ClosedTask" (click)="closeTaskButton()">closed tasks</mat-button-toggle>
-                  <mat-button-toggle value="AllTask" (click)="allTaskButton()">All tasks</mat-button-toggle>
-                  <mat-button-toggle value="HighOpen" (click)="highOpenTaskButton()">High Open</mat-button-toggle>
-                  <mat-button-toggle value="highClosed" (click)="highCloseTaskButton()">High Closed</mat-button-toggle>
-                  <mat-button-toggle value="NormalOpen" (click)="normalOpenTaskButton()">Normal Open</mat-button-toggle>
-                  <mat-button-toggle value="NormalClosed" (click)="normalCloseTaskButton()">Normal Closed</mat-button-toggle>
-                </mat-button-toggle-group>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button value="OpenTask" (click)="openTaskButton()" [disabled]="selectedbutton == 'Open Tasks'" class="btn btn-dark">Open Tasks</button>
+                <button value="ClosedTask" (click)="closeTaskButton()" [disabled]="selectedbutton == 'Closed Tasks'" class="btn btn-dark">Closed Tasks</button>
+                <button value="AllTask" (click)="allTaskButton()" [disabled]="selectedbutton == 'All Tasks'" class="btn btn-dark">All Tasks</button>
+                <button value="HighOpen" (click)="highOpenTaskButton()" [disabled]="selectedbutton == 'High Open Tasks'" class="btn btn-dark">High Open</button>
+                <button value="highClosed" (click)="highCloseTaskButton()" [disabled]="selectedbutton == 'High Closed Tasks'" class="btn btn-dark">High Closed</button>
+                <button value="NormalOpen" (click)="normalOpenTaskButton()" [disabled]="selectedbutton == 'Normal Open Tasks'" class="btn btn-dark">Normal Open</button>
+                <button value="NormalClosed" (click)="normalCloseTaskButton()" [disabled]="selectedbutton == 'Normal Closed Tasks'" class="btn btn-dark">Normal Closed</button>
               </div>
 
 
 
-              <label>{{this.selectedbutton}}</label>
-              <button class="float-right btn btn-primary" (click)="openDialogAddTask()">Add Task</button>
+
+              <button class="float-right btn btn btn-light btn-outline-dark" (click)="openDialogAddTask()">Add Task</button>
 
               <button class="float-right btn btn-secondary mr-2" type="submit" (click)="searchTaskBox()">Search</button>
               <input [formControl]="searchTask" class="float-right col-xs-2 mr-4" type="text" placeholder="Seach Task">

@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { EditUserService } from './../../_services/editUser.service';
 import { Component, OnInit } from '@angular/core';
 import { StateStorageService } from 'src/app/_services/stateStorage.service';
@@ -15,11 +16,17 @@ export class UnlockAccountComponent implements OnInit {
 
   constructor(
     private stateStorageService: StateStorageService,
-    private editUserService: EditUserService
+    private editUserService: EditUserService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.userMemberModels = this.stateStorageService.getUserMemberStorage();
+    this.route.data.subscribe(data => {
+      this.userMemberModels = data['UserMemberModel'];
+    }, error => {
+      console.log(error);
+    });
+
     this.username = new FormControl();
   }
 

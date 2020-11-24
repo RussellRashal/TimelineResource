@@ -25,13 +25,12 @@ export class EnableDisableAccountComponent implements OnInit {
   ngOnInit() {
     this.retrieveAllEnabledAccounts();
     this.retrieveAllDisabledAccounts();
-
   }
 
   retrieveAllEnabledAccounts() {
     this.editUserService.allEnabledAccounts().subscribe((data) => {
       this.enabledAccounts = data;
-      // console.log(this.enabledAccounts.username);
+      console.log(this.enabledAccounts);
     }, error => {
         console.log(error);
     });
@@ -40,6 +39,8 @@ export class EnableDisableAccountComponent implements OnInit {
   retrieveAllDisabledAccounts() {
     this.editUserService.allDisabledAccounts().subscribe((data) => {
       this.disabledAccounts = data;
+      console.log(this.disabledAccounts);
+
     }, error => {
         console.log(error);
     });

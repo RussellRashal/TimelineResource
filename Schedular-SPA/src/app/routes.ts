@@ -1,3 +1,4 @@
+import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 import { NumberClosedTasksByUserComponent } from './ReportFolder/numberClosedTasksByUser/numberClosedTasksByUser.component';
 import { HighPriorityComponent } from './ReportFolder/HighPriority/HighPriority.component';
 import { CustomerTasksComponent } from './ReportFolder/CustomerTasks/CustomerTasks.component';
@@ -6,7 +7,6 @@ import { UnlockAccountComponent } from './AdminConsole/unlockAccount/unlockAccou
 import { StandardUserPasswordComponent } from './StandardUserPassword/StandardUserPassword.component';
 import { AttachmentComponent } from './Attachment/Attachment.component';
 import { AdminConsoleNavComponent } from './AdminConsole/adminConsole-nav/adminConsole-nav.component';
-import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 import { EditRoleComponent } from './AdminConsole/editRole/editRole.component';
 import { EditUsernameComponent } from './AdminConsole/editUsername/editUsername.component';
 import { RegisterComponent } from './AdminConsole/register/register.component';
@@ -21,6 +21,7 @@ import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordRes
 import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccount/enableDisableAccount.component';
 import { HoursWorkedComponent } from './ReportFolder/HoursWorked/HoursWorked.component';
 
+
 export const appRoutes: Routes = [
     {
         path: 'CalendarView',
@@ -28,7 +29,7 @@ export const appRoutes: Routes = [
         resolve: { UserMemberModel: UserLoaderResolver }
     },
     {
-        path: 'viewTasks',
+        path: 'viewTask',
         component: ViewTasksComponent, canActivate: [AuthGuard],
         resolve: { UserMemberModel: UserLoaderResolver }
     },
@@ -85,7 +86,10 @@ export const appRoutes: Routes = [
     },
     {
         path: 'UnlockAccount',
-        component: UnlockAccountComponent , canActivate: [RoleGuard]
+        component: UnlockAccountComponent , canActivate: [RoleGuard],
+        resolve: {
+            UserMemberModel: UserLoaderResolver,
+        }
     },
     {
         path: 'EnableDisableAccountComponent',

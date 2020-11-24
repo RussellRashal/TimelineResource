@@ -38,8 +38,8 @@ export class StandardUserPasswordComponent implements OnInit {
         currentPassword: this.ResetPass.value.currentPassword,
         newPassword: this.ResetPass.value.newPassword };
 
-      this.editUserService.editStandardPassword(this.model).subscribe(next => {
-        alert(next);
+      this.editUserService.editStandardPassword(this.model).subscribe(resp => {
+        alert(resp);
       }, error => {
           alert(error.error);
       });

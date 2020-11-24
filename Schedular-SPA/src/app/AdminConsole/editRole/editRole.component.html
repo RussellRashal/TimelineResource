@@ -1,7 +1,10 @@
+<div class="centerText mb-3">
+  <h1>
+      Edit Role
+  </h1>
+</div>
+
 <form id="form_Role" [formGroup]="editForm" (ngSubmit)="updateRole()">
-
-
- 
   <div>
     <label>Username</label>
     <select class="ml-2" formControlName="username">
@@ -12,7 +15,6 @@
    </select>
   </div>
 
-
   <div>
     <label>Admin</label>
     <input type="radio" value="Admin" formControlName="role"> 
@@ -21,13 +23,9 @@
   <div>
     <label>Standard</label>
     <input type="radio" value="Standard" formControlName="role"> 
-  </div>
+  </div> 
 
-
- 
-
-  <button type="submit" class="btn btn-primary">Update</button>
-
+  <button type="submit" class="btn btn btn-light btn-outline-dark">Update</button>
 
 </form>
 

@@ -20,7 +20,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-calendarview',
   templateUrl: './CalendarView.component.html',
-  styleUrls: ['./CalendarView.component.scss']
+  styleUrls: ['./CalendarView.component.css']
 })
 export class CalendarViewComponent implements OnInit {
   apiEvents: any[];
