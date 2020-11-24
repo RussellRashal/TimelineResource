@@ -2,7 +2,7 @@
 
   <button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
 
-  <form *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
+  <form *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainAddTaskForm">
     <div *ngIf="authorised()">
       <h3>Add Task</h3>
       <label>Name</label>      
@@ -87,7 +87,7 @@
       </div>
     </div>
     
-    <button type="submit" class="btn btn-primary">Add Task</button>
+    <button type="submit" class="btn btn btn-light btn-outline-dark">Add Task</button>
 
     <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
     <div class="text-danger" *ngIf="getTimingError()">start time cannot be greater than end time</div>

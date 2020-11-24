@@ -1,3 +1,9 @@
+<div class="centerText mb-3">
+  <h1>
+    Enabled & Disabled Accounts
+  </h1>
+</div>
+
 <label>Enabled Accounts</label>
 <div>
   <table class="table table-striped">
@@ -17,14 +23,14 @@
           {{enabledAccount.roleName}}
         </td>
         <td>
-          <button (click)="disableAccountButton(enabledAccount.username)">Disable</button>
+          <button (click)="disableAccountButton(enabledAccount.username)" class="btn btn btn-light btn-outline-dark">Disable</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<label>disabled Accounts</label>
+<label>Disabled Accounts</label>
 <div>
   <table class="table table-striped">
     <thead>
@@ -49,7 +55,7 @@
           </div>
         </td>
         <td>
-          <button (click)="enableAccountButton(disabledAccount.username)">Enable</button>
+          <button (click)="enableAccountButton(disabledAccount.username)" class="btn btn btn-light btn-outline-dark">Enable</button>
         </td>
       </tr>
     </tbody>

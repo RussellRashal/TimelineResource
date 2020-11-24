@@ -1,7 +1,12 @@
 <div *ngIf="loggedIn() && isDataAvailable">
   <div class="mb-2">
+    <div class="centerText">
+      <h1>
+          View Task
+      </h1>
+  </div>
     <label>
-        Current Schedule displayed is {{this.selectedFullName}}
+        Current tasks shown is {{this.selectedFullName}}
     </label>
   </div>
   <mat-drawer-container  class="example-container">
@@ -26,7 +31,7 @@
 
 
 
-              <button class="float-right btn btn-primary" (click)="openDialogAddTask()">Add Task</button>
+              <button class="float-right btn btn btn-light btn-outline-dark" (click)="openDialogAddTask()">Add Task</button>
 
               <button class="float-right btn btn-secondary mr-2" type="submit" (click)="searchTaskBox()">Search</button>
               <input [formControl]="searchTask" class="float-right col-xs-2 mr-4" type="text" placeholder="Seach Task">

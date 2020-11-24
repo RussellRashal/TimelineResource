@@ -4,25 +4,23 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <mat-nav-list>
-        <a class="nav-link" [routerLink]="['/CalendarView']">Home</a>
-        <a class="nav-link" [routerLink]="['/viewTask']">viewTasks</a>
-        <hr class="solid"/>
-        <label *ngIf="userAuthorised" class="blockquote">Reports</label>
-        <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/hoursworked']">HoursWorked</a>
-        <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/CustomerTask']">Tasks by {{customerType}}</a>
-        <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/HighPriority']">High Priority Tasks</a>
-        <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/NumberClosedTasksByUser']">Closed Tasks</a>
-        <hr class="solid"/>
-        <label *ngIf="userAuthorised" class="blockquote">Admin Console</label>
-        <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/editUsername']">EditUsername</a>
-        <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/editRole']">editRole</a>
-        <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/register']">Create account</a>
-        <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/Password']">Password Reset</a>
-        <a *ngIf="userAuthorised" class="nav-link" [routerLink]="['/EnableDisableAccountComponent']">enable & disable</a>
-        <hr class="solid"/>
-        <label class="blockquote">Help</label>
-        <a class="nav-link" [routerLink]="['/StandardPassword']">Reset Your Password</a>
-        <a class="nav-link" [routerLink]="['/CustomerComponent']">{{customerType}}</a>
+      <a mat-list-item class="links" [routerLink]="['/CalendarView']">Calendar</a>
+      <a mat-list-item class="links" [routerLink]="['/viewTask']">View Tasks</a> 
+      <label *ngIf="userAuthorised" class="blockquote">Reports</label>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/hoursworked']">Hours Worked</a>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/CustomerTask']">Tasks by {{customerType}}</a>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/HighPriority']">High Priority Tasks</a>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/NumberClosedTasksByUser']">Closed Tasks</a>
+      <label *ngIf="userAuthorised" class="blockquote">Admin Console</label>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/editUsername']">Edit Username</a>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/editRole']">edit Role</a>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/register']">Create account</a>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/Password']">Password Reset</a>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/UnlockAccount']">Unlock Account</a>
+      <a *ngIf="userAuthorised" mat-list-item class="links" [routerLink]="['/EnableDisableAccountComponent']">Enable & Disable</a>
+      <label class="blockquote">Help</label>
+      <a mat-list-item class="links" [routerLink]="['/StandardPassword']">Reset Your Password</a>
+      <a mat-list-item class="links" [routerLink]="['/CustomerComponent']">{{customerType}}s</a>
     </mat-nav-list>
   </mat-sidenav>
   

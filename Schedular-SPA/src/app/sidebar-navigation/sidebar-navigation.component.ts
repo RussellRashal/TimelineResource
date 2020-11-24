@@ -14,6 +14,7 @@ export class SidebarNavigationComponent implements OnInit{
   customerType: string = environment.customerType;
   role;
   userAuthorised: boolean;
+  selected: string;
 
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -27,6 +28,8 @@ export class SidebarNavigationComponent implements OnInit{
     private authService: AuthService ) {}
 
   ngOnInit() {
+    this.selected = 'Home 1';
+
     this.role = JSON.parse(localStorage.getItem('role'));
     // if user is not a manager
     if (this.role !== 'Admin') {

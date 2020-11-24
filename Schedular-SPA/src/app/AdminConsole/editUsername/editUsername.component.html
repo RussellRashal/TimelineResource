@@ -1,3 +1,8 @@
+<div class="centerText mb-3">
+  <h1>
+      Edit Username
+  </h1>
+</div>
 
 <form id="form_username" [formGroup]="editForm" (ngSubmit)="UpdateUser()">
 
@@ -34,7 +39,7 @@
     <div>
       <label>Username = {{editForm.value.firstname}}{{editForm.value.lastName}}</label>
     </div>
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn btn-light btn-outline-dark">Update</button>
   </div>
 
 </form>

@@ -1,6 +1,12 @@
+<div class="centerText mb-3">
+  <h1>
+    {{customerType}}s
+  </h1>
+</div>
+
 <div class="mb-4">
   <label class="blockquote">List of {{customerType}}s</label>
-  <button class="float-right btn btn-primary" (click)="addCustomer()">Add {{customerType}}</button>
+  <button class="float-right btn btn btn-light btn-outline-dark" (click)="addCustomer()">Add {{customerType}}</button>
 </div>
 
 <div>
@@ -30,10 +36,10 @@
           </div>
         </td>
         <td>
-          <button (click)="editCustomer(customer)">Edit</button>
+          <button (click)="editCustomer(customer)" class="btn btn btn-light btn-outline-dark">Edit</button>
         </td>
         <td>
-          <button (click)="deleteCustomer(customer.id)">Delete</button>
+          <button (click)="deleteCustomer(customer.id)" class="btn btn btn-light btn-outline-dark">Delete</button>
         </td>
       </tr>
     </tbody>

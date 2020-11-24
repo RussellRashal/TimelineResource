@@ -2,7 +2,7 @@
  
   <button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
   
-  <form disable *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
+  <form disable *ngIf="loggedIn()" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainUpdateTaskForm">
           <h3>Update Task</h3>  
    
           <fieldset [disabled]=taskScheduleData.isClosed>

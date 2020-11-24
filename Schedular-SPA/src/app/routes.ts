@@ -86,7 +86,10 @@ export const appRoutes: Routes = [
     },
     {
         path: 'UnlockAccount',
-        component: UnlockAccountComponent , canActivate: [RoleGuard]
+        component: UnlockAccountComponent , canActivate: [RoleGuard],
+        resolve: {
+            UserMemberModel: UserLoaderResolver,
+        }
     },
     {
         path: 'EnableDisableAccountComponent',

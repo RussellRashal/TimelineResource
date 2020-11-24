@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
   // tslint:disable-next-line: component-selector
   selector: 'app-editUsername',
   templateUrl: './editUsername.component.html',
-  styleUrls: ['./editUsername.component.scss']
+  styleUrls: ['./editUsername.component.css']
 })
 export class EditUsernameComponent implements OnInit {
   editForm: FormGroup;

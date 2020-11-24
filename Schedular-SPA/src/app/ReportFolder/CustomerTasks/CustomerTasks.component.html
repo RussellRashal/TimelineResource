@@ -1,4 +1,9 @@
-<form *ngIf="loggedIn() && this.userAuthorised" [formGroup]="profileForm" class="mainForm">
+<form *ngIf="loggedIn() && this.userAuthorised" [formGroup]="profileForm" class="mainForm mb-4">
+  <div class="centerText mb-3">
+    <h1>
+        Tasks by {{customerType}}
+    </h1>
+  </div>
   <div>
       <label>{{customerType}}</label>      
       <select formControlName="customerId" class="ml-2">
@@ -7,18 +12,16 @@
             {{customer.name}}
         </option>      
      </select>
-   <label class="ml-2">Date from</label>
-   <input class="ml-2" type="date" formControlName="startDate">
+    <label class="ml-2">Date from</label>
+    <input class="ml-2" type="date" formControlName="startDate">
   
-   <label class="ml-2">Date to</label>
-   <input class="ml-2" type="date" formControlName="endDate"> 
-   <button (click)="customerTaskTime()" class="btn btn-primary ml-2">View</button>
-   <button (click)="allCustomerTasks()" class="btn btn-primary ml-2">All</button>
+    <label class="ml-2">Date to</label>
+    <input class="ml-2" type="date" formControlName="endDate"> 
+    <button (click)="customerTaskTime()" class="btn btn btn-light btn-outline-dark ml-2">View</button>
+    <button (click)="allCustomerTasks()" class="btn btn btn-light btn-outline-dark ml-2">All</button>
   </div>
   <div class="text-danger" *ngIf="getDateError()">start date cannot be greater than end date</div>
   <div class="text-danger" *ngIf="getNullError()">All fields need to be filled out</div>  
-
-
 </form>
 
 

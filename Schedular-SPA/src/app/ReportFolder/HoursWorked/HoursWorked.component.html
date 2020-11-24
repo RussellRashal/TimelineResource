@@ -1,4 +1,9 @@
-<form *ngIf="loggedIn() && this.userAuthorised" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm">
+<form *ngIf="loggedIn() && this.userAuthorised" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mainForm mb-4">
+  <div class="centerText mb-3">
+    <h1>
+        Hours Worked
+    </h1>
+  </div>  
   <div>
       <label>Name</label>      
       <select formControlName="userId" class="ml-2">
@@ -12,7 +17,7 @@
   
    <label class="ml-2">Date to</label>
    <input class="ml-2" type="date" formControlName="endDate"> 
-   <button type="submit" class="btn btn-primary ml-2">View</button>
+   <button type="submit" class="btn btn btn-light btn-outline-dark ml-2">View</button>
 
 
   </div>
@@ -32,7 +37,7 @@
  
   <label class="ml-2">Date to</label>
   <input class="ml-2" type="date" formControlName="endDate"> 
-  <button type="submit" class="btn btn-primary ml-2">View</button>
+  <button type="submit" class="btn btn-light btn-outline-dark ml-2">View</button>
 
 
  </div>
@@ -42,8 +47,7 @@
 
 
 
-<div class="mt-5 hourResult">
-  <label>The user above has worked:
+<div class="mt-5 hourResult centerText">
     <label class="timeText">
       {{hoursWorked}}
     </label> 
@@ -52,7 +56,6 @@
       {{minuteWorked}}
     </label>
       Minutes 
-  </label>
 </div>
 
 <div>
