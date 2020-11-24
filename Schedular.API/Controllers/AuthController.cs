@@ -70,7 +70,7 @@ namespace Schedular.API.Controllers
                         {
                             return Ok("User Account " + userForRegisterDto.Username +  " has been created");
                         }                  
-                        return BadRequest(result.Errors);
+                        return BadRequest("Account already exists");
                     }
                     return BadRequest("Incorrect role added"); 
                 }
@@ -114,14 +114,15 @@ namespace Schedular.API.Controllers
         [HttpPut("standardPasswordReset")]
         public async Task<IActionResult> StandardResetPassword(PasswordReset passwordReset)
         {       
-            if(passwordReset.NewPassword.Length >= 8 && passwordReset.NewPassword.Any(char.IsUpper) 
-                && passwordReset.NewPassword.Any(char.IsNumber))
+           
+            // checks if user is in database                               
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Name).Value);
+            //checks users password is correct
+            var SignInWithCurrentPassword = await _signInManager.CheckPasswordSignInAsync(user, passwordReset.CurrentPassword, false);
+            if (SignInWithCurrentPassword.Succeeded)
             {
-                 // checks if user is in database                               
-                var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Name).Value);
-                //checks users password is correct
-                var SignInWithCurrentPassword = await _signInManager.CheckPasswordSignInAsync(user, passwordReset.CurrentPassword, false);
-                if (SignInWithCurrentPassword.Succeeded)
+                if(passwordReset.NewPassword.Length >= 8 && passwordReset.NewPassword.Any(char.IsUpper) 
+                    && passwordReset.NewPassword.Any(char.IsNumber))
                 {
                     user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, passwordReset.NewPassword);
                     var result = await _userManager.UpdateAsync(user);
@@ -129,11 +130,12 @@ namespace Schedular.API.Controllers
                     {
                         return Ok("Password has been successfully changed");
                     } 
-                    return BadRequest(result.Errors);                        
+                    return BadRequest();                        
                 }
-                return BadRequest("Incorrect Credentials");                   
+                return BadRequest("Password does not meet minimum requirements. At least 8 characters long, 1 capital and a number.");  
             }
-            return BadRequest("Password does not meet minimum requirements. At least 8 characters long, 1 capital and a number.");                      
+            return BadRequest("Incorrect Credentials");                  
+                               
         }
         //edit user's roles
         [Authorize(Policy ="AdminAccess")]

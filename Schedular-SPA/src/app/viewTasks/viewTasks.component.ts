@@ -142,7 +142,7 @@ export class ViewTasksComponent implements OnInit {
   openDialogAddTask() {
     const dialogRef = this.dialog.open(AddTaskComponent, {
       width: '80%',
-      height: '60%'
+      height: '90%'
     });
     dialogRef.afterClosed().subscribe(result => {
        this.openTaskButton();
@@ -218,7 +218,7 @@ export class ViewTasksComponent implements OnInit {
     this.stateStorageService.setTaskId(this.searchTask.value);
     const dialogRef = this.dialog.open(UpdateTaskComponent, {
       width: '80%',
-      height: '60%'
+      height: '90%'
     });
     dialogRef.afterClosed().subscribe(result => {
       switch (this.selectedbutton) {
