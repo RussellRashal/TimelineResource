@@ -3,21 +3,24 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th style="width: 60">Username</th>
+        <th style="width: 20">Username</th>
+        <th style="width: 20">Role</th>
         <th style="width: 20">Update</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let enabledAccount of enabledAccounts; let i = index">
+      <tr *ngFor="let enabledAccount of enabledAccounts">
         <td>
-          {{enabledAccounts[i].username}}
+          {{enabledAccount.username}}
         </td>
         <td>
-          <button (click)="disableAccountButton(enabledAccounts[i].username)">Disable</button>
+          {{enabledAccount.roleName}}
+        </td>
+        <td>
+          <button (click)="disableAccountButton(enabledAccount.username)">Disable</button>
         </td>
       </tr>
     </tbody>
-
   </table>
 </div>
 
@@ -26,26 +29,29 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th style="width: 60">Username</th>
+        <th style="width: 20">Username</th>
+        <th style="width: 20">Role</th>
         <th style="width: 20">Eligible Activation Date</th>
         <th style="width: 20">Update</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let disabledAccount of disabledAccounts; let i = index">
+      <tr *ngFor="let disabledAccount of disabledAccounts">
         <td>
-          {{disabledAccounts[i].username}}
+          {{disabledAccount.username}}
+        </td>
+        <td>
+          {{disabledAccount.roleName}}
         </td>
         <td>
           <div class="ml-4">
-            {{disabledAccounts[i].enableAllowDate}}
+            {{disabledAccount.enableAllowDate}}
           </div>
         </td>
         <td>
-          <button (click)="enableAccountButton(disabledAccounts[i].username)">Enable</button>
+          <button (click)="enableAccountButton(disabledAccount.username)">Enable</button>
         </td>
       </tr>
     </tbody>
-
   </table>
 </div>

@@ -39,6 +39,8 @@ export class EnableDisableAccountComponent implements OnInit {
   retrieveAllDisabledAccounts() {
     this.editUserService.allDisabledAccounts().subscribe((data) => {
       this.disabledAccounts = data;
+      console.log(this.disabledAccounts);
+
     }, error => {
         console.log(error);
     });

@@ -21,8 +21,8 @@ namespace Schedular.API.Data
       int GetNumberOfAdmins();
 
       //get all enabled accounts
-      Task<IList<userWithRole>> GetAllEnabledAccounts();
+      Task<IList<userWithRoleName>> GetAllEnabledAccounts();
        //get all disabled accounts
-      Task<IList<userWithRole>> GetAllDisabledAccounts();
+      Task<IList<userWithRoleName>> GetAllDisabledAccounts();
     }
 }

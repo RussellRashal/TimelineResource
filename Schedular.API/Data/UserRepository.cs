@@ -50,17 +50,16 @@ namespace Schedular.API.Data
         } 
 
         //get all enabled accounts
-        public async Task<IList<userWithRole>> GetAllEnabledAccounts()
+        public async Task<IList<userWithRoleName>> GetAllEnabledAccounts()
         {
             var users = await _context.Users
                 .Where(u => u.IsEnabled == true)
                 .Include(r => r.UserRoles)
                 .ThenInclude(r => r.Role)
-                .SelectMany(c => c.UserRoles.Select(d => new userWithRole()
+                .SelectMany(c => c.UserRoles.Select(d => new userWithRoleName()
                 {
                     Id = d.User.Id,
-                    FirstName = d.User.FirstName,
-                    LastName = d.User.LastName,
+                    Username = d.User.UserName,
                     IsEnabled = d.User.IsEnabled,
                     EnableAllowDate = d.User.EnableAllowDate,
                     RoleName = d.Role.Name
@@ -71,17 +70,16 @@ namespace Schedular.API.Data
         }      
 
         //get all disabled accounts
-        public async Task<IList<userWithRole>> GetAllDisabledAccounts()
+        public async Task<IList<userWithRoleName>> GetAllDisabledAccounts()
         {
             var users = await _context.Users
                 .Where(u => u.IsEnabled == false)
                 .Include(r => r.UserRoles)
                 .ThenInclude(r => r.Role)
-                .SelectMany(c => c.UserRoles.Select(d => new userWithRole()
+                .SelectMany(c => c.UserRoles.Select(d => new userWithRoleName()
                 {
                     Id = d.User.Id,
-                    FirstName = d.User.FirstName,
-                    LastName = d.User.LastName,
+                    Username = d.User.UserName,
                     IsEnabled = d.User.IsEnabled,
                     EnableAllowDate = d.User.EnableAllowDate,
                     RoleName = d.Role.Name
