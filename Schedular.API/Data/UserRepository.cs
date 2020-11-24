@@ -58,6 +58,7 @@ namespace Schedular.API.Data
                 .ThenInclude(r => r.Role)
                 .SelectMany(c => c.UserRoles.Select(d => new userWithRole()
                 {
+                    Id = d.User.Id,
                     FirstName = d.User.FirstName,
                     LastName = d.User.LastName,
                     IsEnabled = d.User.IsEnabled,
@@ -78,6 +79,7 @@ namespace Schedular.API.Data
                 .ThenInclude(r => r.Role)
                 .SelectMany(c => c.UserRoles.Select(d => new userWithRole()
                 {
+                    Id = d.User.Id,
                     FirstName = d.User.FirstName,
                     LastName = d.User.LastName,
                     IsEnabled = d.User.IsEnabled,
