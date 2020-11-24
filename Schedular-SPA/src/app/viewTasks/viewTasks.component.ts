@@ -145,7 +145,7 @@ export class ViewTasksComponent implements OnInit {
       height: '60%'
     });
     dialogRef.afterClosed().subscribe(result => {
-       this.allTasks();
+       this.openTaskButton();
     });
   }
 

@@ -41,11 +41,12 @@ export class EditUsernameComponent implements OnInit {
     this.editUser = {
        CurrentUserName: this.editForm.value.currentUsername,
        NewFirstName: this.editForm.value.firstname,
-       NewLastName: this.editForm.value.LastName
+       NewLastName: this.editForm.value.lastName
     };
 
     this.editUserService.putEditName(this.editUser).subscribe(next => {
         alert('update sucessful');
+        window.location.reload();
     }, error => {
         console.log(error);
     });
@@ -55,7 +56,7 @@ export class EditUsernameComponent implements OnInit {
     this.editForm = new FormGroup({
       currentUsername: new FormControl(''),
       firstname: new FormControl(''),
-      LastName: new FormControl('')
+      lastName: new FormControl('')
     });
   }
 

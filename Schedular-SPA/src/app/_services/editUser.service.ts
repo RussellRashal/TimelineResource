@@ -22,11 +22,11 @@ export class EditUserService {
   }
 
   editAnyPasswordAdmin(editUser: any) {
-      return this.http.put(this.baseUrl + 'adminPasswordReset' , editUser,  { responseType: 'text' });
+      return this.http.put(this.baseUrl + 'adminPasswordReset' , editUser,  {responseType: 'text' });
   }
 
-  editStandardPassword(editUser: any): Observable<any> {
-    return this.http.put<any>(this.baseUrl + 'standardPasswordReset', editUser);
+  editStandardPassword(editUser: any) {
+    return this.http.put(this.baseUrl + 'standardPasswordReset', editUser, {responseType: 'text'});
   }
 
   unlockAccount(editUser: any) {
