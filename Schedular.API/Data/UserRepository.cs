@@ -28,6 +28,7 @@ namespace Schedular.API.Data
         {
             var users = await _context.Users
             .Where(u =>u.IsEnabled == true)
+            .Where(u => u.UserName != "AdminUser")
             .ToListAsync();
             
             return users;
@@ -36,7 +37,10 @@ namespace Schedular.API.Data
         //get total number of active users
         public int GetNumberOfActiveUsers()
         {
-            var users = _context.Users.Where(u => u.IsEnabled == true).Count();
+            var users = _context.Users
+            .Where(u => u.IsEnabled == true)
+            .Where(u => u.UserName != "AdminUser")
+            .Count();
                         
             return users;
         }
@@ -44,7 +48,9 @@ namespace Schedular.API.Data
         //get total number of admins 
         public int GetNumberOfAdmins()
         {
-            var NumberOfAdmins = _context.UserRoles.Where(u => u.RoleId == 1).Count();
+            var NumberOfAdmins = _context.UserRoles
+            .Where(u => u.RoleId == 1)
+            .Count();
               
             return NumberOfAdmins;
         } 
@@ -54,6 +60,7 @@ namespace Schedular.API.Data
         {
             var users = await _context.Users
                 .Where(u => u.IsEnabled == true)
+                .Where(u => u.UserName != "AdminUser")
                 .Include(r => r.UserRoles)
                 .ThenInclude(r => r.Role)
                 .SelectMany(c => c.UserRoles.Select(d => new userWithRoleName()
