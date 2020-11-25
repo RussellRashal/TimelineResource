@@ -156,20 +156,18 @@ namespace Schedular.API.Controllers
                 taskSchedule.Notes[0].DateCreated = Convert.ToDateTime(NowDate);
                 taskSchedule.Notes[0].UserId = tokenUserId;
             }     
-            
             if(taskSchedule.Start > taskSchedule.End) {
                 return BadRequest("start time is not less than end time");  
             }
             else if (taskSchedule.userCurrentAssignedId == tokenUserId || User.IsInRole("Admin")) {   
-                _repo.Add(taskSchedule);                              
+                var taskScheduleRepo = await _repo.Add(taskSchedule); 
+                var taskReturn = _mapper.Map<getTaskScheduleIdDto>(taskScheduleRepo); 
+                return Ok(taskReturn);       
             }
             else {     
                 return Unauthorized();
             }
-
-            if(await _repo.SaveAll())
-                return Ok();   
-            return BadRequest("Failed to save Schedule");            
+          
         }
 
         [HttpPut("{id}")]

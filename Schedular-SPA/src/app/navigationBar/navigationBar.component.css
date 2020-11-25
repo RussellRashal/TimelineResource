@@ -2,14 +2,20 @@
   z-index: 1000; 
 }
 
- .username {
-position: relative;
-left: 90%;
-color: white ;
+.username {
+  position: relative;
+  left: 75%;
+  color: white ;
+} 
+
+.logo {
+  position: relative;
+  left: 0%;
+  color: white ;
 } 
 
 
 .loginLogout {
-position:relative;
-left:92%;
+  position:relative;
+  left:78%;
 } 

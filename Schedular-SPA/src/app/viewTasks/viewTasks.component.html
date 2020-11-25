@@ -32,9 +32,11 @@
 
 
               <button class="float-right btn btn btn-light btn-outline-dark" (click)="openDialogAddTask()">Add Task</button>
+              
 
               <button class="float-right btn btn-secondary mr-2" type="submit" (click)="searchTaskBox()">Search</button>
-              <input [formControl]="searchTask" class="float-right col-xs-2 mr-4" type="text" placeholder="Seach Task">
+              <input [formControl]="searchTask" (keydown.enter)="searchTaskBox()" class="float-right col-xs-2 mr-4" type="text" placeholder="Seach Task">
+
 
               <div>
                 <table class="table table-striped">

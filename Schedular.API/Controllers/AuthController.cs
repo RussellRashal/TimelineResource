@@ -130,12 +130,11 @@ namespace Schedular.API.Controllers
                     {
                         return Ok("Password has been successfully changed");
                     } 
-                    return BadRequest();                        
+                    return BadRequest("Unable to change password");                        
                 }
                 return BadRequest("Password does not meet minimum requirements. At least 8 characters long, 1 capital and a number.");  
             }
-            return BadRequest("Incorrect Credentials");                  
-                               
+            return BadRequest("Incorrect Credentials");               
         }
         //edit user's roles
         [Authorize(Policy ="AdminAccess")]
@@ -360,7 +359,7 @@ namespace Schedular.API.Controllers
                                 user = userToReturn,                 
                             });
                         }
-                        return Unauthorized(); //if username and password are incorrect return unauthorised
+                        return Unauthorized("Unauthorized"); //if username and password are incorrect return unauthorised
                     }
                     return Unauthorized("This account is disabled. Please get an administrator to unlock this account.");                               
                 }                

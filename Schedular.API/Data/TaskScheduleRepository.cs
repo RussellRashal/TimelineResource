@@ -22,9 +22,15 @@ namespace Schedular.API.Data
         }
 
         //add new data to the database
-        public void Add<T>(T entity) where T : class
+        // public Task<IActionResult> Add<T>(T entity) where T : class
+        public async Task<TaskSchedule> Add(TaskSchedule entity)
         {
-            _context.Add(entity);
+            await _context.TaskSchedules.AddAsync(entity);
+            _context.SaveChanges();
+
+            int id = entity.Id;
+
+            return entity;
         }
         
         // update database
