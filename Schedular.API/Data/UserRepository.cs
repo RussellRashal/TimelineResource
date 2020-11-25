@@ -74,6 +74,7 @@ namespace Schedular.API.Data
         {
             var users = await _context.Users
                 .Where(u => u.IsEnabled == false)
+                .Where(u => u.UserName != "AdminUser")
                 .Include(r => r.UserRoles)
                 .ThenInclude(r => r.Role)
                 .SelectMany(c => c.UserRoles.Select(d => new userWithRoleName()
@@ -84,8 +85,7 @@ namespace Schedular.API.Data
                     EnableAllowDate = d.User.EnableAllowDate,
                     RoleName = d.Role.Name
                 }))
-                .ToListAsync();
-                        
+                .ToListAsync();                        
                         
             return users;
         }     
