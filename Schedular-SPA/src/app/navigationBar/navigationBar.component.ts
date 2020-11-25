@@ -31,6 +31,7 @@ export class NavigationBarComponent implements OnInit {
     private stateStorageService: StateStorageService) { }
 
   ngOnInit() {
+    this.userDisplayName = JSON.parse (localStorage.getItem('user'));
     this.initForm();
     this.isUserAdmin();
   }
@@ -45,7 +46,7 @@ export class NavigationBarComponent implements OnInit {
       this.isUserAdmin();
       this.userDisplayName = JSON.parse (localStorage.getItem('user'));
       }, error => {
-        console.log('failed to login');
+        alert('failed to login');
     });
   }
 

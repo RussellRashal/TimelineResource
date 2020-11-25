@@ -147,14 +147,23 @@
       </div> 
     </div> 
   </fieldset> 
+
+
+
   </form>  
 
+  <div class="mainUpdateTaskForm mt-4">
+    <label>Task Created on {{taskCreatedDay}}/{{taskCreatedMonth}}/{{taskCreatedYear}}</label>
+  </div>
+
+  
 </div>
 
 <div *ngIf="!isDataAvailable">
   <button type="submit" class="btn btn-danger" (click)="closeButton()" style="float: right;">x</button>
   Incorrect Task number
 </div>
+
 
 
 

@@ -1,3 +1,4 @@
+import { UserMemberService } from './../_services/userMember.service';
 import { Calendar } from '@fullcalendar/angular';
 import { AttachmentService } from './../_services/attachment.service';
 import { AttachmentComponent } from './../Attachment/Attachment.component';
@@ -73,10 +74,14 @@ export class UpdateTaskComponent implements OnInit {
   monthLastEdit;
   dayLastEdit;
   timeLastEdit;
+  taskCreatedDay;
+  taskCreatedMonth;
+  taskCreatedYear;
 
   constructor(
     private router: Router,
     private stateStorageService: StateStorageService,
+    private userMemberService: UserMemberService,
     private customerService: CustomerService,
     private datePipe: DatePipe,
     private taskScheduleService: TaskScheduleService,
@@ -90,16 +95,19 @@ export class UpdateTaskComponent implements OnInit {
   ngOnInit() {
     this.isDataAvailable = false;
     this.taskId = this.stateStorageService.getTaskId();
-    this.userMemberModels = this.stateStorageService.getUserMemberStorage();
 
-    this.customerService.getCustomers().subscribe((data) => {
-      this.customers = data;
-      console.log(this.customers);
+    this.userMemberService.getUsers().subscribe((data) => {
+      this.userMemberModels = data;
     }, error => {
       console.log(error);
     });
-    console.log('below');
-    console.log(this.customerType);
+
+
+    this.customerService.getCustomers().subscribe((data) => {
+      this.customers = data;
+    }, error => {
+      console.log(error);
+    });
 
     this.displayTasks();
   }
@@ -129,6 +137,11 @@ export class UpdateTaskComponent implements OnInit {
       this.dayLastEdit = this.taskScheduleData.userLastEditDate.toString().slice(8, 10);
       this.timeLastEdit = this.taskScheduleData.userLastEditDate.toString().slice(11, 16);
 
+      this.taskCreatedYear = this.taskScheduleData.taskCreatedDate.toString().slice(0, 4);
+      this.taskCreatedMonth = this.taskScheduleData.taskCreatedDate.toString().slice(5, 7);
+      this.taskCreatedDay = this.taskScheduleData.taskCreatedDate.toString().slice(8, 10);
+
+
       this.stateStorageService.setAttachmentFileName(this.taskScheduleDataArray[0].attachments);
       this.attachmentArray = this.taskScheduleDataArray[0].attachments;
       this.transformDate();
@@ -137,7 +150,6 @@ export class UpdateTaskComponent implements OnInit {
       this.initForm();
       this.userLastEdit();
 
-      console.log('success');
       }, error => {
         console.log(error);
         this.isDataAvailable = false;
@@ -295,7 +307,6 @@ export class UpdateTaskComponent implements OnInit {
   putData(id, data) {
     // send data to api
     this.taskScheduleService.putTaskSchedule(id, data).subscribe(next => {
-        console.log('success');
         this.ngOnInit();
         alert('Task has been updated');
         this.dialogRef.close({event: 'Cancel'}); // dialog box close
@@ -307,11 +318,9 @@ export class UpdateTaskComponent implements OnInit {
   deleteTask() {
     if (confirm('Are you sure you want to delete this task?')) {
       this.taskScheduleService.deleteTaskSchedule(this.taskScheduleData.id).subscribe(next => {
-        console.log('Deleted');
-        this.router.navigate(['/CalendarView']);
         this.dialogRef.close({event: 'Cancel'}); // dialog box close
         }, error => {
-          console.log('unable to delete');
+          alert('unable to delete');
       });
     }
   }
@@ -321,7 +330,6 @@ export class UpdateTaskComponent implements OnInit {
       taskScheduleId: this.taskScheduleData.id
     };
     this.noteService.postNote(this.postNote).subscribe(next => {
-      console.log(next);
       this.ngOnInit();
       // window.location.reload();
       }, error => {

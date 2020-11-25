@@ -22,7 +22,6 @@ export class ViewTasksComponent implements OnInit {
   userAuthorised: boolean;
   currentUser;
   role;
-  UserMemberModels;
   isDataAvailable: boolean;
   selectedbutton;
   taskScheduleData;
