@@ -360,7 +360,7 @@ namespace Schedular.API.Controllers
                                 user = userToReturn,                 
                             });
                         }
-                        return Unauthorized(); //if username and password are incorrect return unauthorised
+                        return Unauthorized("Unauthorized"); //if username and password are incorrect return unauthorised
                     }
                     return Unauthorized("This account is disabled. Please get an administrator to unlock this account.");                               
                 }                

@@ -46,7 +46,7 @@ export class NavigationBarComponent implements OnInit {
       this.isUserAdmin();
       this.userDisplayName = JSON.parse (localStorage.getItem('user'));
       }, error => {
-        alert('failed to login');
+        alert(error.error);
     });
   }
 

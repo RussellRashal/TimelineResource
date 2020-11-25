@@ -74,6 +74,17 @@
     </div>
 
     <div>
+      <label>{{customerType}}</label>
+      <select class="ml-2" formControlName="customer">
+        <option></option>
+        <option *ngFor="let customer of customers"
+          [value]="customer.id"> 
+            {{customer.name}}
+        </option>      
+    </select>
+    </div>
+
+    <div>
       <label class="mr-1">High Priority</label>
       <input type="checkbox" value="True" formControlName="highPriority">
     </div>

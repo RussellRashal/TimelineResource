@@ -10,7 +10,7 @@ namespace Schedular.API.Data
 {
     public interface ITaskScheduleRepository
     {
-      void Add<T>(T entity) where T: class;
+      Task<TaskSchedule> Add(TaskSchedule entity);
       TaskSchedule Update(int id, TaskSchedule taskSchedule);
       void Delete(int id); 
 

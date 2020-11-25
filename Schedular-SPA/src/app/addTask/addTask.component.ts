@@ -8,6 +8,10 @@ import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { isNull } from '@angular/compiler/src/output/output_ast';
 import { Note } from '../_models/note';
+import { UpdateTaskComponent } from '../updateTask/updateTask.component';
+import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
+import { CustomerService } from '../_services/customer.service';
 
 
 
@@ -39,13 +43,16 @@ export class AddTaskComponent implements OnInit {
   role;
   postNote: Note;
   isDataAvailable: boolean;
-
+  customerType: string = environment.customerType;
+  customers;
 
   constructor(
     private stateStorageService: StateStorageService,
     private taskScheduleService: TaskScheduleService,
+    private customerService: CustomerService,
     private router: Router,
     private noteService: NoteService,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<AddTaskComponent>) { }
 
 
@@ -67,6 +74,12 @@ export class AddTaskComponent implements OnInit {
       this.userMemberModels = this.stateStorageService.getUserMemberStorage();
       this.userAuthorised = true;
     }
+
+    this.customerService.getCustomers().subscribe((data) => {
+      this.customers = data;
+    }, error => {
+      console.log(error);
+    });
     this.isDataAvailable = true;
 
     // console.log(this.currentUserData);
@@ -86,7 +99,8 @@ export class AddTaskComponent implements OnInit {
       endMinuteTime: new FormControl('00'),
       hasTimeLimit: new FormControl(''),
       highPriority: new FormControl(''),
-      noteInfo: new FormControl('')
+      noteInfo: new FormControl(''),
+      customer: new FormControl()
     }, );
   }
 
@@ -177,6 +191,7 @@ export class AddTaskComponent implements OnInit {
             userCurrentAssignedId: Number(this.profileForm.value.userName),
             hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
             highPriority: Boolean(this.profileForm.value.highPriority),
+            CustomerId: this.profileForm.value.customer,
             notes: [{
               notesInfo: this.profileForm.value.noteInfo
             }]
@@ -193,6 +208,7 @@ export class AddTaskComponent implements OnInit {
         userCurrentAssignedId: Number(this.profileForm.value.userName),
         hasTimeLimit: Boolean(this.profileForm.value.hasTimeLimit),
         highPriority: Boolean(this.profileForm.value.highPriority),
+        CustomerId: this.profileForm.value.customer,
         notes: [{
           notesInfo: this.profileForm.value.noteInfo
         }]
@@ -203,9 +219,17 @@ export class AddTaskComponent implements OnInit {
 
   postData(data) {
     // send data to api
-    this.taskScheduleService.postTaskSchedule(data).subscribe(next => {
-      console.log('success');
+    this.taskScheduleService.postTaskSchedule(data).subscribe(returnData => {
+      console.log(returnData.id);
+      this.stateStorageService.setTaskId(returnData.id);
       this.dialogRef.close({event: 'Cancel'});
+      const dialogRef = this.dialog.open(UpdateTaskComponent, {
+        width: '80%',
+        height: '90%'
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        this.dialogRef.close({event: 'Cancel'});
+      });
       }, error => {
         console.log(error);
     });
