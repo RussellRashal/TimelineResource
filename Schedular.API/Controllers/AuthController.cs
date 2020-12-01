@@ -359,7 +359,7 @@ namespace Schedular.API.Controllers
                                 user = userToReturn,                 
                             });
                         }
-                        return Unauthorized("Unauthorized"); //if username and password are incorrect return unauthorised
+                        return Unauthorized("Login Failed"); //if username and password are incorrect return unauthorised
                     }
                     return Unauthorized("This account is disabled. Please get an administrator to unlock this account.");                               
                 }                
@@ -368,7 +368,7 @@ namespace Schedular.API.Controllers
             }
             catch (ArgumentNullException) 
             {
-                return Unauthorized();
+                return Unauthorized("Login Failed");
             }
         }
 

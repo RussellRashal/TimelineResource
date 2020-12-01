@@ -74,6 +74,8 @@ import { ChartsModule } from 'ng2-charts';
 import { ViewTasksComponent } from './viewTasks/viewTasks.component';
 
 
+
+
 // register FullCalendar plugins
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -118,7 +120,7 @@ export function tokengetter() {
     SidebarNavigationComponent,
     CustomerComponent,
     CustomerTasksComponent,
-    CustomerComponent
+    CustomerComponent,
    ],
   imports: [
     CommonModule,

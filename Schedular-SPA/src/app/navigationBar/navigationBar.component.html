@@ -21,13 +21,17 @@
       <h1>Schedularapp</h1>
     </div>
 
+     <div *ngIf="loggedIn()" class="username mr-sm-1  float-right">
+     
+    </div> 
 
-    <div *ngIf="loggedIn()" class="username">
-      {{userDisplayName.username}}
-    </div>
-
-    <div class="loginLogout">    
-      <button *ngIf="loggedIn()" class="btn btn-outline-success float-right" 
+    <div class="loginLogout mr-3">
+        <!-- <h6>
+          {{userDisplayName.username}}
+        </h6>    -->
+   
+ 
+      <button *ngIf="loggedIn()" class="btn btn-outline-success float-right ml-5" 
       type="submit" (click)="loggedOut()" [routerLink]="['/login']">Log Out</button>
     </div>
 

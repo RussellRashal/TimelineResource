@@ -4,8 +4,9 @@
 
 .username {
   position: relative;
-  left: 75%;
   color: white ;
+  margin: auto;
+  left: 75%
 } 
 
 .logo {
@@ -17,5 +18,7 @@
 
 .loginLogout {
   position:relative;
-  left:78%;
+  margin: auto;
+  color: white;
+
 } 
