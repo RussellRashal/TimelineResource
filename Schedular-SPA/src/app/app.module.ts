@@ -72,6 +72,7 @@ import { AddCustomerComponent } from './CustomerFolder/AddCustomer/AddCustomer.c
 import { CustomerTasksComponent } from './ReportFolder/CustomerTasks/CustomerTasks.component';
 import { ChartsModule } from 'ng2-charts';
 import { ViewTasksComponent } from './viewTasks/viewTasks.component';
+import { TimelineComponent } from './Timeline/Timeline.component';
 
 
 
@@ -88,7 +89,7 @@ export function tokengetter() {
 }
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     NavigationBarComponent,
     NumberClosedTasksByUserComponent,
@@ -121,6 +122,7 @@ export function tokengetter() {
     CustomerComponent,
     CustomerTasksComponent,
     CustomerComponent,
+      TimelineComponent
    ],
   imports: [
     CommonModule,

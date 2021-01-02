@@ -20,6 +20,7 @@ import { LoginPageComponent } from './loginPage/loginPage.component';
 import { PasswordResetComponent } from './AdminConsole/passwordReset/passwordReset.component';
 import { EnableDisableAccountComponent } from './AdminConsole/enableDisableAccount/enableDisableAccount.component';
 import { HoursWorkedComponent } from './ReportFolder/HoursWorked/HoursWorked.component';
+import { TimelineComponent } from './Timeline/Timeline.component';
 
 
 export const appRoutes: Routes = [
@@ -36,6 +37,11 @@ export const appRoutes: Routes = [
     {
         path: 'register',
         component: RegisterComponent,
+        canActivate: [RoleGuard]
+    },
+    {
+        path: 'Timeline',
+        component: TimelineComponent,
         canActivate: [RoleGuard]
     },
     {

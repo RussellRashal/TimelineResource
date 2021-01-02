@@ -1,0 +1,33 @@
+table {
+  font-family: arial, sans-serif;
+  /* border-collapse: collapse; */
+  width:1700px;
+  position: relative;
+  z-index: 0; 
+}
+
+td, th {
+  border: 1px solid #a5a5a5;
+  text-align: left;
+  padding: 8px;
+ 
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+  vertical-align:middle;
+  height: auto;
+}
+
+
+
+  // .redbox { 
+  //   position: absolute; 
+  //   left:29px;
+  //   right:50;  
+  //   width:315px;  
+  //   height:30px;  
+  //   bottom: 30px;
+  //   padding:1px 0 0 16px; 
+
+  // }
